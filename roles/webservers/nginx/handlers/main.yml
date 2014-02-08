@@ -1,0 +1,14 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Nginx
+
+
+- name: start nginx
+  service: name=nginx start=started
+
+- name: restart nginx
+  service: name=nginx state=restarted
+
+- name: reload nginx
+  service: name=nginx state=reloaded

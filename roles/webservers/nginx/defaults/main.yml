@@ -1,0 +1,21 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Nginx
+
+
+# Aptitude state
+nginx_apt_state: "latest"
+nginx_apt_flavor: "nginx-devel"
+
+# Network configuration
+nginx_bind_address: "*"
+nginx_port_http: 80
+nginx_port_https: 443
+
+# User and group
+nginx_user: "www-data"
+nginx_group: "www-data"
+
+# Default base directory (without trailing '/')
+nginx_path: "/var/www"

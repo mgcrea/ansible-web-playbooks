@@ -1,0 +1,35 @@
+---
+# File: main.yml
+# Type: task
+# Part: Nginx
+
+
+## Install
+- name: Nginx | Install ppa key
+  apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
+- name: Nginx | Install ppa
+  apt_repository: repo=ppa:chris-lea/{{ nginx_apt_flavor }} state=present
+- name: Nginx | Install package
+  apt: name=nginx state={{ nginx_apt_state }}
+
+## Setup custom location
+- include: location.yml
+  when: "'{{ nginx_path }}' != '/var/www'"
+
+## Configure
+- name: Nginx | Backup configuration
+  shell: creates=/etc/nginx/nginx.conf.orig cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+  register: result
+- fetch: src=/etc/nginx/nginx.conf.orig dest=fetched
+  when: result|changed
+- name: Nginx | Deploy configuration
+  template: src=nginx_nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root mode=0644 backup=yes
+  notify: restart nginx
+  register: result
+- fetch: src=/etc/nginx/nginx.conf dest=fetched
+  when: result|changed
+
+## Check service
+- name: Nginx | Check service daemon
+  service: name=nginx state=started
+

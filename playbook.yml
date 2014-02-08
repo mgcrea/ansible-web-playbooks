@@ -44,9 +44,11 @@
       tags: mongodb
     - role: databases/redis
       tags: redis
-    - role: webservers/nodejs
-      tags: nodejs
     - role: webservers/apache2
       tags: apache2
+    - role: webservers/nginx
+      tags: nginx
+    - role: webservers/nodejs
+      tags: nodejs
     - role: webservers/php5
       tags: php5
