@@ -4,12 +4,31 @@
 # @cli vagrant destroy; vagrant up; rm -rf fetched/*
 # @cli ansible-playbook -i vagrant_inventory playbook.yml
 
-- name: Update apt cache
+- name: Update aptitude cache
   hosts: all
   sudo: yes
   tasks:
     - apt: name=python-software-properties update_cache=yes
       tags: apt_update
+
+
+- name: Fetch facts
+  hosts: all
+  sudo: yes
+  roles:
+    - role: ansible/facts
+      tags: facts
+
+
+- name: Setup ansible accelerated mode
+  hosts: all
+  sudo: yes
+  roles:
+    - role: ansible/accelerated
+      tags: accelerated
+    # - role: ansible/fireball
+    #   tags: fireball
+
 
 - name: Execute playbook
   # connection: fireball
