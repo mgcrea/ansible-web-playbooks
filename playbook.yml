@@ -1,0 +1,33 @@
+---
+# File: playbook.yml
+# Type: playbook
+# @cli vagrant destroy; vagrant up; rm -rf fetched/*
+# @cli ansible-playbook -i vagrant_inventory playbook.yml
+
+- name: Update apt cache
+  hosts: all
+  sudo: yes
+  tasks:
+    - apt: update_cache=yes
+      tags: apt_update
+
+- name: Execute playbook
+  # connection: fireball
+  # accelerate: true
+  hosts: all
+  sudo: yes
+  roles:
+    - role: databases/beanstalkd
+      tags: beanstalkd
+    - role: databases/mysql
+      tags: mysql
+    - role: databases/mongodb
+      tags: mongodb
+    - role: databases/redis
+      tags: redis
+    - role: webservers/nodejs
+      tags: nodejs
+    - role: webservers/apache2
+      tags: apache2
+    - role: webservers/php5
+      tags: php5
