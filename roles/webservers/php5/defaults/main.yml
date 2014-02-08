@@ -1,0 +1,19 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: PHP5
+
+
+# Aptitude state
+php5_apt_state: "latest"
+
+# Aptitude modules
+php5_apt_modules:
+  - libssh2-php
+  - php-apc
+  - php-pear
+  - php5-curl
+  - php5-gd
+  - php5-imagick
+  - php5-mcrypt
+  - php5-mysql

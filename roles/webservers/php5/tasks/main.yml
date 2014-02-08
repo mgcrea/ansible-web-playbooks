@@ -1,0 +1,44 @@
+---
+# File: main.yml
+# Type: task
+# Part: PHP5
+
+
+## Install PHP5
+- name: PHP5 | Install package
+  apt: name=php5 state={{ php5_apt_state }}
+
+
+## Install modules
+- name: PHP5 | Install PHP5 modules
+  apt: name={{ item }} state={{ php5_apt_state }}
+  with_items: php5_apt_modules
+  when: php5_apt_modules is defined
+
+
+## PHP5 | Apache2 configuration
+- name: PHP5 | Apache2 | Backup configuration
+  shell: creates=/etc/php5/apache2/php.ini.orig cp /etc/php5/apache2/php.ini /etc/php5/apache2/php.ini.orig
+  register: result
+- fetch: src=/etc/php5/apache2/php.ini.orig dest=fetched
+  when: result|changed
+- name: PHP5 | Apache2 | Deploy configuration
+  template: src=apache2_php.ini.j2 dest=/etc/php5/apache2/php.ini mode=0644 owner=root group=root backup=yes
+  notify: restart apache2
+  register: result
+- fetch: src=/etc/php5/apache2/php.ini dest=fetched
+  when: result|changed
+
+
+## PHP5 | CLI configuration
+- name: PHP5 | CLI | Backup configuration
+  shell: creates=/etc/php5/cli/php.ini.orig cp /etc/php5/cli/php.ini /etc/php5/cli/php.ini.orig
+  register: result
+- fetch: src=/etc/php5/cli/php.ini.orig dest=fetched
+  when: result|changed
+- name: PHP5 | CLI | Deploy configuration
+  template: src=cli_php.ini.j2 dest=/etc/php5/cli/php.ini mode=0644 owner=root group=root backup=yes
+  notify: restart apache2
+  register: result
+- fetch: src=/etc/php5/cli/php.ini dest=fetched
+  when: result|changed
