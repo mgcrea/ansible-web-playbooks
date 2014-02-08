@@ -1,0 +1,17 @@
+language: python
+python: "2.7"
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq python-apt python-pycurl
+
+install:
+  - pip install ansible
+
+before_script:
+  - date --rfc-2822
+
+script:
+  - echo localhost > travis_inventory
+  - ansible-playbook --syntax-check -i travis_inventory playbook.yml
+  - ansible-playbook -i travis_inventory playbook.yml --connection=local --sudo -vvvv
