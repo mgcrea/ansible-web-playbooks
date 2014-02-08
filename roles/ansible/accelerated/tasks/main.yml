@@ -14,3 +14,4 @@
   pip: name=python-keyczar state=present extra_args=--pre
 - name: Accelerated | Open port for keyczar
   command: ufw allow 5099/tcp
+  ignore_errors: True

@@ -26,3 +26,4 @@
     - python-zmq
 - name: Fireball | Open port for ZeroMQ
   command: ufw allow 5099/tcp
+  ignore_errors: True
