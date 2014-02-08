@@ -1,0 +1,37 @@
+{
+  "name": "ansible-web-playbooks",
+  "description": "WebPlaybooks - Boileplate for modern server orchestration with Ansible",
+  "version": "0.5.0",
+  "keywords": [
+    "ansible",
+    "playbook",
+    "server",
+    "web",
+    "ubuntu",
+    "bootstrap"
+  ],
+  "homepage": "http://mgcrea.github.io/ansible-web-playbooks",
+  "bugs": "https://github.com/mgcrea/ansible-web-playbooks/issues",
+  "author": {
+    "name": "Olivier Louvignes",
+    "email": "olivier@mg-crea.com",
+    "url": "https://github.com/mgcrea"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mgcrea/ansible-web-playbooks.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "ansible-playbook -i vagrant_ansible_inventory_default playbook.yml"
+  }
+}
