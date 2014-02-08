@@ -1,8 +1,19 @@
 # [Ansible WebPlaybooks](http://mgcrea.github.io/ansible-web-playbooks) [![Build Status](https://secure.travis-ci.org/mgcrea/ansible-web-playbooks.png?branch=master)](http://travis-ci.org/#!/mgcrea/ansible-web-playbooks) [![Dependency Status](https://gemnasium.com/mgcrea/ansible-web-playbooks.png)](https://gemnasium.com/mgcrea/ansible-web-playbooks)
 
-Ansible WebPlaybooks is a set of playbook roles for modern server orchestration with Ansible.
+Set of playbook roles for the web, modern server orchestration powered by Ansible.
 
-
+>
+    $ tree roles -L2
+    roles
+    ├── databases
+    │   ├── beanstalkd
+    │   ├── mongodb
+    │   ├── mysql
+    │   └── redis
+    └── webservers
+        ├── apache2
+        ├── nodejs
+        └── php5
 
 ## Documentation and examples
 
@@ -16,7 +27,7 @@ Ansible WebPlaybooks is a set of playbook roles for modern server orchestration 
 
 >
     $ vagrant up
-    $ ansible-playbook -i vagrant_ansible_inventory_default playbook.yml --tag mongodb,nodejs
+    $ ansible-playbook -i vagrant_ansible_inventory_default playbook.yml --tag apt_update,mongodb,nodejs
 
 
 ## Developers

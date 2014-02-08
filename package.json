@@ -1,7 +1,7 @@
 {
   "name": "ansible-web-playbooks",
-  "description": "WebPlaybooks - Boileplate for modern server orchestration with Ansible",
-  "version": "0.5.0",
+  "description": "Playbook roles for the web, modern server orchestration powered by Ansible",
+  "version": "0.3.0",
   "keywords": [
     "ansible",
     "playbook",
