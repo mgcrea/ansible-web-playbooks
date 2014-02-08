@@ -12,6 +12,6 @@ before_script:
   - date --rfc-2822
 
 script:
-  - echo localhost > travis_inventory
+  - echo 'default ansible_ssh_host=127.0.0.1' > travis_inventory
   - ansible-playbook --syntax-check -i travis_inventory playbook.yml
   - ansible-playbook -i travis_inventory playbook.yml --connection=local --sudo -vvvv
