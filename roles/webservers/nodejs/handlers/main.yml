@@ -1,0 +1,11 @@
+---
+# File: main.yml
+# Type: handler
+# Part: NodeJS
+
+
+- name: start nodejs
+  service: name=nodejs state=started
+
+- name: restart nodejs
+  service: name=nodejs state=restarted

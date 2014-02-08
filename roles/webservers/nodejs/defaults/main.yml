@@ -1,0 +1,24 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: NodeJS
+
+# Aptitude state
+nodejs_apt_state: "latest"
+
+# Network configuration
+nodejs_bind_address: "0.0.0.0"
+nodejs_port_http: 80
+nodejs_port_https: 443
+
+# User and group
+nodejs_user: "www-data"
+nodejs_group: "www-data"
+
+# Default base directory (without trailing '/')
+nodejs_path: "/var/www"
+
+# Npm modules
+nodejs_npm_modules:
+ - bower
+ - grunt-cli
