@@ -4,7 +4,11 @@ Set of playbook roles for the web, modern server orchestration powered by Ansibl
 
 >
     $ tree roles -L2
-    roles
+    roles/
+    ├── ansible
+    │   ├── accelerated
+    │   ├── facts
+    │   └── fireball
     ├── databases
     │   ├── beanstalkd
     │   ├── mongodb
