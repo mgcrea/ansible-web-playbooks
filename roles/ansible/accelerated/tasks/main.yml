@@ -8,7 +8,7 @@
 - name: Accelerated | Install required packages
   apt: name={{ item }} state=latest
   with_items:
-    - pytho-software-properties
+    - python-software-properties
     - python-pip
 - name: Accelerated | Install keyczar
   pip: name=python-keyczar state=present extra_args=--pre
