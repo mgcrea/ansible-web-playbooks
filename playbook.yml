@@ -38,8 +38,8 @@
   roles:
     - role: databases/beanstalkd
       tags: beanstalkd
-    # - role: databases/mysql
-    #   tags: mysql
+    - role: databases/mysql
+      tags: mysql
     - role: databases/mongodb
       tags: mongodb
     - role: databases/redis
