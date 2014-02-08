@@ -1,0 +1,19 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Redis
+
+
+# Aptitude state
+redis_apt_state: "latest"
+
+# Network configuration
+redis_bind_address: "127.0.0.1"
+redis_port: 6379
+
+# User and group
+redis_user: "redis"
+redis_group: "redis"
+
+# Default base directory (without trailing '/')
+redis_path: "/var/lib/redis"

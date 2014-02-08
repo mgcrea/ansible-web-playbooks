@@ -1,0 +1,11 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Redis
+
+
+- name: start redis
+  service: name=redis-server state=started
+
+- name: restart redis
+  service: name=redis-server state=restarted
