@@ -1,0 +1,22 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: MySQL
+
+# Aptitude state
+mysql_apt_state: "latest"
+
+# Network configuration
+mysql_bind_address: "127.0.0.1"
+mysql_port: 3306
+
+# User and group
+mysql_user: "mysql"
+mysql_group: "mysql"
+
+# Default base directory (without trailing '/')
+mysql_path: "/var/lib/mysql"
+
+# Extra configuration
+mysql_max_allowed_packet: "128M"
+mysql_root_password: GeneticLifeformAndDiskOperatingSystem

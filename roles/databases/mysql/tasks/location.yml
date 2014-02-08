@@ -1,0 +1,28 @@
+---
+# File: location.yml
+# Type: task
+# Part: MySQL
+
+
+## Setup custom location
+- name: MySQL | Setup directory
+  action: file state=directory dest={{ mysql_path }} mode=700 owner={{ mysql_user }} group={{ mysql_group }}
+- name: MySQL | Move databases
+  shell: service mysql stop; cp -rf /var/lib/mysql/* {{ mysql_path }}; touch {{ mysql_path }}/.ansible; chown -R {{ mysql_user }}:{{ mysql_group }} {{ mysql_path }}; rm -rf /var/lib/mysql
+    creates={{ mysql_path }}/.ansible
+- name: MySQL | Link databases
+  action: file state=link src={{ mysql_path }} path=/var/lib/mysql force=yes
+  notify: restart mysql
+
+## Update apparmor profile
+- name: MySQL | Backup configuration
+  shell: creates=/etc/apparmor.d/usr.sbin.mysqld.orig cp /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/usr.sbin.mysqld.orig
+  register: result
+- fetch: src=/etc/apparmor.d/usr.sbin.mysqld.orig dest=fetched
+  when: result|changed
+- name: MySQL | Deploy updated AppArmor profile
+  template: src=apparmor.d_usr.sbin.mysqld.j2 dest=/etc/apparmor.d/usr.sbin.mysqld owner=root mode=0644 backup=yes
+  notify: restart mysql
+  register: result
+- fetch: src=/etc/apparmor.d/usr.sbin.mysqld dest=fetched
+  when: result|changed

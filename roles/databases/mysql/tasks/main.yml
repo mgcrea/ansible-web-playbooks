@@ -1,0 +1,49 @@
+---
+# File: main.yml
+# Type: task
+# Part: MySQL
+
+
+## Preseed install
+- name: MySQL | Check for previous installation
+  shell: "[ -f /usr/sbin/mysqld ]"
+  register: mysqld_exists
+  ignore_errors: True
+- name: MySQL | Preseed MySQL file
+  template: src=mysql_seed.j2 dest=/root/mysql.seed
+  when: mysqld_exists|failed
+- command: /usr/bin/debconf-set-selections /root/mysql.seed
+  when: mysqld_exists|failed
+
+## Install
+- name: MySQL | Install package
+  apt: name=mysql-server state={{ mysql_apt_state }}
+  notify: restart mysql
+
+## Install ansible related packages
+- name: MySQL | Install python package
+  apt: name=python-mysqldb state={{ mysql_apt_state }}
+
+## Setup custom location
+- include: location.yml
+  when: "'{{ mysql_path }}' != '/var/lib/mysql'"
+
+## Secure installation
+- include: security.yml
+
+## Configure
+- name: MySQL | Backup configuration
+  shell: creates=/etc/mysql/my.cnf.orig cp /etc/mysql/my.cnf /etc/mysql/my.cnf.orig
+  register: result
+- fetch: src=/etc/mysql/my.cnf.orig dest=fetched
+  when: result|changed
+- name: MySQL | Deploy configuration
+  template: src=mysql_my.cnf.j2 dest=/etc/mysql/my.cnf owner=root mode=0644 backup=yes
+  notify: restart mysql
+  register: result
+- fetch: src=/etc/mysql/my.cnf dest=fetched
+  when: result|changed
+
+## Check service
+- name: MySQL | Check service daemon
+  service: name=mysql state=started
