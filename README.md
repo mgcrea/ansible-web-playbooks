@@ -28,11 +28,11 @@ Set of playbook roles for the web, modern server orchestration powered by Ansibl
 
 ## Quick start
 
-+ You can test the playbooks with [Vagrant](http://www.vagrantup.com/)
++ You can run the playbooks with [Vagrant](http://www.vagrantup.com/)
 
 >
     $ vagrant up
-    $ ansible-playbook -i vagrant_ansible_inventory_default playbook.yml --tag apt_update,mongodb,nodejs
+    $ ansible-playbook -i vagrant_inventory playbook.yml --tag apt_update,mongodb,nodejs
 
 
 ## Developers
