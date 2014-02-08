@@ -3,8 +3,8 @@
 Set of playbook roles for the web, modern server orchestration powered by Ansible.
 
 >
-    $ tree roles -L2
-    roles/
+    $ tree roles -L 2
+    roles
     ├── ansible
     │   ├── accelerated
     │   ├── facts
@@ -16,6 +16,7 @@ Set of playbook roles for the web, modern server orchestration powered by Ansibl
     │   └── redis
     └── webservers
         ├── apache2
+        ├── nginx
         ├── nodejs
         └── php5
 
