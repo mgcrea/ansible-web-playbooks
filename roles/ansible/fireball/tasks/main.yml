@@ -1,0 +1,28 @@
+---
+# File: main.yml
+# Type: task
+# Part: Fireball
+
+
+## Install
+- name: Fireball | Install required packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - pytho-software-properties
+    - python-pip
+- name: Fireball | Install keyczar
+  pip: name=python-keyczar state=present extra_args=--pre
+
+## Install ZeroMQ
+- name: Fireball | Install ZeroMQ ppa key
+  apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
+- name: Fireball | Install ZeroMQ ppa
+  apt_repository: repo=ppa:chris-lea/zeromq state=present
+- name: Fireball | Install ZeroMQ
+  apt: name={{ item }} state=latest
+  with_items:
+    - libzmq1
+    - libzmq-dev
+    - python-zmq
+- name: Fireball | Open port for ZeroMQ
+  command: ufw allow 5099/tcp

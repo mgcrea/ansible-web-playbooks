@@ -1,0 +1,16 @@
+---
+# File: main.yml
+# Type: task
+# Part: Accelerated
+
+
+## Accelerated
+- name: Accelerated | Install required packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - pytho-software-properties
+    - python-pip
+- name: Accelerated | Install keyczar
+  pip: name=python-keyczar state=present extra_args=--pre
+- name: Accelerated | Open port for keyczar
+  command: ufw allow 5099/tcp
