@@ -1,0 +1,14 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Apache2
+
+
+- name: start apache2
+  service: name=apache2 start=started
+
+- name: restart apache2
+  service: name=apache2 state=restarted
+
+- name: reload apache2
+  service: name=apache2 state=reloaded

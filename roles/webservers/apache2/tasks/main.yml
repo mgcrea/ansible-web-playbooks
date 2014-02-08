@@ -1,0 +1,57 @@
+---
+# File: main.yml
+# Type: task
+# Part: Apache2
+
+
+## Install
+- name: Apache2 | Install Apache
+  apt: name=apache2-mpm-{{ apache2_flavor }} state={{ apache2_apt_state }}
+- shell: apache2 -v | head -n1 | sed 's/.*Apache\/\(.*\)\s.*/\1/'
+  register: apache2_version
+
+## Install modules
+- name: Apache2 | Install Apache modules
+  apt: name={{ item }} state={{ apache2_apt_state }}
+  with_items: apache2_apt_modules
+  when: apache2_apt_modules is defined
+
+## Setup custom location
+- include: location.yml
+  when: "'{{ apache2_path }}' != '/var/www'"
+
+## Configure
+- name: Apache2 | Backup configuration
+  shell: creates=/etc/apache2/{{ item }}.orig cp /etc/apache2/{{ item }} /etc/apache2/{{ item }}.orig
+  with_items:
+    - envvars
+    - ports.conf
+  register: result
+- fetch: src=/etc/apache2/{{ item }}.orig dest=fetched
+  with_items:
+    - envvars
+    - ports.conf
+  when: result|changed
+- name: Apache2 | Deploy configuration
+  template: src={{ item }}.j2 dest=/etc/apache2/{{ item }} owner=root group=root mode=0644 backup=yes
+  with_items:
+    - envvars
+    - ports.conf
+  register: result
+- fetch: src=/etc/apache2/{{ item }} dest=fetched
+  with_items:
+    - envvars
+    - ports.conf
+  when: result|changed
+
+## Enable modules
+- name: Apache2 | Enable modules
+  command: a2enmod {{ item }} creates=/etc/apache2/mods-enabled/{{ item }}.load
+  with_items: apache2_modules
+  when: apache2_modules is defined
+  notify: restart apache2
+
+## Check service
+- name: Apache2 | Check service daemon
+  service: name=apache2 state=started
+

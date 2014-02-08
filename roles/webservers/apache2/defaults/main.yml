@@ -1,0 +1,37 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Apache2
+
+
+# Aptitude state
+apache2_apt_state: "latest"
+
+# Network configuration
+apache2_bind_address: "*"
+apache2_port_http: 80
+apache2_port_https: 443
+
+# User and group
+apache2_user: "www-data"
+apache2_group: "www-data"
+
+# Default base directory (without trailing '/')
+apache2_path: "/var/www"
+
+# Thread management
+apache2_flavor: "prefork"
+
+# Aptitude modules
+apache2_apt_modules:
+  - libapache2-mod-macro
+  # - libapache2-mod-evasive
+
+# Apache modules
+apache2_modules:
+  - deflate
+  - expires
+  - headers
+  - macro
+  - rewrite
+  - ssl

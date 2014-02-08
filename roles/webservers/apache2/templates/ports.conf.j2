@@ -1,0 +1,20 @@
+# Ansible managed
+
+# If you just change the port or add more ports here, you will likely also
+# have to change the VirtualHost statement in
+# /etc/apache2/sites-enabled/000-default
+
+NameVirtualHost {{ apache2_bind_address }}:{{ apache_port_http | default('80') }}
+Listen {{ apache2_bind_address }}:{{ apache_port_http | default('80') }}
+
+<IfModule ssl_module>
+  NameVirtualHost {{ apache2_bind_address }}:{{ apache_port_https | default('443') }}
+  Listen {{ apache2_bind_address }}:{{ apache_port_https | default('443') }}
+</IfModule>
+
+<IfModule mod_gnutls.c>
+  NameVirtualHost {{ apache2_bind_address }}:{{ apache_port_https | default('443') }}
+  Listen {{ apache2_bind_address }}:{{ apache_port_https | default('443') }}
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
