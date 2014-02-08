@@ -1,0 +1,18 @@
+---
+# File: all.yml
+# Type: group_vars
+
+# Use this file to override default configuration
+# that lives in `defaults` folders
+
+# databases/beanstalkd
+beanstalkd_path: /srv/beanstalkd
+
+# databases/mongodb
+mongodb_path: /srv/mongodb
+
+# databases/mysql
+mysql_path: /srv/mysql
+
+# databases/redis
+redis_path: /srv/redis
