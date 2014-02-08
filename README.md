@@ -1,4 +1,4 @@
-# [Ansible WebPlaybooks](http://mgcrea.github.io/ansible-web-playbooks) [![Build Status](https://secure.travis-ci.org/mgcrea/ansible-web-playbooks.png?branch=master)](http://travis-ci.org/#!/mgcrea/ansible-web-playbooks) [![Dependency Status](https://gemnasium.com/mgcrea/ansible-web-playbooks.png)](https://gemnasium.com/mgcrea/ansible-web-playbooks)
+# [Ansible WebPlaybooks](http://mgcrea.github.io/ansible-web-playbooks) [![Build Status](https://secure.travis-ci.org/mgcrea/ansible-web-playbooks.png?branch=master)](http://travis-ci.org/#!/mgcrea/ansible-web-playbooks)
 
 Set of playbook roles for the web, modern server orchestration powered by Ansible.
 

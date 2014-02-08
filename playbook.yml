@@ -8,7 +8,7 @@
   hosts: all
   sudo: yes
   tasks:
-    - apt: update_cache=yes
+    - apt: name=python-software-properties update_cache=yes
       tags: apt_update
 
 - name: Execute playbook
