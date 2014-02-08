@@ -1,0 +1,31 @@
+---
+# File: main.yml
+# Type: task
+# Part: Beanstalkd
+
+
+## Install
+- name: Beanstalkd | Install package
+  apt: name=beanstalkd state={{ beanstalkd_apt_state }}
+  notify: restart beanstalkd
+
+## Setup custom location
+- include: location.yml
+  when: "'{{ beanstalkd_path }}' != '/var/lib/beanstalkd'"
+
+## Configure
+- name: Beanstalkd | Backup configuration
+  shell: creates=/etc/default/beanstalkd.orig cp /etc/default/beanstalkd /etc/default/beanstalkd.orig
+  register: result
+- fetch: src=/etc/default/beanstalkd.orig dest=fetched
+  when: result|changed
+- name: Beanstalkd | Deploy configuration
+  template: src=default_beanstalkd.j2 dest=/etc/default/beanstalkd owner=root mode=0644 backup=yes
+  notify: restart beanstalkd
+  register: result
+- fetch: src=/etc/default/beanstalkd dest=fetched
+  when: result|changed
+
+## Make sure service is running
+- name: Beanstalkd | Check daemon
+  service: name=beanstalkd state=started

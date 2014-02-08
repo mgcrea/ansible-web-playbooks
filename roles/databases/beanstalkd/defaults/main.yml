@@ -1,0 +1,19 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Beanstalkd
+
+
+# Aptitude state
+beanstalkd_apt_state: "latest"
+
+# Network configuration
+beanstalkd_bind_address: "0.0.0.0"
+beanstalkd_port: 11300
+
+# User and group
+beanstalkd_user: "beanstalkd"
+beanstalkd_group: "beanstalkd"
+
+# Default base directory (without trailing '/')
+beanstalkd_path: "/var/lib/beanstalkd"

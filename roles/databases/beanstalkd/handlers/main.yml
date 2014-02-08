@@ -1,0 +1,11 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Beanstalkd
+
+
+- name: start beanstalkd
+  service: name=beanstalkd state=started
+
+- name: restart beanstalkd
+  service: name=beanstalkd state=restarted
