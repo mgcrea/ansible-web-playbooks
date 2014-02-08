@@ -24,12 +24,12 @@
 - name: MySQL | Install python package
   apt: name=python-mysqldb state={{ mysql_apt_state }}
 
+## Secure installation
+- include: security.yml
+
 ## Setup custom location
 - include: location.yml
   when: "'{{ mysql_path }}' != '/var/lib/mysql'"
-
-## Secure installation
-- include: security.yml
 
 ## Configure
 - name: MySQL | Backup configuration
