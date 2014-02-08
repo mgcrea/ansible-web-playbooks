@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: MongoDB
+
+- name: start mongodb
+  service: name=mongodb state=started
+
+- name: restart mongodb
+  service: name=mongodb state=restarted

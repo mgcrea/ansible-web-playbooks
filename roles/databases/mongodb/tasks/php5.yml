@@ -1,0 +1,17 @@
+---
+# File: php5.yml
+# Type: task
+# Part: MongoDB
+
+
+## Install PECL extension
+# https://github.com/gaspaio/ansible-repository/blob/master/php/tasks/pecl.yml
+- name: MongoDB | PECL | Install extension
+  shell: pecl list | grep -i 'mongo'
+  register: result
+  ignore_errors: yes
+- shell: pecl install mongo
+  when: result|failed
+- name: MongoDB | PECL | Deploy configuration
+  template: src=php5_conf.d_mongo.ini.j2 dest=/etc/php5/conf.d/20-mongo.ini owner=root mode=0644
+  notify: restart apache2

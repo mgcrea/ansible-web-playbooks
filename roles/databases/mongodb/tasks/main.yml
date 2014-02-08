@@ -1,0 +1,40 @@
+---
+# File: main.yml
+# Type: task
+# Part: MongoDB
+
+
+## Install
+- name: MongoDB | Install ppa key
+  apt_key: id=7F0CEB10 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x9ECBEC467F0CEB10 state=present
+- name: MongoDB | Install ppa
+  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
+- name: MongoDB | Install package
+  apt: name=mongodb-10gen state={{ mongodb_apt_state }}
+  notify: restart mongodb
+
+## Install ansible related packages
+- name: MongoDB | Install pymongo package
+  apt: name=python-pip state={{ mongodb_apt_state }}
+- pip: name=pymongo state=present
+
+## Setup custom location
+- include: location.yml
+  when: "'{{ mongodb_path }}' != '/var/lib/mongodb'"
+
+## Configure
+- name: MongoDB | Backup configuration
+  shell: creates=/etc/mongodb.conf.orig cp /etc/mongodb.conf /etc/mongodb.conf.orig
+  register: result
+- fetch: src=/etc/mongodb.conf.orig dest=fetched
+  when: result|changed
+- name: MongoDB | Deploy configuration
+  template: src=mongodb.conf.j2 dest=/etc/mongodb.conf owner=root mode=0644 backup=yes
+  notify: restart mongodb
+  register: result
+- fetch: src=/etc/mongodb.conf dest=fetched
+  when: result|changed
+
+## Check service
+- name: MongoDB | Check service daemon
+  service: name=mongodb state=started
