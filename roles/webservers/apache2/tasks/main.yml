@@ -44,6 +44,18 @@
     - ports.conf
   when: result|changed
 
+## Best practices from https://github.com/h5bp/server-configs
+- name: Apache2 | Boilerplate configuration
+  template: src={{ item }}.j2 dest=/etc/apache2/conf.d/{{ item }} backup=no
+  notify: restart apache2
+  with_items:
+    - bp_cors.conf
+    - bp_deflate.conf
+    - bp_headers.conf
+    - bp_mime.conf
+    - bp_rewrite.conf
+    - bp_security.conf
+
 ## Enable modules
 - name: Apache2 | Enable modules
   command: a2enmod {{ item }} creates=/etc/apache2/mods-enabled/{{ item }}.load

@@ -1,0 +1,69 @@
+# Ansible managed
+
+# ##############################################################################
+# # URL REWRITES                                                               #
+# ##############################################################################
+
+# ------------------------------------------------------------------------------
+# | Rewrite engine                                                             |
+# ------------------------------------------------------------------------------
+
+# Turn on the rewrite engine and enable the `FollowSymLinks` option (this is
+# necessary in order for the following directives to work).
+
+# If your web host doesn't allow the `FollowSymlinks` option, you may need to
+# comment it out and use `Options +SymLinksIfOwnerMatch`, but be aware of the
+# performance impact.
+# http://httpd.apache.org/docs/current/misc/perf-tuning.html#symlinks
+
+# Also, some cloud hosting services require `RewriteBase` to be set.
+# http://www.rackspace.com/knowledge_center/frequently-asked-question/why-is-mod-rewrite-not-working-on-my-site
+
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+  # Options +SymLinksIfOwnerMatch
+    RewriteEngine On
+  # RewriteBase /
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# | Suppressing / Forcing the `www.` at the beginning of URLs                  |
+# ------------------------------------------------------------------------------
+
+# The same content should never be available under two different URLs,
+# especially not with and without `www.` at the beginning. This can cause
+# SEO problems (duplicate content), and therefore, you should choose one
+# of the alternatives and redirect the other one.
+
+# By default `Option 1` (no `www.`) is activated.
+# http://no-www.org/faq.php?q=class_b
+
+# If you would prefer to use `Option 2`, just comment out all the lines
+# from `Option 1` and uncomment the ones from `Option 2`.
+
+# IMPORTANT: NEVER USE BOTH RULES AT THE SAME TIME!
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Option 1: rewrite www.example.com → example.com
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Option 2: rewrite example.com → www.example.com
+
+# Be aware that the following might not be a good idea if you use "real"
+# subdomains for certain parts of your website.
+
+# <IfModule mod_rewrite.c>
+#    RewriteCond %{HTTPS} !=on
+#    RewriteCond %{HTTP_HOST} !^www\. [NC]
+#    RewriteCond %{SERVER_ADDR} !=127.0.0.1
+#    RewriteCond %{SERVER_ADDR} !=::1
+#    RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# </IfModule>

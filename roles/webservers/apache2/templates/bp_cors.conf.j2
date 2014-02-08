@@ -1,0 +1,47 @@
+# Ansible managed
+
+# ##############################################################################
+# # CROSS-ORIGIN RESOURCE SHARING (CORS)                                       #
+# ##############################################################################
+
+# ------------------------------------------------------------------------------
+# | Cross-domain AJAX requests                                                 |
+# ------------------------------------------------------------------------------
+
+# Allow cross-origin AJAX requests.
+# http://code.google.com/p/html5security/wiki/CrossOriginRequestSecurity
+# http://enable-cors.org/
+
+# <IfModule mod_headers.c>
+#    Header set Access-Control-Allow-Origin "*"
+# </IfModule>
+
+# ------------------------------------------------------------------------------
+# | CORS-enabled images                                                        |
+# ------------------------------------------------------------------------------
+
+# Send the CORS header for images when browsers request it.
+# https://developer.mozilla.org/en-US/docs/HTML/CORS_Enabled_Image
+# http://blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
+# http://hacks.mozilla.org/2011/11/using-cors-to-load-webgl-textures-from-cross-domain-images/
+
+<IfModule mod_setenvif.c>
+    <IfModule mod_headers.c>
+        <FilesMatch "\.(cur|gif|ico|jpe?g|png|svgz?|webp)$">
+            SetEnvIf Origin ":" IS_CORS
+            Header set Access-Control-Allow-Origin "*" env=IS_CORS
+        </FilesMatch>
+    </IfModule>
+</IfModule>
+
+# ------------------------------------------------------------------------------
+# | Web fonts access                                                           |
+# ------------------------------------------------------------------------------
+
+# Allow access to web fonts from all domains.
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(eot|otf|tt[cf]|woff)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>

@@ -1,6 +1,6 @@
 # [Ansible WebPlaybooks](http://mgcrea.github.io/ansible-web-playbooks) [![Build Status](https://secure.travis-ci.org/mgcrea/ansible-web-playbooks.png?branch=master)](http://travis-ci.org/#!/mgcrea/ansible-web-playbooks)
 
-Set of playbook roles for the web, modern server orchestration powered by Ansible.
+Set of playbook roles to orchestrate your web servers, powered by Ansible.
 
 >
     $ tree roles -L 2
