@@ -11,7 +11,8 @@
     - python-software-properties
     - python-pip
 - name: Fireball | Install keyczar
-  pip: name=python-keyczar state=present extra_args=--pre
+  pip: name=python-keyczar state=present
+  # extra_args=--pre
 
 ## Install ZeroMQ
 - name: Fireball | Install ZeroMQ ppa key

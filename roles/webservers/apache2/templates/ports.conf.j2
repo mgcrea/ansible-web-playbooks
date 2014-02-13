@@ -7,7 +7,8 @@
 NameVirtualHost {{ apache2_bind_address }}:{{ apache_port_http | default('80') }}
 Listen {{ apache2_bind_address }}:{{ apache_port_http | default('80') }}
 
-<IfModule ssl_module>
+# ssl_module >= 13.10
+<IfModule mod_ssl.c>
   NameVirtualHost {{ apache2_bind_address }}:{{ apache_port_https | default('443') }}
   Listen {{ apache2_bind_address }}:{{ apache_port_https | default('443') }}
 </IfModule>

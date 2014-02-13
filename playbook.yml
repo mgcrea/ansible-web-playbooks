@@ -4,12 +4,17 @@
 # @cli vagrant destroy; vagrant up; rm -rf fetched/*
 # @cli ansible-playbook -i vagrant_inventory playbook.yml
 
-- name: Update aptitude cache
+- name: Ansible setup
   hosts: all
   sudo: yes
   tasks:
-    - apt: name=python-software-properties update_cache=yes
+    - name: Install required packages
+      apt: name={{ item }} update_cache=yes
       tags: apt_update
+      with_items:
+        - python-dev
+        - python-software-properties
+        - python-pip
 
 
 - name: Fetch facts

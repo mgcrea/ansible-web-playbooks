@@ -33,7 +33,7 @@
     - ports.conf
   when: result|changed
 - name: Apache2 | Deploy configuration
-  template: src={{ item }}.j2 dest=/etc/apache2/{{ item }} owner=root group=root mode=0644 backup=yes
+  template: src={{ item }}.j2 dest=/etc/apache2/{{ item }} owner=root group=root mode=0644 backup=no
   with_items:
     - envvars
     - ports.conf
@@ -46,7 +46,7 @@
 
 ## Best practices from https://github.com/h5bp/server-configs
 - name: Apache2 | Boilerplate configuration
-  template: src={{ item }}.j2 dest=/etc/apache2/conf.d/{{ item }} backup=no
+  template: src={{ item }}.j2 dest=/etc/apache2/conf.d/{{ item }} owner=root group=root mode=0644 backup=no
   notify: restart apache2
   with_items:
     - bp_cors.conf
