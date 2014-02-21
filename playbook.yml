@@ -37,7 +37,7 @@
 
 - name: Execute playbook
   # connection: fireball
-  # accelerate: true
+  accelerate: true
   hosts: all
   sudo: yes
   roles:

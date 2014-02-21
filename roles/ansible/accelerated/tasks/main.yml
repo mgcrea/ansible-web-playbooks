@@ -16,3 +16,4 @@
 - name: Accelerated | Open port for keyczar
   command: ufw allow 5099/tcp
   ignore_errors: True
+  when: ansible_distribution == 'Ubuntu'
