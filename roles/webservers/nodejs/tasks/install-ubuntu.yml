@@ -1,0 +1,12 @@
+---
+# File: main.yml
+# Type: task
+# Part: NodeJS | Default (Ubuntu)
+
+## Install
+- name: NodeJS | Install ppa key
+  apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
+- name: NodeJS | Install ppa
+  apt_repository: repo=ppa:chris-lea/node.js state=present
+- name: NodeJS | Install package
+  apt: name=nodejs state={{ nodejs_apt_state }}

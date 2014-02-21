@@ -3,19 +3,16 @@
 # Type: task
 # Part: NodeJS
 
-
 ## Install
-- name: NodeJS | Install ppa key
-  apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
-- name: NodeJS | Install ppa
-  apt_repository: repo=ppa:chris-lea/node.js state=present
-- name: NodeJS | Install package
-  apt: name=nodejs state={{ nodejs_apt_state }}
-
+- include: install-raspberry.yml
+  when: ansible_architecture == 'armv6l' and ansible_distribution == 'Debian'
+- include: install-cubieboard.yml
+  when: ansible_architecture == 'armv7l' and ansible_distribution == 'Linaro'
+- include: install-ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
 
 ## Install global packages
 - name: NodeJS | NPM | Install global packages
   npm: name={{ item }} global=yes state={{ nodejs_apt_state }}
   when: nodejs_npm_modules is defined
   with_items: nodejs_npm_modules
-
