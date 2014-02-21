@@ -3,33 +3,29 @@
 # Type: task
 # Part: Redis
 
-
 ## Install
-- name: Redis | Install ppa key
-  apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
-- name: Redis | Install ppa
-  apt_repository: repo=ppa:chris-lea/redis-server state=present
-- name: Redis | Install package
-  apt: name=redis-server state=latest
-  notify: restart redis
+- include: install-arm.yml
+  when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
+# - include: install-ubuntu.yml
+#   when: ansible_distribution == 'Ubuntu'
 
-## Setup custom location
-- include: location.yml
-  when: "'{{ redis_path }}' != '/var/lib/redis'"
+# ## Setup custom location
+# - include: location.yml
+#   when: "'{{ redis_path }}' != '/var/lib/redis'"
 
-## Configure
-- name: Redis | Backup configuration
-  shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
-  register: result
-- fetch: src=/etc/redis/redis.conf.orig dest=fetched
-  when: result|changed
-- name: Redis | Deploy configuration
-  template: src=redis_redis.conf.j2 dest=/etc/redis/redis.conf owner=root mode=0644 backup=yes
-  notify: restart redis
-  register: result
-- fetch: src=/etc/redis/redis.conf dest=fetched
-  when: result.changed
+# ## Configure
+# - name: Redis | Backup configuration
+#   shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
+#   register: result
+# - fetch: src=/etc/redis/redis.conf.orig dest=fetched
+#   when: result|changed
+# - name: Redis | Deploy configuration
+#   template: src=redis_redis.conf.j2 dest=/etc/redis/redis.conf owner=root mode=0644 backup=yes
+#   notify: restart redis
+#   register: result
+# - fetch: src=/etc/redis/redis.conf dest=fetched
+#   when: result.changed
 
-## Make sure service is running
-- name: Redis | Check daemon
-  service: name=redis-server state=started
+# ## Make sure service is running
+# - name: Redis | Check daemon
+#   service: name=redis-server state=started

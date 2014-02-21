@@ -1,0 +1,20 @@
+---
+# File: main.yml
+# Type: task
+# Part: Redis | ARM
+
+- name: Redis | ARM | Fetch package
+  action: get_url url=http://download.redis.io/releases/redis-2.8.6.tar.gz dest=/opt
+    sha256sum=efd0c9cb8d2696db44d8cb8309fed96607f68b93bb126615e64bff364e716658
+  register: result
+- name: Redis | ARM | Extract package
+  shell: mkdir -p /opt/tmp/redis-2.8.6; tar -xzf /opt/redis-2.8.6.tar.gz -C /opt/tmp/redis-2.8.6 --strip-components 1 --exclude='LICENSE' --exclude='README.md' --exclude='ChangeLog'
+  when: result | changed
+- name: Redis | ARM | Check version
+  shell: redis-server --version | cut -c 16-20
+  ignore_errors: True
+  register: redis_version
+- name: Redis | ARM | Make package
+  when: redis_version.stdout != '2.8.6'
+  shell: cd /opt/tmp/redis-2.8.6; make distclean; make && make install
+    # creates=/usr/local/bin/redis-server

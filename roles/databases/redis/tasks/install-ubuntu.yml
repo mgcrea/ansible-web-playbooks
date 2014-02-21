@@ -1,0 +1,13 @@
+---
+# File: main.yml
+# Type: task
+# Part: Redis | Default (Ubuntu)
+
+## Install
+- name: Redis | Install ppa key
+  apt_key: id=C7917B12 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xB9316A7BC7917B12 state=present
+- name: Redis | Install ppa
+  apt_repository: repo=ppa:chris-lea/redis-server state=present
+- name: Redis | Install package
+  apt: name=redis-server state=latest
+  notify: restart redis
