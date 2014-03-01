@@ -1,0 +1,35 @@
+---
+# File: main.yml
+# Type: task
+# Part: Docker
+
+- name: Docker | Check Ubuntu release
+  fail: msg=Docker only support Ubuntu from {{ ansible_distribution_version }}
+  when: ansible_distribution != 'Ubuntu' or ansible_lsb.major_release < 12
+
+## Kernel
+- name: Docker | Upgrade 12.04 kernel
+  apt: name=linux-image-generic-lts-saucy state=latest
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
+  register: kernel_updated
+- name: Docker | Reboot
+  command: reboot
+  when: kernel_updated | changed
+- name: Docker | Wait for SSH
+  local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} delay=30 timeout=900 state=started
+  when: kernel_updated | changed
+- name: Docker | Upgrade 13.04+ kernel extra
+  apt: name=linux-image-extra-{{ ansible_kernel }} state=latest update_cache=yes cache_valid_time=600
+  when: ansible_distribution_version != '12.04'
+
+## Install
+- name: Docker | Install ppa key
+  apt_key: id=A88D21E9 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x36A1D7869245C8950F966E92D8576A8BA88D21E9 state=present
+- name: Docker | Install ppa
+  apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present
+- name: Docker | Install package
+  apt: name=lxc-docker state={{ docker_apt_state }}
+
+## Check service
+- name: Docker | Check service daemon
+  service: name=docker state=started

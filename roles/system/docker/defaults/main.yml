@@ -1,0 +1,11 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Docker
+
+# Aptitude state
+docker_apt_state: "latest"
+
+# User and group
+docker_user: "www-data"
+docker_group: "www-data"
