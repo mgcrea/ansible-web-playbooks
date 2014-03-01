@@ -6,26 +6,51 @@
 ## Install
 - include: install-arm.yml
   when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
-# - include: install-ubuntu.yml
-#   when: ansible_distribution == 'Ubuntu'
+- include: install-ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
 
-# ## Setup custom location
-# - include: location.yml
-#   when: "'{{ redis_path }}' != '/var/lib/redis'"
+## Setup custom location
+- include: location.yml
+  when: "'{{ redis_path }}' != '/var/lib/redis'"
 
-# ## Configure
-# - name: Redis | Backup configuration
-#   shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
-#   register: result
-# - fetch: src=/etc/redis/redis.conf.orig dest=fetched
-#   when: result|changed
-# - name: Redis | Deploy configuration
-#   template: src=redis_redis.conf.j2 dest=/etc/redis/redis.conf owner=root mode=0644 backup=yes
-#   notify: restart redis
-#   register: result
-# - fetch: src=/etc/redis/redis.conf dest=fetched
-#   when: result.changed
+## Configure user
+- name: Redis | Setup group
+  user: name={{ redis_group }}
+- name: Redis | Setup user
+  user: name={{ redis_user }} group={{ redis_group }} home="/var/lib/redis" shell="/bin/false" comment="Redis Server"
 
-# ## Make sure service is running
-# - name: Redis | Check daemon
-#   service: name=redis-server state=started
+## Configure Redis
+- name: Redis | Backup configuration
+  shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/redis/redis.conf.orig dest=fetched
+  when: result|changed
+- name: Redis | Ensure base folder exists
+  file: path=/etc/redis state=directory owner=root group=root mode=0755
+- name: Redis | Ensure log folder exists
+  file: path=/var/log/redis state=directory owner={{ redis_user }} group={{ redis_group }} mode=0755
+- name: Redis | Deploy configuration
+  template: src=redis_redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644 backup=yes
+  notify: restart redis
+  register: result
+- fetch: src=/etc/redis/redis.conf dest=fetched
+  when: result|changed
+
+## Configure service
+- name: Redis | Backup service configuration
+  shell: creates=/etc/init.d/redis-server.disabled cp /etc/init.d/redis-server /etc/init.d/redis-server.disabled
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/init.d/redis-server.disabled dest=fetched/{{ ansible_host }}/init.d/redis-server.orig
+  when: result|changed
+- name: Redis | Deploy service configuration
+  template: src=init.d_redis-server.j2 dest=/etc/init.d/redis-server owner=root group=root mode=0755 backup=no
+  notify: restart redis
+  register: result
+- fetch: src=/etc/init.d/redis-server dest=fetched
+  when: result|changed
+
+## Make sure service is running
+- name: Redis | Check daemon
+  service: name=redis-server state=started
