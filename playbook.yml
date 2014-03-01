@@ -37,10 +37,12 @@
 
 - name: Execute playbook
   # connection: fireball
-  accelerate: true
+  # accelerate: true
   hosts: all
   sudo: yes
   roles:
+    - role: system/docker
+      tags: docker
     - role: databases/beanstalkd
       tags: beanstalkd
     - role: databases/mysql
