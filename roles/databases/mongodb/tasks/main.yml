@@ -3,15 +3,11 @@
 # Type: task
 # Part: MongoDB
 
-
 ## Install
-- name: MongoDB | Install ppa key
-  apt_key: id=7F0CEB10 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x9ECBEC467F0CEB10 state=present
-- name: MongoDB | Install ppa
-  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
-- name: MongoDB | Install package
-  apt: name=mongodb-10gen state={{ mongodb_apt_state }}
-  notify: restart mongodb
+- include: install-arm.yml
+  when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
+- include: install-ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
 
 ## Install ansible related packages
 - name: MongoDB | Install pymongo package
@@ -22,17 +18,46 @@
 - include: location.yml
   when: "'{{ mongodb_path }}' != '/var/lib/mongodb'"
 
-## Configure
+## Configure user
+- name: MongoDB | Setup group
+  user: name={{ mongodb_group }}
+- name: MongoDB | Setup user
+  user: name={{ mongodb_user }} group={{ mongodb_group }} home="/var/lib/mongodb" shell="/bin/false" comment="MongoDB Server"
+
+## Configure MongoDB
 - name: MongoDB | Backup configuration
   shell: creates=/etc/mongodb.conf.orig cp /etc/mongodb.conf /etc/mongodb.conf.orig
+  ignore_errors: True
   register: result
 - fetch: src=/etc/mongodb.conf.orig dest=fetched
   when: result|changed
+- name: MongoDB | Ensure log folder exists
+  file: path=/var/log/mongodb state=directory owner={{ mongodb_user }} group={{ mongodb_group }} mode=0755
 - name: MongoDB | Deploy configuration
-  template: src=mongodb.conf.j2 dest=/etc/mongodb.conf owner=root mode=0644 backup=yes
+  template: src=mongodb.conf.j2 dest=/etc/mongodb.conf owner=root group=root mode=0644 backup=yes
   notify: restart mongodb
   register: result
 - fetch: src=/etc/mongodb.conf dest=fetched
+  when: result|changed
+
+## Configure service
+- name: MongoDB | Backup service configuration
+  shell: creates=/etc/init/mongodb.conf.disabled cp /etc/init/mongodb.conf /etc/init/mongodb.conf.disabled
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/init/mongodb.conf.disabled dest=fetched/{{ ansible_host }}/init/mongodb.conf.orig
+  when: result|changed
+- name: MongoDB | Deploy service configuration
+  template: src=init.d_mongodb.j2 dest=/etc/init.d/mongodb owner=root group=root mode=0755 backup=no
+  when: ansible_distribution == 'Debian'
+  notify: restart mongodb
+  register: result
+- name: MongoDB | Deploy upstart service configuration
+  template: src=init_mongodb.conf.j2 dest=/etc/init/mongodb.conf owner=root group=root mode=0755 backup=no
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linaro'
+  notify: restart mongodb
+  register: result
+- fetch: src=/etc/init/mongodb.conf dest=fetched
   when: result|changed
 
 ## Check service

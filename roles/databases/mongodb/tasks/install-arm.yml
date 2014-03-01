@@ -1,0 +1,15 @@
+---
+# File: main.yml
+# Type: task
+# Part: MongoDB | ARM
+
+- name: MongoDB | ARM | Fetch package
+  action: get_url url=https://s3.amazonaws.com/wtfuzz/mongo-arm/mongodb-linux-armv7l-2.4.1.tgz dest=/opt
+    sha256sum=c93fa070fa1df529428bb0685533db7bb649f1065025d8236c1d83ea9bd64d69
+  register: result
+- name: MongoDB | ARM | Extract package
+  shell: mkdir -p /opt/tmp/mongodb-linux-armv7l-2.4.1; tar -xzf /opt/mongodb-linux-armv7l-2.4.1.tgz -C /usr/local --strip-components 1 --exclude='GNU-AGPL-3.0' --exclude='README' --exclude='THIRD-PARTY-NOTICES'
+  when: result | changed
+# - name: MongoDB | Install package
+#   apt: name=libc6-dev=2.17-7 state=present
+#   when: ansible_distribution == 'Debian'
