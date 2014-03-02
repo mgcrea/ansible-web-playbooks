@@ -31,6 +31,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Setting hostname
   config.vm.hostname = "precise64"
 
+  # config.vm.provider :virtualbox do |vb|
+  #   vb.customize ["modifyvm", :id, "--ioapic", "on"]
+  #   vb.customize ["modifyvm", :id, "--memory", "2048"]
+  #   vb.customize ["modifyvm", :id, "--cpus", "2"]
+  # end
+
   # Set username if private ssh key exists..
   # if key
   #  config.ssh.username = user

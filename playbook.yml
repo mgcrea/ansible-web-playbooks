@@ -43,19 +43,19 @@
   roles:
     - role: system/docker
       tags: docker
-    - role: databases/beanstalkd
+    - role: database/beanstalkd
       tags: beanstalkd
-    - role: databases/mysql
+    - role: database/mysql
       tags: mysql
-    - role: databases/mongodb
+    - role: database/mongodb
       tags: mongodb
-    - role: databases/redis
+    - role: database/redis
       tags: redis
-    - role: webservers/apache2
+    - role: web/apache2
       tags: apache2
-    - role: webservers/nginx
+    - role: web/nginx
       tags: nginx
-    - role: webservers/nodejs
+    - role: web/nodejs
       tags: nodejs
-    - role: webservers/php5
+    - role: web/php5
       tags: php5
