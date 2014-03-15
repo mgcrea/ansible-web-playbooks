@@ -17,4 +17,5 @@
 - name: Redis | ARM | Make package
   when: redis_version.stdout != '2.8.6'
   shell: cd /opt/tmp/redis-2.8.6; make distclean; make && make install
+  notify: restart redis
     # creates=/usr/local/bin/redis-server
