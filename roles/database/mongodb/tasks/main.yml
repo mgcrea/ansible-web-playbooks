@@ -42,10 +42,10 @@
 
 ## Configure service
 - name: MongoDB | Backup service configuration
-  shell: creates=/etc/init/mongodb.conf.disabled cp /etc/init/mongodb.conf /etc/init/mongodb.conf.disabled
+  shell: creates=/etc/init/mongodb.conf.orig.disabled cp /etc/init/mongodb.conf /etc/init/mongodb.conf.orig.disabled
   ignore_errors: True
   register: result
-- fetch: src=/etc/init/mongodb.conf.disabled dest=fetched/{{ ansible_host }}/init/mongodb.conf.orig
+- fetch: src=/etc/init/mongodb.conf.orig.disabled dest=fetched/{{ ansible_host }}/init/mongodb.conf.orig
   when: result|changed
 - name: MongoDB | Deploy service configuration
   template: src=init.d_mongodb.j2 dest=/etc/init.d/mongodb owner=root group=root mode=0755 backup=no
@@ -62,4 +62,4 @@
 
 ## Check service
 - name: MongoDB | Check service daemon
-  service: name=mongodb state=started
+  service: name=mongodb state=started enabled=yes
