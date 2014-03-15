@@ -1,0 +1,12 @@
+---
+# File: main.yml
+# Type: task
+# Part: Transmission
+
+## Install
+- name: Transmission | Install ppa key
+  apt_key: id=365C5CA1 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x365C5CA1 state=present
+- name: Transmission | Install ppa
+  apt_repository: repo=ppa:transmissionbt/ppa state=present
+- name: Transmission | Install package
+  apt: name=transmission-daemon state={{ transmission_apt_state }}

@@ -1,0 +1,18 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Transmission
+
+# Aptitude state
+transmission_apt_state: "latest"
+
+# Network configuration
+transmission_bind_address: "127.0.0.1"
+transmission_port: 9091
+
+# User and group
+transmission_user: "debian-transmission"
+transmission_group: "debian-transmission"
+
+# Default base directory (without trailing '/')
+transmission_path: "/var/www"
