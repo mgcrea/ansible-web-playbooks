@@ -29,6 +29,17 @@
 - fetch: src=/etc/nginx/nginx.conf dest=fetched
   when: result|changed
 
+## Configure vhosts
+- name: Nginx | Remove default vhost
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: restart nginx
+- name: Nginx | Add no-default vhost
+  template: src=nginx_sites-available_no-default.j2 dest=/etc/nginx/sites-available/no-default owner=root mode=0644
+  notify: restart nginx
+- name: Nginx | Activate no-default vhost
+  file: state=link src=/etc/nginx/sites-available/no-default dest=/etc/nginx/sites-enabled/no-default
+  notify: restart nginx
+
 ## Check service
 - name: Nginx | Check service daemon
   service: name=nginx state=started

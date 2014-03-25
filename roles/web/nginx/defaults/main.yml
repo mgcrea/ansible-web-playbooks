@@ -19,3 +19,6 @@ nginx_group: "www-data"
 
 # Default base directory (without trailing '/')
 nginx_path: "/var/www"
+
+# Configuration
+nginx_worker_processes: "auto"
