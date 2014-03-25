@@ -45,7 +45,7 @@
   shell: creates=/etc/init/mongodb.conf.orig.disabled cp /etc/init/mongodb.conf /etc/init/mongodb.conf.orig.disabled
   ignore_errors: True
   register: result
-- fetch: src=/etc/init/mongodb.conf.orig.disabled dest=fetched/{{ ansible_host }}/init/mongodb.conf.orig
+- fetch: src=/etc/init/mongodb.conf.orig.disabled dest=fetched/{{ ansible_host }}/etc/init/mongodb.conf.orig flat=yes
   when: result|changed
 - name: MongoDB | Deploy service configuration
   template: src=init.d_mongodb.j2 dest=/etc/init.d/mongodb owner=root group=root mode=0755 backup=no
