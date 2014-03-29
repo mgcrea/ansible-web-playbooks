@@ -1,0 +1,16 @@
+---
+# File: main.yml
+# Type: task
+# Part: Ansible
+
+- name: Ansible | Update aptitude
+  apt: update_cache=yes
+
+- name: Ansible | Install required packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - python-apt
+    - python-dev
+    - python-pip
+    - python-pycurl
+    - python-software-properties
