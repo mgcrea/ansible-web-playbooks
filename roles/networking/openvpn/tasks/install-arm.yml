@@ -1,0 +1,33 @@
+---
+# File: main.yml
+# Type: task
+# Part: OpenVPN | ARM
+
+- name: OpenVPN | Install required packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - liblzo2-dev
+    - libpam0g-dev
+    - libssl-dev
+- name: OpenVPN | ARM | Fetch package
+  action: get_url url=http://swupdate.openvpn.org/community/releases/openvpn-2.3.2.tar.gz dest=/opt
+    sha256sum=20bda3f9debb9a52db262aecddfa4e814050a9404a9106136b7e3b6f7ef36ffc
+  register: result
+- name: OpenVPN | ARM | Extract package
+  shell: mkdir -p /opt/tmp/openvpn-2.3.2; tar -xzf /opt/openvpn-2.3.2.tar.gz -C /opt/tmp/openvpn-2.3.2 --strip-components 1
+  when: result | changed
+- name: OpenVPN | ARM | Check version
+  shell: openvpn --version | head -n 1 | cut -c 9-13
+  ignore_errors: True
+  register: openvpn_version
+- name: OpenVPN | ARM | Configure package
+  when: openvpn_version.stdout != '2.3.2'
+  shell: ./configure --host=arm-linux-gnueabihf --prefix=/usr/local
+         chdir=/opt/tmp/openvpn-2.3.2
+         creates=/opt/tmp/openvpn-2.3.2/config.status
+- name: OpenVPN | ARM | Make package
+  when: openvpn_version.stdout != '2.3.2'
+  shell: make && make install
+         chdir=/opt/tmp/openvpn-2.3.2
+         creates=/usr/local/bin/openvpn
+  notify: restart openvpn

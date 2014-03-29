@@ -1,0 +1,9 @@
+---
+# File: main.yml
+# Type: task
+# Part: OpenVPN | Default (Ubuntu)
+
+## Install
+- name: OpenVPN | Install package
+  apt: name=openvpn state={{ openvpn_apt_state }}
+  notify: restart openvpn
