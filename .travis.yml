@@ -13,6 +13,4 @@ before_script:
 
 script:
   - echo 'default ansible_ssh_host=127.0.0.1' > travis_inventory
-  - echo -e '[client]\nuser=root\npassword=GeneticLifeformAndDiskOperatingSystem' > $HOME/.my.cnf
   - ansible-playbook --syntax-check -i travis_inventory playbook.yml
-  - ansible-playbook -i travis_inventory playbook.yml --connection=local --sudo -vvvv
