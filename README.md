@@ -8,13 +8,19 @@ Set of playbook roles to orchestrate your web servers, powered by Ansible.
     ├── ansible
     │   ├── accelerated
     │   ├── facts
-    │   └── fireball
-    ├── databases
+    │   ├── fireball
+    │   └── setup
+    ├── database
     │   ├── beanstalkd
     │   ├── mongodb
     │   ├── mysql
     │   └── redis
-    └── webservers
+    ├── networking
+    │   ├── openvpn
+    │   └── transmission
+    ├── system
+    │   └── docker
+    └── web
         ├── apache2
         ├── nginx
         ├── nodejs
