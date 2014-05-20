@@ -21,4 +21,4 @@ nodejs_path: "/var/www"
 # Npm modules
 nodejs_npm_modules:
  - bower
- - grunt-cli
+ - nodemon

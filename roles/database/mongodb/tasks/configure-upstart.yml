@@ -1,0 +1,23 @@
+---
+# File: configure-upstart.yml
+# Type: task
+# Part: MongoDB
+
+- name: MongoDB | Backup service configuration
+  shell: creates=/etc/init/mongodb.conf.orig.disabled cp /etc/init/mongodb.conf /etc/init/mongodb.conf.orig.disabled
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/init/mongodb.conf.orig.disabled dest=fetched
+  when: result|changed
+- name: MongoDB | Deploy service configuration
+  template: src=init.d_mongodb.j2 dest=/etc/init.d/mongodb owner=root group=root mode=0755 backup=no
+  when: ansible_distribution == 'Debian'
+  notify: restart mongodb
+  register: result
+- name: MongoDB | Deploy upstart service configuration
+  template: src=init_mongodb.conf.j2 dest=/etc/init/mongodb.conf owner=root group=root mode=0755 backup=no
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linaro'
+  notify: restart mongodb
+  register: result
+- fetch: src=/etc/init/mongodb.conf dest=fetched
+  when: result|changed

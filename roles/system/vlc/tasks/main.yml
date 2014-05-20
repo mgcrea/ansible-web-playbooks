@@ -1,0 +1,13 @@
+---
+# File: main.yml
+# Type: task
+# Part: VLC
+
+## Install
+- name: VLC | Install ppa key
+  apt_key: id=801DF724 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x3361E59FF5029E6B90A9A80D09589874801DF724 state=present
+- name: VLC | Install ppa
+  apt_repository: repo=ppa:videolan/stable-daily state=present
+- name: VLC | Install package
+  apt: name=vlc state={{ vlc_apt_state }}
+

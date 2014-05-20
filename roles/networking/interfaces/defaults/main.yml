@@ -1,0 +1,17 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Transmission
+
+# interfaces_eth0_inet:
+#   - address: 198.27.67.71
+#   - network: 198.27.67.0
+#   - broadcast: 98.27.67.255
+#   - gateway: 198.27.67.254
+
+# interfaces_eth0_inet_failovers:
+#   - 198.27.78.69
+
+# interfaces_eth0_inet6:
+#   - address: 2607:5300:60:1C47::1
+#   - gateway: 2607:5300:60:1Cff:ff:ff:ff:ff

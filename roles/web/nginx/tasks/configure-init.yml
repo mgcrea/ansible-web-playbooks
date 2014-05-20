@@ -1,0 +1,17 @@
+---
+# File: main.yml
+# Type: task
+# Part: Nginx
+
+- name: Nginx | Backup service configuration
+  shell: creates=/etc/init.d/nginx.orig.disabled cp /etc/init.d/nginx /etc/init.d/nginx.orig.disabled
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/init.d/nginx.orig.disabled dest=fetched
+  when: result|changed
+- name: Nginx | Deploy service configuration
+  template: src=init.d_nginx.j2 dest=/etc/init.d/nginx owner=root group=root mode=0755 backup=no
+  notify: restart nginx
+  register: result
+- fetch: src=/etc/init.d/nginx dest=fetched
+  when: result|changed

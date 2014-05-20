@@ -6,6 +6,6 @@
 
 ## Fetch
 - name: Facts | Generate facts
-  action: template src=hostvars.j2 dest=/home/{{ ansible_ssh_user }}/facts.json
+  action: template src=hostvars.j2 dest=/tmp/facts.json
 - name: Facts | Fetch facts
-  fetch: src=/home/{{ ansible_ssh_user }}/facts.json dest=fetched/{{ ansible_ssh_host }}/facts.json flat=yes fail_on_missing=yes
+  fetch: src=/tmp/facts.json dest=fetched/{{ ansible_ssh_host }}/facts.json flat=yes fail_on_missing=yes

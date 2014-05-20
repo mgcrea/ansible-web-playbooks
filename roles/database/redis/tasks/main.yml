@@ -8,6 +8,8 @@
   when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
+- service: name=redis-server state=stopped enabled=yes
+  when: ansible_distribution == 'Ubuntu'
 
 ## Setup custom location
 - include: location.yml
@@ -38,18 +40,10 @@
   when: result|changed
 
 ## Configure service
-- name: Redis | Backup service configuration
-  shell: creates=/etc/init.d/redis-server.orig.disabled cp /etc/init.d/redis-server /etc/init.d/redis-server.orig.disabled
-  ignore_errors: True
-  register: result
-- fetch: src=/etc/init.d/redis-server.orig.disabled dest=fetched/{{ ansible_host }}/etc/init.d/redis-server.orig flat=yes
-  when: result|changed
-- name: Redis | Deploy service configuration
-  template: src=init.d_redis-server.j2 dest=/etc/init.d/redis-server owner=root group=root mode=0755 backup=no
-  notify: restart redis
-  register: result
-- fetch: src=/etc/init.d/redis-server dest=fetched
-  when: result|changed
+- include: configure-init.yml
+  when: ansible_cmdline.user != 'docker'
+- include: configure-supervisor.yml
+  when: ansible_cmdline.user == 'docker'
 
 ## Make sure service is running
 - name: Redis | Check daemon

@@ -1,0 +1,26 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+  address {{ interfaces_eth0_inet.address }}
+  netmask 255.255.255.0
+  network {{ interfaces_eth0_inet.network }}
+  broadcast {{ interfaces_eth0_inet.broadcast }}
+  gateway {{ interfaces_eth0_inet.gateway }}
+{% for key, ip_failover in interfaces_eth0_inet_failovers %}
+    post-up /sbin/ifconfig eth0:{{ key }} {{ ip_failover }} netmask 255.255.255.255 broadcast {{ ip_failover }}
+    post-down /sbin/ifconfig eth0:{{ key }} down
+{% endfor %}
+
+iface eth0 inet6 static
+  address {{ interfaces_eth0_inet6.address }}
+  netmask 64
+    post-up /sbin/ip -f inet6 route add {{ interfaces_eth0_inet6.gateway }} dev eth0
+    post-up /sbin/ip -f inet6 route add default via {{ interfaces_eth0_inet6.gateway }}
+    pre-down /sbin/ip -f inet6 route del default via {{ interfaces_eth0_inet6.gateway }}
+    pre-down /sbin/ip -f inet6 route del {{ interfaces_eth0_inet6.gateway }} dev eth0

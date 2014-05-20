@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Interfaces
+
+- name: start networking
+  service: name=networking state=started
+
+- name: restart networking
+  service: name=networking state=restarted

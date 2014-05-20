@@ -1,0 +1,4 @@
+[program:transmission-daemon]
+command=/usr/bin/transmission-daemon --foreground --logfile /var/log/transmission-daemon.log --config-dir /etc/transmission-daemon
+environment=USER={{ transmission_user }},HOME={{ transmission_path }},
+user={{ transmission_user }}

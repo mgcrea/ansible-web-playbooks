@@ -1,0 +1,17 @@
+---
+# File: main.yml
+# Type: task
+# Part: Redis | ARM
+
+- name: Redis | Backup service configuration
+  shell: creates=/etc/init.d/redis-server.orig.disabled cp /etc/init.d/redis-server /etc/init.d/redis-server.orig.disabled
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/init.d/redis-server.orig.disabled dest=fetched
+  when: result|changed
+- name: Redis | Deploy service configuration
+  template: src=init.d_redis-server.j2 dest=/etc/init.d/redis-server owner=root group=root mode=0755 backup=no
+  notify: restart redis
+  register: result
+- fetch: src=/etc/init.d/redis-server dest=fetched
+  when: result|changed

@@ -29,6 +29,12 @@
 - fetch: src=/etc/nginx/nginx.conf dest=fetched
   when: result|changed
 
+## Configure service
+- include: configure-init.yml
+  when: ansible_cmdline.user != 'docker'
+- include: configure-supervisor.yml
+  when: ansible_cmdline.user == 'docker'
+
 ## Configure vhosts
 - name: Nginx | Remove default vhost
   file: path=/etc/nginx/sites-enabled/default state=absent

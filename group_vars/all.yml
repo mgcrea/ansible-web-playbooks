@@ -6,13 +6,13 @@
 # that lives in `defaults` folders
 
 # databases/beanstalkd
-beanstalkd_path: /srv/beanstalkd
+beanstalkd_path: /srv/data/beanstalkd
 
 # databases/mongodb
-mongodb_path: /srv/mongodb
+mongodb_path: /srv/data/mongodb
 
 # databases/mysql
-mysql_path: /srv/mysql
+mysql_path: /srv/data/mysql
 
 # databases/redis
-redis_path: /srv/redis
+redis_path: /srv/data/redis

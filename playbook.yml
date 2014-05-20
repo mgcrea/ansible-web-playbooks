@@ -7,15 +7,9 @@
 - name: Ansible setup
   hosts: all
   sudo: yes
-  tasks:
-    - name: Install required packages
-      apt: name={{ item }} update_cache=yes
-      tags: apt_update
-      with_items:
-        - python-dev
-        - python-software-properties
-        - python-pip
-
+  roles:
+    - role: ansible/setup
+      tags: ansible
 
 - name: Fetch facts
   hosts: all
@@ -23,7 +17,6 @@
   roles:
     - role: ansible/facts
       tags: facts
-
 
 - name: Setup ansible accelerated mode
   hosts: all
@@ -59,3 +52,5 @@
       tags: nodejs
     - role: web/php5
       tags: php5
+    - role: networking/transmission
+      tags: transmission

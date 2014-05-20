@@ -3,7 +3,6 @@
 # Type: task
 # Part: Redis
 
-
 ## Setup custom location
 - name: Redis | Setup directory
   action: file state=directory dest={{ redis_path }} mode=700 owner={{ redis_user }} group={{ redis_group }}

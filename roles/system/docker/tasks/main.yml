@@ -18,9 +18,9 @@
 - name: Docker | Wait for SSH
   local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} delay=30 timeout=900 state=started
   when: kernel_updated | changed
-- name: Docker | Upgrade 13.04+ kernel extra
-  apt: name=linux-image-extra-{{ ansible_kernel }} state=latest update_cache=yes cache_valid_time=600
-  when: ansible_distribution_version != '12.04'
+# - name: Docker | Upgrade 13.04+ kernel extra
+#   apt: name=linux-image-extra-{{ ansible_kernel }} state=latest update_cache=yes cache_valid_time=600
+#   when: ansible_distribution_version != '12.04'
 
 ## Install
 - name: Docker | Install ppa key

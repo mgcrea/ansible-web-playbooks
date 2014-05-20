@@ -12,7 +12,10 @@
     - python-pip
 - name: Accelerated | Install keyczar
   pip: name=python-keyczar state=present
-  # extra_args=--pre
+  when: ansible_distribution_release == 'precise'
+- name: Accelerated | Install keyczar pre
+  pip: name=python-keyczar state=present extra_args=--pre
+  when: ansible_distribution_release == 'trusty'
 - name: Accelerated | Open port for keyczar
   command: ufw allow 5099/tcp
   ignore_errors: True

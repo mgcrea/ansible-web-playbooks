@@ -1,0 +1,4 @@
+[program:redis-server]
+command=/usr/bin/redis-server /etc/redis/redis.conf
+environment=USER={{ redis_user }},HOME={{ redis_path }},
+user={{ redis_user }}

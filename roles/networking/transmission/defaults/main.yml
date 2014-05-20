@@ -15,4 +15,4 @@ transmission_user: "debian-transmission"
 transmission_group: "debian-transmission"
 
 # Default base directory (without trailing '/')
-transmission_path: "/var/www"
+transmission_path: "/var/lib/transmission-daemon"

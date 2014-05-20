@@ -8,6 +8,8 @@
   when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
+- service: name=mongodb state=stopped enabled=yes
+  when: ansible_distribution == 'Ubuntu'
 
 ## Install ansible related packages
 - name: MongoDB | Install pymongo package
@@ -41,24 +43,10 @@
   when: result|changed
 
 ## Configure service
-- name: MongoDB | Backup service configuration
-  shell: creates=/etc/init/mongodb.conf.orig.disabled cp /etc/init/mongodb.conf /etc/init/mongodb.conf.orig.disabled
-  ignore_errors: True
-  register: result
-- fetch: src=/etc/init/mongodb.conf.orig.disabled dest=fetched/{{ ansible_host }}/etc/init/mongodb.conf.orig flat=yes
-  when: result|changed
-- name: MongoDB | Deploy service configuration
-  template: src=init.d_mongodb.j2 dest=/etc/init.d/mongodb owner=root group=root mode=0755 backup=no
-  when: ansible_distribution == 'Debian'
-  notify: restart mongodb
-  register: result
-- name: MongoDB | Deploy upstart service configuration
-  template: src=init_mongodb.conf.j2 dest=/etc/init/mongodb.conf owner=root group=root mode=0755 backup=no
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linaro'
-  notify: restart mongodb
-  register: result
-- fetch: src=/etc/init/mongodb.conf dest=fetched
-  when: result|changed
+- include: configure-upstart.yml
+  when: ansible_cmdline.user != 'docker'
+- include: configure-supervisor.yml
+  when: ansible_cmdline.user == 'docker'
 
 ## Check service
 - name: MongoDB | Check service daemon

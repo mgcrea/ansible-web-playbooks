@@ -7,7 +7,7 @@
 # Note: if you run mongodb as a non-root user (recommended) you may
 # need to create and set permissions for this directory manually,
 # e.g., if the parent directory isn't mutable by the mongodb user.
-dbpath=/var/lib/mongodb
+dbpath = {{ mongodb_path }}
 
 #where to log
 logpath=/var/log/mongodb/mongodb.log
@@ -17,10 +17,12 @@ logappend=true
 port = {{ mongodb_port }}
 
 # Disables write-ahead journaling
-# nojournal = true
-{% if ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
+{% if ansible_cmdline.user == 'docker' or ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
 journal = true
 smallfiles = true
+noprealloc = true
+{% else %}
+# nojournal = true
 {% endif %}
 
 # Enables periodic logging of CPU utilization and I/O wait

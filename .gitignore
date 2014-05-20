@@ -6,4 +6,5 @@ fetched/
 *.sublime-project
 *.sublime-workspace
 node_modules/
+docker_inventory
 !.gitignore

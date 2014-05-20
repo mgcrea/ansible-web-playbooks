@@ -1,22 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# @cli vagrant destroy; vagrant up; sed -e 81d -i ~/.ssh/known_hosts
-
-require 'etc'
-
-user = Etc.getlogin
-rsa_key = File.expand_path('~') + '/.ssh/id_rsa'
-rsa_key_pub = File.expand_path('~') + '/.ssh/id_rsa.pub'
-dsa_key = File.expand_path('~') + '/.ssh/id_dsa'
-id_rsa_ssh_key_pub = File.read(File.join(Dir.home, ".ssh", "id_rsa.pub"))
-
-if FileTest.exists?(rsa_key)
-    key = rsa_key
-elsif  FileTest.exists?(dsa_key)
-    key = dsa_key
-end
-
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
@@ -26,10 +10,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "precise64"
+  config.vm.box = "trusty64"
+
+  # The url from where the 'config.vm.box' box will be fetched if it
+  # doesn't already exist on the user's system.
+  config.vm.box_url = "https://vagrantcloud.com/ubuntu/trusty64/version/1/provider/virtualbox.box"
 
   # Setting hostname
-  config.vm.hostname = "precise64"
+  config.vm.hostname = "trusty64"
 
   # config.vm.provider :virtualbox do |vb|
   #   vb.customize ["modifyvm", :id, "--ioapic", "on"]
@@ -43,6 +31,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #  config.ssh.private_key_path = key
   # end
 
+  # Configure SSH keys
+  id_rsa_ssh_key_pub = File.read(File.expand_path('~') + '/.ssh/id_rsa.pub');
   config.vm.provision :shell, :inline => "echo 'Copying local id_rsa SSH Key to VM auth_keys for auth purposes (login into VM included)...' && echo '#{id_rsa_ssh_key_pub }' >> /home/vagrant/.ssh/authorized_keys && chmod 600 /home/vagrant/.ssh/authorized_keys"
 
   # The url from where the 'config.vm.box' box will be fetched if it
@@ -52,6 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
+  config.vm.network :forwarded_port, guest: 80, host: 8080
   config.vm.network :forwarded_port, guest: 5099, host: 5099
 
   # Create a private network, which allows host-only access to the machine
