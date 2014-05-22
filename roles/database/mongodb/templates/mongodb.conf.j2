@@ -17,7 +17,8 @@ logappend=true
 port = {{ mongodb_port }}
 
 # Disables write-ahead journaling
-{% if ansible_cmdline.user == 'docker' or ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
+
+{% if ansible_mounts[0].mount == '/.dockerinit' or ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
 journal = true
 smallfiles = true
 noprealloc = true

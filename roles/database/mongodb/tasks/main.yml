@@ -44,9 +44,11 @@
 
 ## Configure service
 - include: configure-upstart.yml
-  when: ansible_cmdline.user != 'docker'
+  when: ansible_mounts[0].mount != '/.dockerinit'
+  # when: ansible_mounts|map(attribute='mount')|intersect(['/.dockerinit'])|length == 0
 - include: configure-supervisor.yml
-  when: ansible_cmdline.user == 'docker'
+  when: ansible_mounts[0].mount == '/.dockerinit'
+  # when: ansible_mounts|map(attribute='mount')|intersect(['/.dockerinit'])|length == 1
 
 ## Check service
 - name: MongoDB | Check service daemon
