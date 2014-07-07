@@ -1,10 +1,10 @@
 ---
 # File: main.yml
 # Type: task
-# Part: Accelerated
+# Part: Ansible/Accelerated
 
 
-## Accelerated
+## Install
 - name: Accelerated | Install required packages
   apt: name={{ item }} state=latest
   with_items:

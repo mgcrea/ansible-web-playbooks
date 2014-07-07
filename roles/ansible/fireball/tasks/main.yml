@@ -1,7 +1,7 @@
 ---
 # File: main.yml
 # Type: task
-# Part: Fireball
+# Part: Ansible/Fireball
 
 
 ## Install
@@ -12,7 +12,10 @@
     - python-pip
 - name: Fireball | Install keyczar
   pip: name=python-keyczar state=present
-  # extra_args=--pre
+  when: ansible_distribution_release == 'precise'
+- name: Fireball | Install keyczar pre
+  pip: name=python-keyczar state=present extra_args=--pre
+  when: ansible_distribution_release == 'trusty'
 
 ## Install ZeroMQ
 - name: Fireball | Install ZeroMQ ppa key

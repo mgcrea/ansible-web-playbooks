@@ -1,12 +1,13 @@
 ---
 # File: main.yml
 # Type: task
-# Part: Ansible
+# Part: Ansible/Setup
 
-- name: Ansible | Update aptitude
-  apt: update_cache=yes
 
-- name: Ansible | Install required packages
+## Install
+- name: Setup | Update aptitude
+  apt: update_cache=yes cache_valid_time=3600
+- name: Setup | Install ansible required packages
   apt: name={{ item }} state=latest
   with_items:
     - python-apt

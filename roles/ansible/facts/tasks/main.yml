@@ -1,10 +1,10 @@
 ---
 # File: main.yml
 # Type: task
-# Part: Facts
+# Part: Ansible/Facts
 
 
-## Fetch
+## Fetch facts
 - name: Facts | Generate facts
   action: template src=hostvars.j2 dest=/tmp/facts.json
 - name: Facts | Fetch facts
