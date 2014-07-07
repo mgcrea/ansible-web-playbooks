@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Interfaces
+
+- name: start avahi-daemon
+  service: name=avahi-daemon state=started
+
+- name: restart avahi-daemon
+  service: name=avahi-daemon state=restarted

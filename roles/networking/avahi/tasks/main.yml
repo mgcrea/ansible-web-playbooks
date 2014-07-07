@@ -1,0 +1,21 @@
+---
+# File: main.yml
+# Type: task
+# Part: Avahi
+
+
+- name: Avahi | Change hostname
+  hostname: name={{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}
+- debug: msg={{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}
+- name: Avahi | Setup hosts
+  template: src=hosts.j2 dest=/etc/hosts
+- name: Avahi | Fetch hosts
+  fetch: src=/etc/hosts dest=fetched/{{ ansible_ssh_host }}/hosts flat=yes
+
+- name: Avahi | Install package
+  apt: name=avahi-daemon state={{ avahi_apt_state }}
+- name: Avahi | Setup avahi
+  template: src=avahi_avahi-daemon.conf.j2 dest=/etc/avahi/avahi-daemon.conf
+  notify: restart avahi-daemon
+- name: Avahi | Fetch avahi
+  fetch: src=/etc/avahi/avahi-daemon.conf dest=fetched/{{ ansible_ssh_host }}/avahi-daemon.conf flat=yes

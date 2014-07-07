@@ -1,0 +1,7 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Avahi
+
+avahi_hostname_prefix: "server"
+avahi_apt_state: "latest"

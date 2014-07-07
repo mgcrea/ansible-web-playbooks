@@ -1,0 +1,24 @@
+---
+# File: main.yml
+# Type: task
+# Part: OpenVPN
+
+## Configure client
+- name: OpenVPN | Deploy client configuration
+  template: src=client.conf.j2 dest=/etc/openvpn/{{ openvpn_config }}.conf owner=root group=root mode=0755 backup=yes
+  notify: restart openvpn
+  register: result
+- name: OpenVPN | Create keys directories
+  file: state=directory path=/etc/openvpn/{{ openvpn_config }} owner=root group=root
+- name: OpenVPN | Copy keys
+  copy: src=vars/openvpn/{{ openvpn_config }}/{{ item }} dest=/etc/openvpn/{{ openvpn_config }}/{{item}} owner=root group=root mode=644 backup=no
+  with_items:
+    - ca.crt
+    - client.crt
+- name: OpenVPN | Copy private keys
+  copy: src=vars/openvpn/{{ openvpn_config }}/{{ item }} dest=/etc/openvpn/{{ openvpn_config }}/{{item}} owner=root group=root mode=600 backup=no
+  with_items:
+    - client.key
+    - ta.key
+- fetch: src=/etc/openvpn/{{ openvpn_config }}.conf dest=fetched
+  when: result | changed
