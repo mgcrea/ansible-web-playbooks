@@ -16,10 +16,13 @@ Set of playbook roles to orchestrate your web servers, powered by Ansible.
     │   ├── mysql
     │   └── redis
     ├── networking
+    │   ├── avahi
+    │   ├── interfaces
     │   ├── openvpn
     │   └── transmission
     ├── system
-    │   └── docker
+    │   ├── docker
+    │   └── vlc
     └── web
         ├── apache2
         ├── nginx
@@ -39,6 +42,7 @@ Set of playbook roles to orchestrate your web servers, powered by Ansible.
 >
     $ vagrant up
     $ ansible-playbook -i vagrant_inventory playbook.yml --tag apt_update,mongodb,nodejs
+
 
 
 ## Developers
