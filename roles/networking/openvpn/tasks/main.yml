@@ -9,38 +9,13 @@
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
 
-## Configure
-# - name: OpenVPN | Backup configuration
-#   shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
-#   ignore_errors: True
-#   register: result
-# - fetch: src=/etc/redis/redis.conf.orig dest=fetched
-#   when: result|changed
-# - name: OpenVPN | Ensure base folder exists
-#   file: path=/etc/redis state=directory owner=root group=root mode=0755
-# - name: OpenVPN | Ensure log folder exists
-#   file: path=/var/log/redis state=directory owner={{ redis_user }} group={{ redis_group }} mode=0755
-# - name: OpenVPN | Deploy configuration
-#   template: src=redis_redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644 backup=yes
-#   notify: restart redis
-#   register: result
-# - fetch: src=/etc/redis/redis.conf dest=fetched
-#   when: result|changed
-# @doc https://github.com/OpenVPN/easy-rsa/blob/master/README.quickstart.md
-#  ./easyrsa init-pki force; ./easyrsa initca
-
-# - name: OpenVPN | EasyRSA | Checkout project
-#   git: repo=https://github.com/OpenVPN/easy-rsa.git accept_hostkey=True
-#        remote=github version=master
-#        dest=/usr/local/etc/easyrsa
-
-- name: OpenVPN | EasyRSA | Fetch package
-  action: get_url url=https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.0-rc1/EasyRSA-3.0.0-rc1.tgz dest=/opt/easyrsa-v3.0.0-rc1.tgz
-    sha256sum=3ee5f197120f25de772ae352616593120efca3d18c0afcaec5bd236c639bd952
-  register: result
-- name: OpenVPN | EasyRSA | Extract package
-  shell: mkdir -p /opt/tmp/easyrsa-v3.0.0-rc1; tar -xzf /opt/easyrsa-v3.0.0-rc1.tgz -C /opt/tmp/easyrsa-v3.0.0-rc1 --strip-components 1
-  when: result | changed
+# Configure client / server
+- name: OpenVPN | Load configuration defaults
+  include_vars: "vars/openvpn/{{ openvpn_config }}/main.yml"
+  when: openvpn_config is defined
+- name: OpenVPN | Configure client
+  include: configure-client.yml
+  when: openvpn_config is defined and openvpn_type == 'client'
 
 ## Configure service
 - name: OpenVPN | Backup service configuration
@@ -51,7 +26,7 @@
   when: result | changed
 - name: OpenVPN | Deploy service configuration
   template: src=init.d_openvpn.j2 dest=/etc/init.d/openvpn owner=root group=root mode=0755 backup=no
-  notify: restart redis
+  notify: restart openvpn
   register: result
 - fetch: src=/etc/init.d/openvpn dest=fetched
   when: result | changed

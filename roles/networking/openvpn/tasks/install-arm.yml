@@ -10,24 +10,26 @@
     - libpam0g-dev
     - libssl-dev
 - name: OpenVPN | ARM | Fetch package
-  action: get_url url=http://swupdate.openvpn.org/community/releases/openvpn-2.3.2.tar.gz dest=/opt
-    sha256sum=20bda3f9debb9a52db262aecddfa4e814050a9404a9106136b7e3b6f7ef36ffc
+  action: get_url url=http://swupdate.openvpn.org/community/releases/openvpn-{{ openvpn_arm_version }}.tar.gz dest=/opt
+    sha256sum={{ openvpn_arm_shasum }}
   register: result
 - name: OpenVPN | ARM | Extract package
-  shell: mkdir -p /opt/tmp/openvpn-2.3.2; tar -xzf /opt/openvpn-2.3.2.tar.gz -C /opt/tmp/openvpn-2.3.2 --strip-components 1
+  shell: mkdir -p /opt/tmp/openvpn-{{ openvpn_arm_version }}; tar -xzf /opt/openvpn-{{ openvpn_arm_version }}.tar.gz -C /opt/tmp/openvpn-{{ openvpn_arm_version }} --strip-components 1
   when: result | changed
 - name: OpenVPN | ARM | Check version
   shell: openvpn --version | head -n 1 | cut -c 9-13
   ignore_errors: True
   register: openvpn_version
 - name: OpenVPN | ARM | Configure package
-  when: openvpn_version.stdout != '2.3.2'
+  when: openvpn_version.stdout != '{{ openvpn_arm_version }}'
   shell: ./configure --host=arm-linux-gnueabihf --prefix=/usr/local
-         chdir=/opt/tmp/openvpn-2.3.2
-         creates=/opt/tmp/openvpn-2.3.2/config.status
+         chdir=/opt/tmp/openvpn-{{ openvpn_arm_version }}
+         creates=/opt/tmp/openvpn-{{ openvpn_arm_version }}/config.status
 - name: OpenVPN | ARM | Make package
-  when: openvpn_version.stdout != '2.3.2'
+  when: openvpn_version.stdout != '{{ openvpn_arm_version }}'
   shell: make && make install
-         chdir=/opt/tmp/openvpn-2.3.2
+         chdir=/opt/tmp/openvpn-{{ openvpn_arm_version }}
          creates=/usr/local/bin/openvpn
   notify: restart openvpn
+- name: OpenVPN | ARM | Create base directories
+  file: state=directory path=/etc/openvpn owner=root group=root

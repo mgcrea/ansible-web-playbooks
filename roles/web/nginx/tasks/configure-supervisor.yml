@@ -6,5 +6,5 @@
   template: src=supervisor_conf.d_nginx.conf.j2 dest=/etc/supervisor/conf.d/nginx.conf owner=root group=root mode=0644 backup=no
   register: result
 - name: Nginx | Deploy supervisor service configuration
-  supervisorctl: name=program:mongod state=started config=/etc/supervisor/supervisord.conf
+  supervisorctl: name=program:nginx state=started config=/etc/supervisor/supervisord.conf
   when: result|changed

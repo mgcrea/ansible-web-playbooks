@@ -16,7 +16,7 @@
 
 # By default Redis does not run as a daemon. Use 'yes' if you need it.
 # Note that Redis will write a pid file in /var/run/redis.pid when daemonized.
-{% if ansible_cmdline.user == 'docker' %}
+{% if ansible_mounts[0].mount == '/.dockerinit' %}
 daemonize no
 {% else %}
 daemonize yes
@@ -92,7 +92,7 @@ logfile /var/log/redis/redis-server.log
 # Set the number of databases. The default database is DB 0, you can select
 # a different one on a per-connection basis using SELECT <dbid> where
 # dbid is a number between 0 and 'databases'-1
-databases 16
+databases {{ redis_databases | default('16') }}
 
 ################################ SNAPSHOTTING  #################################
 #

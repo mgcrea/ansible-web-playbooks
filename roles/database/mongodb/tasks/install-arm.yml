@@ -4,7 +4,7 @@
 # Part: MongoDB | ARM
 
 - name: MongoDB | ARM | Fetch package
-  action: get_url url=https://s3.amazonaws.com/wtfuzz/mongo-arm/mongodb-linux-armv7l-2.4.1.tgz dest=/opt
+  action: get_url url=https://s3-eu-west-1.amazonaws.com/col-public-eu/mongodb-linux-armv7l-2.4.1.tgz dest=/opt
     sha256sum=c93fa070fa1df529428bb0685533db7bb649f1065025d8236c1d83ea9bd64d69
   register: result
 - name: MongoDB | ARM | Extract package

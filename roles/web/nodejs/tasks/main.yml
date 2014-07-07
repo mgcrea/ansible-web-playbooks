@@ -6,8 +6,8 @@
 ## Install
 - include: install-raspberry.yml
   when: ansible_architecture == 'armv6l' and ansible_distribution == 'Debian'
-- include: install-cubieboard.yml
-  when: ansible_architecture == 'armv7l' and ansible_distribution == 'Linaro'
+- include: install-armv7l.yml
+  when: ansible_architecture == 'armv7l'
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
 
