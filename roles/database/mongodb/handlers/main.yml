@@ -3,8 +3,7 @@
 # Type: handler
 # Part: MongoDB
 
-- name: start mongodb
-  service: name=mongodb state=started
-
-- name: restart mongodb
-  service: name=mongodb state=restarted
+- name: start mongod
+  service: name={{ mongodb_service }} state=started
+- name: restart mongod
+  service: name={{ mongodb_service }} state=restarted

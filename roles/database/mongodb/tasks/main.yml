@@ -3,12 +3,20 @@
 # Type: task
 # Part: MongoDB
 
+## Variable
+- set_fact:
+    mongodb_service: "mongod"
+  when: mongodb_apt_flavor == "org"
+- set_fact:
+    mongodb_service: "mongodb"
+  when: mongodb_apt_flavor == "10gen"
+
 ## Install
 - include: install-arm.yml
   when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
-- service: name=mongodb state=stopped enabled=yes
+- service: name={{ mongodb_service }} state=stopped enabled=yes
   when: ansible_distribution == 'Ubuntu'
 
 ## Install ansible related packages
@@ -28,18 +36,18 @@
 
 ## Configure MongoDB
 - name: MongoDB | Backup configuration
-  shell: creates=/etc/mongodb.conf.orig cp /etc/mongodb.conf /etc/mongodb.conf.orig
+  shell: creates=/etc/{{ mongodb_service }}.conf.orig cp /etc/{{ mongodb_service }}.conf /etc/{{ mongodb_service }}.conf.orig
   ignore_errors: True
   register: result
-- fetch: src=/etc/mongodb.conf.orig dest=fetched
+- fetch: src=/etc/{{ mongodb_service }}.conf.orig dest=fetched
   when: result|changed
 - name: MongoDB | Ensure log folder exists
   file: path=/var/log/mongodb state=directory owner={{ mongodb_user }} group={{ mongodb_group }} mode=0755
 - name: MongoDB | Deploy configuration
-  template: src=mongodb.conf.j2 dest=/etc/mongodb.conf owner=root group=root mode=0644 backup=yes
-  notify: restart mongodb
+  template: src=mongod.conf.j2 dest=/etc/{{ mongodb_service }}.conf owner=root group=root mode=0644 backup=yes
+  notify: restart mongod
   register: result
-- fetch: src=/etc/mongodb.conf dest=fetched
+- fetch: src=/etc/{{ mongodb_service }}.conf dest=fetched
   when: result|changed
 
 ## Configure service
@@ -52,4 +60,4 @@
 
 ## Check service
 - name: MongoDB | Check service daemon
-  service: name=mongodb state=started enabled=yes
+  service: name={{ mongodb_service }} state=started enabled=yes

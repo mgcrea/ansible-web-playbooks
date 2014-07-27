@@ -12,4 +12,4 @@
     creates={{ mongodb_path }}/.ansible
 - name: MongoDB | Link databases
   action: file state=link src={{ mongodb_path }} path=/var/lib/mongodb force=yes
-  notify: restart mongodb
+  notify: restart mongod

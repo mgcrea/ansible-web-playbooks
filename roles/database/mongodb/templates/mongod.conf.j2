@@ -1,6 +1,6 @@
 # Ansible managed
 
-# mongodb.conf
+# {{ mongodb_service }}.conf
 
 # Where to store the data.
 
@@ -10,14 +10,16 @@
 dbpath = {{ mongodb_path }}
 
 #where to log
-logpath=/var/log/mongodb/mongodb.log
+logpath = /var/log/mongodb/{{ mongodb_service }}.log
 
-logappend=true
+logappend = true
 
 port = {{ mongodb_port }}
 
-# Disables write-ahead journaling
+# Listen to local interface only. Comment out to listen on all interfaces.
+bind_ip = 127.0.0.1
 
+# Disables write-ahead journaling
 {% if ansible_mounts[0].mount == '/.dockerinit' or ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
 journal = true
 smallfiles = true
@@ -70,26 +72,12 @@ noprealloc = true
 # Specify .ns file size for new databases.
 # nssize = <size>
 
-# Accout token for Mongo monitoring server.
-#mms-token = <token>
-
-# Server name for Mongo monitoring server.
-#mms-name = <server-name>
-
-# Ping interval for Mongo monitoring server.
-#mms-interval = <seconds>
-
 # Replication Options
 
-# in master/slave replicated mongo databases, specify here whether
-# this is a slave or master
-#slave = true
-#source = master.example.com
-# Slave only: specify a single database to replicate
-#only = master.example.com
-# or
-#master = true
-#source = slave.example.com
-
-# in replica set configuration, specify the name of the replica set
-# replSet = setname
+# in replicated mongo databases, specify the replica set name here
+#replSet=setname
+# maximum size in megabytes for replication operation log
+#oplogSize=1024
+# path to a key file storing authentication info for connections
+# between replica set members
+#keyFile=/path/to/keyfile

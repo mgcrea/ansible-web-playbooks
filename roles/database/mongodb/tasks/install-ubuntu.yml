@@ -9,5 +9,5 @@
 - name: MongoDB | Install ppa
   apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
 - name: MongoDB | Install package
-  apt: name=mongodb-10gen state={{ mongodb_apt_state }}
-  notify: restart mongodb
+  apt: name=mongodb-{{ mongodb_apt_flavor }} state={{ mongodb_apt_state }}
+  notify: restart mongod

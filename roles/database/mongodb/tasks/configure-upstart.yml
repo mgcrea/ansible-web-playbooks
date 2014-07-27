@@ -4,20 +4,20 @@
 # Part: MongoDB
 
 - name: MongoDB | Backup service configuration
-  shell: creates=/etc/init/mongodb.conf.orig.disabled cp /etc/init/mongodb.conf /etc/init/mongodb.conf.orig.disabled
+  shell: creates=/etc/init/{{ mongodb_service }}.conf.orig.disabled cp /etc/init/{{ mongodb_service }}.conf /etc/init/{{ mongodb_service }}.conf.orig.disabled
   ignore_errors: True
   register: result
-- fetch: src=/etc/init/mongodb.conf.orig.disabled dest=fetched
+- fetch: src=/etc/init/{{ mongodb_service }}.conf.orig.disabled dest=fetched
   when: result|changed
 - name: MongoDB | Deploy service configuration
-  template: src=init.d_mongodb.j2 dest=/etc/init.d/mongodb owner=root group=root mode=0755 backup=no
+  template: src=init.d_mongod.j2 dest=/etc/init.d/{{ mongodb_service }} owner=root group=root mode=0755 backup=no
   when: ansible_distribution == 'Debian'
-  notify: restart mongodb
+  notify: restart mongod
   register: result
 - name: MongoDB | Deploy upstart service configuration
-  template: src=init_mongodb.conf.j2 dest=/etc/init/mongodb.conf owner=root group=root mode=0755 backup=no
+  template: src=init_mongod.conf.j2 dest=/etc/init/{{ mongodb_service }}.conf owner=root group=root mode=0755 backup=no
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linaro'
-  notify: restart mongodb
+  notify: restart mongod
   register: result
-- fetch: src=/etc/init/mongodb.conf dest=fetched
+- fetch: src=/etc/init/{{ mongodb_service }}.conf dest=fetched
   when: result|changed
