@@ -6,6 +6,10 @@
 - name: Redis | Deploy supervisor service configuration
   template: src=supervisor_conf.d_redis-server.conf.j2 dest=/etc/supervisor/conf.d/redis-server.conf owner=root group=root mode=0644 backup=no
   register: result
+- name: Redis | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
 - name: Redis | Deploy supervisor service configuration
   supervisorctl: name=program:redis-server state=started config=/etc/supervisor/supervisord.conf
   when: result|changed
+# - service: name=redis-server state=stopped enabled=no
