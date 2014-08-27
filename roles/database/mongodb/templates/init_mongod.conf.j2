@@ -1,8 +1,16 @@
 # Ansible managed
 
-# Ubuntu upstart file at /etc/init/mongodb.conf
+# Ubuntu upstart file at /etc/init/mongod.conf
 
-limit nofile 20000 20000
+# Recommended ulimit values for mongod or mongos
+# See http://docs.mongodb.org/manual/reference/ulimit/#recommended-settings
+#
+limit fsize unlimited unlimited
+limit cpu unlimited unlimited
+limit as unlimited unlimited
+limit nofile 64000 64000
+limit rss unlimited unlimited
+limit nproc 32000 32000
 
 kill timeout 300 # wait 300s between SIGTERM and SIGKILL.
 
@@ -15,11 +23,27 @@ start on runlevel [2345]
 stop on runlevel [06]
 
 script
-  ENABLE_MONGODB="yes"
-  if [ -f /etc/default/mongodb ]; then . /etc/default/mongodb; fi
-{% if ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
-  if [ "x$ENABLE_MONGODB" = "xyes" ]; then exec start-stop-daemon --start --quiet --chuid mongodb --exec  /usr/local/bin/mongod -- --config /etc/mongodb.conf; fi
-{% else %}
-  if [ "x$ENABLE_MONGODB" = "xyes" ]; then exec start-stop-daemon --start --quiet --chuid mongodb --exec  /usr/bin/mongod -- --config /etc/mongodb.conf; fi
-{% endif %}
+  ENABLE_MONGOD="yes"
+  CONF=/etc/{{ mongodb_service }}.conf
+  DAEMON=/usr/bin/mongod
+  DAEMONUSER=${DAEMONUSER:-mongodb}
+
+  if [ -f /etc/default/{{ mongodb_service }} ]; then . /etc/default/{{ mongodb_service }}; fi
+
+  # Handle NUMA access to CPUs (SERVER-3574)
+  # This verifies the existence of numactl as well as testing that the command works
+  NUMACTL_ARGS="--interleave=all"
+  if which numactl >/dev/null 2>/dev/null && numactl $NUMACTL_ARGS ls / >/dev/null 2>/dev/null
+  then
+    NUMACTL="$(which numactl) -- $NUMACTL_ARGS"
+    DAEMON_OPTS=${DAEMON_OPTS:-"--config $CONF"}
+  else
+    NUMACTL=""
+    DAEMON_OPTS="-- "${DAEMON_OPTS:-"--config $CONF"}
+  fi
+
+  if [ "x$ENABLE_MONGOD" = "xyes" ]
+  then
+    exec start-stop-daemon --start --chuid $DAEMONUSER --exec $NUMACTL $DAEMON $DAEMON_OPTS
+  fi
 end script
