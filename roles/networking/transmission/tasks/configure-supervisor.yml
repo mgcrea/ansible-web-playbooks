@@ -1,0 +1,15 @@
+---
+# File: configure-supervisor.yml
+# Type: task
+# Part: Transmission
+
+- name: Transmission | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_transmission-daemon.conf.j2 dest=/etc/supervisor/conf.d/transmission-daemon.conf owner=root group=root mode=0644 backup=no
+  register: result
+- name: Transmission | Disable init service
+  service: name=transmission-daemon state=stopped enabled=no
+- name: Transmission | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
+- name: Transmission | Start service
+  supervisorctl: name=program:transmission-daemon state=restarted config=/etc/supervisor/supervisord.conf

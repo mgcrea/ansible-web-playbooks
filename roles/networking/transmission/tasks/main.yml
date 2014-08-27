@@ -10,3 +10,27 @@
   apt_repository: repo=ppa:transmissionbt/ppa state=present
 - name: Transmission | Install package
   apt: name=transmission-daemon state={{ transmission_apt_state }}
+
+## Configuration
+- name: Transmission | Stop service
+  service: name=transmission-daemon state=stopped
+- name: Transmission | Backup configuration
+  shell: creates=/etc/transmission-daemon/settings.json.orig cp /etc/transmission-daemon/settings.json /etc/transmission-daemon/settings.json.orig
+  ignore_errors: True
+  register: result
+- name: Transmission | Ensure log file exists
+  file: path=/var/log/transmission-daemon.log state=touch owner={{ transmission_user }} group={{ transmission_group }} mode=0660
+- fetch: src=/etc/transmission-daemon/settings.json.orig dest=fetched
+  when: result|changed
+- name: Transmission | Deploy configuration
+  template: src=transmission-daemon_settings.json.j2 dest=/etc/transmission-daemon/settings.json owner={{ transmission_user }} group={{ transmission_group }} mode=0600
+  register: result
+- fetch: src=/etc/transmission-daemon/settings.json dest=fetched
+  when: result|changed
+
+## Service
+# - include: configure-upstart.yml
+#   when: ansible_mounts[0].mount != '/.dockerinit'
+- include: configure-supervisor.yml
+  when: docker == 1 or ansible_mounts[0].mount == '/.dockerinit'
+
