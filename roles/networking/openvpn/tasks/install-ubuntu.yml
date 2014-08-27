@@ -5,5 +5,7 @@
 
 ## Install
 - name: OpenVPN | Install package
-  apt: name=openvpn state={{ openvpn_apt_state }}
+  apt: name={{ item }} state={{ openvpn_apt_state }}
+  with_items:
+    - openvpn
   notify: restart openvpn

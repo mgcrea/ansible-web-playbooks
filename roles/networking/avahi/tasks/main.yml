@@ -4,9 +4,9 @@
 # Part: Avahi
 
 
+- debug: msg='{{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}'
 - name: Avahi | Change hostname
-  hostname: name={{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}
-- debug: msg={{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}
+  hostname: name='{{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}'
 - name: Avahi | Setup hosts
   template: src=hosts.j2 dest=/etc/hosts
 - name: Avahi | Fetch hosts
