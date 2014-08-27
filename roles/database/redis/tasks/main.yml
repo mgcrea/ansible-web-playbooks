@@ -17,7 +17,7 @@
 
 ## Configure user
 - name: Redis | Setup group
-  user: name={{ redis_group }}
+  group: name={{ redis_group }}
 - name: Redis | Setup user
   user: name={{ redis_user }} group={{ redis_group }} home="/var/lib/redis" shell="/bin/false" comment="Redis Server"
 
