@@ -1,0 +1,5 @@
+[program:nodejs]
+command=/usr/bin/nodejs
+directory={{ nodejs_path }}
+environment=USER={{ nodejs_user }},HOME={{ nodejs_path }},NODE_ENV=production,NODE_PATH={{ nodejs_path }}
+user={{ nodejs_user }}
