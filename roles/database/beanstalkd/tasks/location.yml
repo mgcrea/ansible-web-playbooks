@@ -6,10 +6,10 @@
 
 ## Setup custom location
 - name: Beanstalkd | Setup directory
-  action: file state=directory dest={{ beanstalkd_path }} mode=700 owner={{ beanstalkd_user }} group={{ beanstalkd_group }}
+  file: state=directory dest={{ beanstalkd_path }} mode=700 owner={{ beanstalkd_user }} group={{ beanstalkd_group }}
 - name: Beanstalkd | Move databases
   shell: service beanstalkd stop; cp -rf /var/lib/beanstalkd/* {{ beanstalkd_path }}; touch {{ beanstalkd_path }}/.ansible; chown -R {{ beanstalkd_user }}:{{ beanstalkd_group }} {{ beanstalkd_path }}; rm -rf /var/lib/beanstalkd
     creates={{ beanstalkd_path }}/.ansible
 - name: Beanstalkd | Link databases
-  action: file state=link src={{ beanstalkd_path }} path=/var/lib/beanstalkd force=yes
+  file: state=link src={{ beanstalkd_path }} path=/var/lib/beanstalkd force=yes
   notify: restart beanstalkd

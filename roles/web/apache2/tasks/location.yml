@@ -6,10 +6,10 @@
 
 ## Setup custom location
 - name: Apache2 | Setup directory
-  action: file state=directory dest={{ apache2_path }} mode=700 owner={{ apache2_user }} group={{ apache2_group }}
+  file: state=directory dest={{ apache2_path }} mode=700 owner={{ apache2_user }} group={{ apache2_group }}
 - name: Apache2 | Move directory
   shell: service apache2 stop; cp -rf /var/www/* {{ apache2_path }}; touch {{ apache2_path }}/.ansible; chown -R {{ apache2_user }}:{{ apache2_group }} {{ apache2_path }}; rm -rf /var/www
     creates={{ apache2_path }}/.ansible
 - name: Apache2 | Link directories
-  action: file state=link src={{ apache2_path }} path=/var/www force=yes
+  file: state=link src={{ apache2_path }} path=/var/www force=yes
   notify: restart apache2

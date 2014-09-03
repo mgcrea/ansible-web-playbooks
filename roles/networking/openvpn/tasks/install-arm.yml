@@ -10,7 +10,7 @@
     - libpam0g-dev
     - libssl-dev
 - name: OpenVPN | ARM | Fetch package
-  action: get_url url=http://swupdate.openvpn.org/community/releases/openvpn-{{ openvpn_arm_version }}.tar.gz dest=/opt
+  get_url: url=http://swupdate.openvpn.org/community/releases/openvpn-{{ openvpn_arm_version }}.tar.gz dest=/opt
     sha256sum={{ openvpn_arm_shasum }}
   register: result
 - name: OpenVPN | ARM | Extract package

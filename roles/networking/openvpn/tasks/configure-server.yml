@@ -10,7 +10,7 @@
 
 ## Server setup
 # - name: OpenVPN | EasyRSA | Fetch package
-#   action: get_url url=https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.0-rc1/EasyRSA-3.0.0-rc1.tgz dest=/opt/easyrsa-v3.0.0-rc1.tgz
+#   get_url: url=https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.0-rc1/EasyRSA-3.0.0-rc1.tgz dest=/opt/easyrsa-v3.0.0-rc1.tgz
 #     sha256sum=3ee5f197120f25de772ae352616593120efca3d18c0afcaec5bd236c639bd952
 #   register: result
 # - name: OpenVPN | EasyRSA | Extract package
