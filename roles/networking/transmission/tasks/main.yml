@@ -27,6 +27,8 @@
   register: result
 - fetch: src=/etc/transmission-daemon/settings.json dest=fetched
   when: result|changed
+- name: Transmission | Create base directories
+  file: state=directory path={{ transmission_path_incompletes }} owner={{ transmission_user }} group={{ transmission_group }} mode=0770
 
 ## Service
 # - include: configure-upstart.yml

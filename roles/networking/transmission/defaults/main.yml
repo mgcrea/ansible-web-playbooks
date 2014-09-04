@@ -16,3 +16,4 @@ transmission_group: "debian-transmission"
 
 # Default base directory (without trailing '/')
 transmission_path: "/var/lib/transmission-daemon"
+transmission_path_incompletes: "/var/lib/transmission-daemon/incompletes"
