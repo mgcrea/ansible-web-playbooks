@@ -6,7 +6,7 @@
 - name: Redis | Install package
   apt: name=build-essential state=latest
 - name: Redis | ARM | Fetch package
-  action: get_url url=http://download.redis.io/releases/redis-2.8.6.tar.gz dest=/opt
+  get_url: url=http://download.redis.io/releases/redis-2.8.6.tar.gz dest=/opt
     sha256sum=efd0c9cb8d2696db44d8cb8309fed96607f68b93bb126615e64bff364e716658
   register: result
 - name: Redis | ARM | Extract package

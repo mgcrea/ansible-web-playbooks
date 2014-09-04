@@ -4,7 +4,7 @@
 # Part: NodeJS | Cubieboard
 
 - name: NodeJS | armv7l | Fetch package
-  action: get_url url=http://s3.armhf.com/debian/precise/node-v0.10.21-precise-armhf.tar.xz dest=/opt
+  get_url: url=http://s3.armhf.com/debian/precise/node-v0.10.21-precise-armhf.tar.xz dest=/opt
     sha256sum=284710e6720aa808f788b59b6ce253739aa6a59f4a5f5e94dd84c5bf306b51d7
   register: result
 - name: NodeJS | armv7l | Install package

@@ -5,10 +5,10 @@
 
 ## Setup custom location
 - name: Redis | Setup directory
-  action: file state=directory dest={{ redis_path }} mode=700 owner={{ redis_user }} group={{ redis_group }}
+  file: state=directory dest={{ redis_path }} mode=700 owner={{ redis_user }} group={{ redis_group }}
 - name: Redis | Move databases
   shell: service redis-server stop; cp -rf /var/lib/redis/* {{ redis_path }}; touch {{ redis_path }}/.ansible; chown -R {{ redis_user }}:{{ redis_group }} {{ redis_path }}; rm -rf /var/lib/redis
     creates={{ redis_path }}/.ansible
 - name: Redis | Link databases
-  action: file state=link src={{ redis_path }} path=/var/lib/redis force=yes
+  file: state=link src={{ redis_path }} path=/var/lib/redis force=yes
   notify: restart redis
