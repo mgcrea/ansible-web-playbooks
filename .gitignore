@@ -7,4 +7,5 @@ fetched/
 *.sublime-workspace
 node_modules/
 docker_inventory
+inventory
 !.gitignore
