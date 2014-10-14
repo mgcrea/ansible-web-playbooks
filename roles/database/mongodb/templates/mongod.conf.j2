@@ -20,7 +20,7 @@ port = {{ mongodb_port }}
 bind_ip = 127.0.0.1
 
 # Disables write-ahead journaling
-{% if ansible_mounts[0].mount == '/.dockerinit' or ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
+{% if docker or ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
 journal = true
 smallfiles = true
 noprealloc = true

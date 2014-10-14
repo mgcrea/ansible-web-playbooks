@@ -52,12 +52,14 @@
 
 ## Configure service
 - include: configure-upstart.yml
-  when: ansible_mounts[0].mount != '/.dockerinit'
-  # when: ansible_mounts|map(attribute='mount')|intersect(['/.dockerinit'])|length == 0
+  when: not docker
 - include: configure-supervisor.yml
-  when: ansible_mounts[0].mount == '/.dockerinit'
-  # when: ansible_mounts|map(attribute='mount')|intersect(['/.dockerinit'])|length == 1
+  when: docker
 
 ## Check service
 - name: MongoDB | Check service daemon
   service: name={{ mongodb_service }} state=started enabled=yes
+
+## Setup MMS
+# - include: mms.yml
+#  when: "'{{ mms_api_key }}' != ''"
