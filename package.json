@@ -1,7 +1,7 @@
 {
   "name": "ansible-web-playbooks",
   "description": "Playbook roles for the web, modern server orchestration powered by Ansible",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "keywords": [
     "ansible",
     "playbook",
