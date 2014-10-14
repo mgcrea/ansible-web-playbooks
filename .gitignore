@@ -2,6 +2,7 @@
 .tmp/
 .vagrant/
 fetched/
+vars/
 .DS_Store
 *.sublime-project
 *.sublime-workspace
