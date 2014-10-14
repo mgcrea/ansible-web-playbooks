@@ -41,10 +41,9 @@
 
 ## Configure service
 - include: configure-init.yml
-  when: ansible_mounts[0].mount != '/.dockerinit'
+  when: not docker
 - include: configure-supervisor.yml
-  when: ansible_mounts[0].mount == '/.dockerinit'
-
+  when: docker
 
 ## Make sure service is running
 - name: Redis | Check daemon
