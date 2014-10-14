@@ -1,0 +1,48 @@
+---
+# File: main.yml
+# Type: task
+# Part: varnish
+
+- name: Varnish | Install required packages
+  apt: name=apt-transport-https state=present
+
+## Install
+- name: Varnish | Install ppa key
+  apt_key: id=C4DEFFEB url=https://repo.varnish-cache.org/ubuntu/GPG-key.txt state=present
+- name: Varnish | Install ppa
+  apt_repository: repo="deb https://repo.varnish-cache.org/ubuntu/ {{ ansible_distribution_release }} {{ varnish_apt_flavor }}" state=present
+- name: Varnish | Install package
+  apt: name=varnish state={{ varnish_apt_state }}
+
+
+## Setup custom location
+# - include: location.yml
+#   when: "'{{ varnish_path }}' != '/var/www'"
+
+## Configure
+- name: Varnish | Backup configuration
+  shell: creates=/etc/default/varnish.orig cp /etc/default/varnish /etc/default/varnish.orig
+  register: result
+- fetch: src=/etc/default/varnish.orig dest=fetched
+  when: result|changed
+- name: Varnish | Deploy configuration
+  template: src=default_varnish.j2 dest=/etc/default/varnish owner=root mode=0644 backup=yes
+  notify: restart varnish
+  register: result
+- fetch: src=/etc/default/varnish dest=fetched
+  when: result|changed
+
+- name: Varnish | Deploy configuration
+  template: src=varnish_default.vcl.j2 dest=/etc/varnish/default.vcl owner=root mode=0644 backup=yes
+  notify: restart varnish
+
+## Configure service
+- include: configure-init.yml
+  when: not docker
+- include: configure-supervisor.yml
+  when: docker
+
+## Check service
+- name: Varnish | Check service daemon
+  service: name=varnish state=started
+

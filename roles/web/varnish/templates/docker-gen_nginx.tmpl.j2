@@ -1,0 +1,31 @@
+{{ range $host, $containers := groupByMulti $ "Env.VIRTUAL_HOST" "," }}
+backend {{ $host }} {
+{{ range $index, $value := $containers }}
+  {{ $addrLen := len $value.Addresses }}{{ if gt $addrLen 0 }}
+  {{ with $address := index $value.Addresses 0 }}
+  .host = "{{ $address.IP }}";
+  .port = "{{ $address.Port }}";
+  {{ end }}
+  {{ end }}
+{{ end }}
+}
+
+director lb round-robin {
+
+{{ range $index, $value := $containers }}
+  {{ $addrLen := len $value.Addresses }}{{ if gt $addrLen 0 }}
+  {{ with $address := index $value.Addresses 0 }}
+  {
+    .backend = {{ $host }};
+  }
+  {{ end }}
+  {{ end }}
+{{ end }}
+
+}
+
+sub vcl_recv {
+  set req.backend = lb;
+}
+
+{{ end }}

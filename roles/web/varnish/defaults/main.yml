@@ -1,0 +1,24 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Varnish
+
+
+# Aptitude state
+varnish_apt_state: "latest"
+varnish_apt_flavor: "varnish-4.0"
+
+# Network configuration
+varnish_bind_address: "*"
+varnish_port_http: 80
+varnish_port_https: 443
+
+# User and group
+varnish_user: "varnish"
+varnish_group: "varnish"
+
+# Default base directory (without trailing '/')
+varnish_path: "/var/www"
+
+# Configuration
+varnish_ttl: 3600 # 120

@@ -1,0 +1,9 @@
+[program:varnishd]
+command=/usr/sbin/varnishd -F -a :6081 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,1G
+environment=USER=varnish,HOME=/var/www,
+user=varnish
+
+[program:varnishlog]
+command=/usr/bin/varnishlog
+environment=USER={{ varnish_user }},HOME={{ varnish_path }},
+user={{ varnish_user }}

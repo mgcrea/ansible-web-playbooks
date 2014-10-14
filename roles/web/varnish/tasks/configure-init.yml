@@ -1,0 +1,17 @@
+---
+# File: main.yml
+# Type: task
+# Part: Varnish | Configure Init
+
+- name: Varnish | Backup service configuration
+  shell: creates=/etc/init.d/varnish.orig.disabled cp /etc/init.d/varnish /etc/init.d/varnish.orig.disabled
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/init.d/varnish.orig.disabled dest=fetched
+  when: result|changed
+- name: Varnish | Deploy service configuration
+  template: src=init.d_varnish.j2 dest=/etc/init.d/varnish owner=root group=root mode=0755 backup=no
+  notify: restart varnish
+  register: result
+- fetch: src=/etc/init.d/varnish dest=fetched
+  when: result|changed

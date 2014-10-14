@@ -1,0 +1,10 @@
+---
+# Type: task
+# Part: Varnish
+
+- name: Varnish | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_varnishd.conf.j2 dest=/etc/supervisor/conf.d/varnishd.conf owner=root group=root mode=0644 backup=no
+  register: result
+- name: Varnish | Deploy supervisor service configuration
+  supervisorctl: name=program:varnish state=started config=/etc/supervisor/supervisord.conf
+  when: result|changed
