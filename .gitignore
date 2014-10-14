@@ -1,6 +1,7 @@
 .dev/
 .tmp/
 .vagrant/
+group_vars/
 fetched/
 vars/
 .DS_Store

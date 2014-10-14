@@ -19,15 +19,19 @@ Set of playbook roles to orchestrate your web servers, powered by Ansible.
     │   ├── avahi
     │   ├── interfaces
     │   ├── openvpn
-    │   └── transmission
+    │   ├── transmission
+    │   └── x2go
     ├── system
+    │   ├── boot
     │   ├── docker
+    │   ├── sudo
     │   └── vlc
     └── web
         ├── apache2
         ├── nginx
         ├── nodejs
-        └── php5
+        ├── php5
+        └── varnish
 
 ## Documentation and examples
 

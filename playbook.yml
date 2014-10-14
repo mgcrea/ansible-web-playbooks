@@ -4,6 +4,14 @@
 # @cli vagrant destroy; vagrant up; rm -rf fetched/*
 # @cli ansible-playbook -i vagrant_inventory playbook.yml
 
+- name: Aptitude update
+  hosts: all
+  sudo: yes
+  tags: apt_update
+  tasks:
+    - name: Setup | Update aptitude
+      apt: update_cache=yes cache_valid_time=3600
+
 - name: Ansible setup
   hosts: all
   sudo: yes
@@ -16,7 +24,7 @@
   sudo: yes
   roles:
     - role: ansible/facts
-      tags: facts
+      tags: ansible_facts
 
 - name: Setup ansible accelerated mode
   hosts: all
@@ -35,22 +43,30 @@
   sudo: yes
   roles:
     - role: system/docker
-      tags: docker
+      tags: system_docker
+    - role: system/boot
+      tags: system_boot
     - role: database/beanstalkd
-      tags: beanstalkd
+      tags: database_beanstalkd
     - role: database/mysql
-      tags: mysql
+      tags: database_mysql
     - role: database/mongodb
-      tags: mongodb
+      tags: database_mongodb
     - role: database/redis
-      tags: redis
+      tags: database_redis
     - role: web/apache2
-      tags: apache2
+      tags: web_apache2
     - role: web/nginx
-      tags: nginx
+      tags: web_nginx
     - role: web/nodejs
-      tags: nodejs
+      tags: web_nodejs
     - role: web/php5
-      tags: php5
+      tags: web_php5
+    - role: web/varnish
+      tags: web_varnish
     - role: networking/transmission
-      tags: transmission
+      tags: networking_transmission
+    - role: networking/openvpn
+      tags: networking_openvpn
+    - role: networking/avahi
+      tags: networking_avahi
