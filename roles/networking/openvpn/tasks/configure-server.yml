@@ -1,18 +1,55 @@
 
 # @doc https://github.com/OpenVPN/easy-rsa/blob/master/README.quickstart.md
 #  ./easyrsa init-pki force; ./easyrsa initca
+# @cli cd /etc/openvpn; sudo rm ~/openvpn.tgz; sudo tar -cvzf ~/openvpn.tgz *;sudo chmod 600 ~/openvpn.tgz;sudo chown `whoami`:`whoami` ~/openvpn.tgz
+# @cli rsync -avzP asia:~/openvpn.tgz ~/Downloads/
 
-# - name: OpenVPN | EasyRSA | Checkout project
-#   git: repo=https://github.com/OpenVPN/easy-rsa.git accept_hostkey=True
-#        remote=github version=master
-#        dest=/usr/local/etc/easyrsa
+# ./easyrsa init-pki
+# ./easyrsa build-ca ca@asia.carlipa-online.com nopass
+# ./easyrsa build-server-full server@asia.carlipa-online.com nopass
+# ./easyrsa build-client-full admin@asia.carlipa-online.com nopass
+# ./easyrsa build-client-full player@asia.carlipa-online.com nopass
+#  rm -rf easyrsa/easyrsa3/vars easyrsa/easyrsa3/pki pki
+
+- name: OpenVPN | EasyRSA | Checkout project
+  git: repo=https://github.com/OpenVPN/easy-rsa.git accept_hostkey=True
+       remote=github version=master
+       dest=/etc/openvpn/easyrsa
+- name: OpenVPN | EasyRSA | Link project
+  file: src=./easyrsa/easyrsa3/pki dest=/etc/openvpn/pki owner=root group=root force=yes state=link
+
+- name: OpenVPN | Deploy vars configuration
+  template: src=vars.j2 dest=/etc/openvpn/easyrsa/easyrsa3/vars owner=root group=root mode=0644
+  register: result
+- name: OpenVPN | Intialize PKI
+  shell: echo 'yes' | ./easyrsa init-pki chdir=/etc/openvpn/easyrsa/easyrsa3
+  when: result | changed
+- name: OpenVPN | Build CA
+  shell: ./easyrsa build-ca nopass --req-cn ca@{{ openvpn_server_name }} chdir=/etc/openvpn/easyrsa/easyrsa3
+  when: result | changed
+- name: OpenVPN | Build Server
+  shell: ./easyrsa build-server-full server@{{ openvpn_server_name }} nopass --req-cn server@{{ openvpn_server_name }} chdir=/etc/openvpn/easyrsa/easyrsa3
+  when: result | changed
+- name: OpenVPN | Build Clients
+  shell: ./easyrsa build-client-full {{ item }}@{{ openvpn_server_name }} nopass --req-cn {{ item }}@{{ openvpn_server_name }} chdir=/etc/openvpn/easyrsa/easyrsa3
+  when: result | changed
+  with_items:
+    - admin
+    - player
+- name: OpenVPN | Build dh.pem
+  shell: ./easyrsa gen-dh chdir=/etc/openvpn/easyrsa/easyrsa3
+  when: result | changed
+- name: OpenVPN | Build ta.key
+  shell: openvpn --genkey --secret ta.key chdir=/etc/openvpn/easyrsa/easyrsa3/pki
+  when: result | changed
+- name: OpenVPN | Archive configuration
+  shell: rm /root/openvpn.tgz; tar -cvzf /root/openvpn.tgz * chdir=/etc/openvpn #creates=/root/openvpn.tgz
+  # when: result | changed
+- fetch: src=/root/openvpn.tgz dest=fetched
+  # when: result | changed
 
 
-## Server setup
-# - name: OpenVPN | EasyRSA | Fetch package
-#   get_url: url=https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.0-rc1/EasyRSA-3.0.0-rc1.tgz dest=/opt/easyrsa-v3.0.0-rc1.tgz
-#     sha256sum=3ee5f197120f25de772ae352616593120efca3d18c0afcaec5bd236c639bd952
-#   register: result
-# - name: OpenVPN | EasyRSA | Extract package
-#   shell: mkdir -p /opt/tmp/easyrsa-v3.0.0-rc1; tar -xzf /opt/easyrsa-v3.0.0-rc1.tgz -C /opt/tmp/easyrsa-v3.0.0-rc1 --strip-components 1
-#   when: result | changed
+- name: OpenVPN | Deploy server configuration
+  template: src=server.conf.j2 dest=/etc/openvpn/{{ openvpn_server_name }}.conf owner=root group=root mode=0755 backup=no
+  notify: restart openvpn
+  register: result

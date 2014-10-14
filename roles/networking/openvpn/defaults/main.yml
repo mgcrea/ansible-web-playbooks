@@ -18,3 +18,12 @@ openvpn_group: "nogroup"
 
 # Default base directory (without trailing '/')
 openvpn_path: "/etc/openvpn"
+
+# Default easy rsa params
+easyrsa_req_country: "US"
+easyrsa_req_province: "California"
+easyrsa_req_city: "San Francisco"
+easyrsa_req_org: "Copyleft Certificate Co"
+easyrsa_req_email: "me@example.net"
+easyrsa_req_ou: "My Organizational Unit"
+easyrsa_key_size: 2048

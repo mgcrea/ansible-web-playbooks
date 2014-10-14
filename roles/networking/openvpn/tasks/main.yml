@@ -16,6 +16,9 @@
 - name: OpenVPN | Configure client
   include: configure-client.yml
   when: openvpn_config is defined and openvpn_type == 'client'
+- name: OpenVPN | Configure server
+  include: configure-server.yml
+  when: openvpn_config is defined and openvpn_type == 'server'
 
 ## Configure service
 - name: OpenVPN | Backup service configuration
