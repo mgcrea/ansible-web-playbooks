@@ -6,7 +6,7 @@
 # Run as a less privileged user for security reasons.
 user {{ nginx_user }} {{ nginx_group }};
 
-{% if ansible_mounts[0].mount == '/.dockerinit' %}
+{% if docker %}
 # Do not daemonize.
 daemon off;
 {% endif %}
