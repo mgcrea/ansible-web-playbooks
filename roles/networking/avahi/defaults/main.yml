@@ -5,3 +5,5 @@
 
 avahi_hostname_prefix: "server"
 avahi_apt_state: "latest"
+
+avahi_user: "avahi"

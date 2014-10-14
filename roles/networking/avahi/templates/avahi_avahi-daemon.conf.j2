@@ -30,7 +30,11 @@ use-ipv6=yes
 #deny-interfaces=eth1
 #check-response-ttl=no
 #use-iff-running=no
+{% if docker %}
+enable-dbus=no
+{% else %}
 #enable-dbus=yes
+{% endif %}
 #disallow-other-stacks=no
 #allow-point-to-point=no
 #cache-entries-max=4096
