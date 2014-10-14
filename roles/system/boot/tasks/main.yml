@@ -1,0 +1,19 @@
+---
+# File: main.yml
+# Type: task
+# Part: Boot
+
+## Grub
+- name: Boot | Configure grub
+  template: src=default_grub.j2 dest=/etc/default/grub
+            owner=root group=root mode=0644 backup=no
+  register: result
+- name: Boot | Configure grub
+  shell: update-grub
+  when: result | changed
+
+## rcS
+- name: Boot | Configure rcS
+  template: src=default_rcS.j2 dest=/etc/default/rcS
+            owner=root group=root mode=0644 backup=no
+
