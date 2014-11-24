@@ -1,0 +1,41 @@
+# Username to access the mongo server e.g. dbuser
+# Unnecessary if authentication is off
+USERNAME=""
+
+# Username to access the mongo server e.g. password
+# Unnecessary if authentication is off
+PASSWORD=""
+
+# Host name (or IP address) of mongo server e.g localhost
+DBHOST=127.0.0.1
+
+# Backup directory location e.g /backups
+BACKUPDIR="/srv/data/backups/mongodb"
+
+# Mail setup
+# What would you like to be mailed to you?
+# - log   : send only log file
+# - files : send log file and sql files as attachments (see docs)
+# - stdout : will simply output the log to the screen if run manually.
+# - quiet : Only send logs if an error occurs to the MAILADDR.
+MAILCONTENT="log"
+
+# Set the maximum allowed email size in k. (4000 = approx 5MB email [see docs])
+MAXATTSIZE="4000"
+
+# Email Address to send mail to? (user@domain.com)
+#MAILADDR=XXX
+
+
+# ============================================================
+# === ADVANCED OPTIONS ( Read the doc's below for details )===
+#=============================================================
+
+# Which day do you want weekly backups? (1 to 7 where 1 is Monday)
+DOWEEKLY=6
+
+# Command to run before backups (uncomment to use)
+#PREBACKUP="/etc/mongo-backup-pre"
+
+# Command run after backups (uncomment to use)
+#POSTBACKUP="/etc/mongo-backup-post"

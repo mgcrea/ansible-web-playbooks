@@ -60,6 +60,9 @@
 - name: MongoDB | Check service daemon
   service: name={{ mongodb_service }} state=started enabled=yes
 
+## Setup Backup
+- include: backup.yml
+
 ## Setup MMS
 # - include: mms.yml
 #  when: "'{{ mms_api_key }}' != ''"
