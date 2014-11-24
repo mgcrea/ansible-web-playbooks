@@ -33,15 +33,21 @@
 - name: OpenVPN | Build Clients
   shell: ./easyrsa build-client-full {{ item }}@{{ openvpn_server_name }} nopass --req-cn {{ item }}@{{ openvpn_server_name }} chdir=/etc/openvpn/easyrsa/easyrsa3
   when: result | changed
-  with_items:
-    - admin
-    - player
+  with_items: openvpn_users
+
 - name: OpenVPN | Build dh.pem
   shell: ./easyrsa gen-dh chdir=/etc/openvpn/easyrsa/easyrsa3
   when: result | changed
 - name: OpenVPN | Build ta.key
   shell: openvpn --genkey --secret ta.key chdir=/etc/openvpn/easyrsa/easyrsa3/pki
   when: result | changed
+- name: OpenVPN | Deploy server configuration
+  template: src=server.conf.j2 dest=/etc/openvpn/{{ openvpn_server_name }}.conf owner=root group=root mode=0755 backup=no
+  notify: restart openvpn
+  register: result
+- name: OpenVPN | Deploy logrotate configuration
+  template: src=logrotate.d_openvpn.j2 dest=/etc/logrotate.d/openvpn owner=root group=root mode=0644
+
 - name: OpenVPN | Archive configuration
   shell: rm /root/openvpn.tgz; tar -cvzf /root/openvpn.tgz * chdir=/etc/openvpn #creates=/root/openvpn.tgz
   # when: result | changed
@@ -49,7 +55,3 @@
   # when: result | changed
 
 
-- name: OpenVPN | Deploy server configuration
-  template: src=server.conf.j2 dest=/etc/openvpn/{{ openvpn_server_name }}.conf owner=root group=root mode=0755 backup=no
-  notify: restart openvpn
-  register: result

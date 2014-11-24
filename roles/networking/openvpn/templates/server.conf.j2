@@ -22,14 +22,18 @@
 
 # Which local IP address should OpenVPN
 # listen on? (optional)
-;local {{ openvpn_server }}
+{% if openvpn_server %}
+local {{ openvpn_server }}
+{% else %}
+;local a.b.c.d
+{% endif %}
 
 # Which TCP/UDP port should OpenVPN listen on?
 # If you want to run multiple OpenVPN instances
 # on the same machine, use a different port
 # number for each one.  You will need to
 # open up this port on your firewall.
-port {{ openvpn_port }}
+port {{ openvpn_port | default("1194") }}
 
 # TCP or UDP server?
 proto {{ openvpn_proto | default("udp") }}
@@ -289,7 +293,7 @@ log-append /var/log/openvpn.log
 # 4 is reasonable for general usage
 # 5 and 6 can help to debug connection problems
 # 9 is extremely verbose
-verb 6
+verb 4
 
 # Silence repeating messages.  At most 20
 # sequential messages of the same message

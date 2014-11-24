@@ -16,6 +16,9 @@ openvpn_port: 9091
 openvpn_user: "nobody"
 openvpn_group: "nogroup"
 
+openvpn_users:
+  - client
+
 # Default base directory (without trailing '/')
 openvpn_path: "/etc/openvpn"
 
