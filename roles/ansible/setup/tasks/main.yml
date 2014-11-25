@@ -7,6 +7,7 @@
 ## Install
 - name: Setup | Update aptitude
   apt: update_cache=yes cache_valid_time=3600
+  tags: apt_update
 - name: Setup | Install ansible required packages
   apt: name={{ item }} state=latest
   with_items:
@@ -15,3 +16,5 @@
     - python-pip
     - python-pycurl
     - python-software-properties
+- name: Setup | Install ansible locally
+  pip: name=ansible state=latest

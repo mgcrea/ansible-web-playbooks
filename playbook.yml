@@ -46,6 +46,8 @@
       tags: system_docker
     - role: system/boot
       tags: system_boot
+    - role: system/sudo
+      tags: system_sudo
     - role: database/beanstalkd
       tags: database_beanstalkd
     - role: database/mysql
@@ -70,3 +72,5 @@
       tags: networking_openvpn
     - role: networking/avahi
       tags: networking_avahi
+    - role: networking/btsync
+      tags: networking_btsync
