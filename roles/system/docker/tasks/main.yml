@@ -28,7 +28,7 @@
 - name: Docker | Install ppa
   apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present
 - name: Docker | Install package
-  apt: name=lxc-docker state={{ docker_apt_state }}
+  apt: name=docker.io state={{ docker_apt_state }}
 
 ## Check service
 - name: Docker | Check service daemon

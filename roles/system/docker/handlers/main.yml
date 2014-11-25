@@ -5,7 +5,7 @@
 
 
 - name: start docker
-  service: name=docker state=started
+  service: name=docker.io state=started
 
 - name: restart docker
-  service: name=docker state=restarted
+  service: name=docker.io state=restarted
