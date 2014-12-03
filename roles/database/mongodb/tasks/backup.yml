@@ -4,4 +4,4 @@
 - name: MongoDB | Deploy backup defaults
   template: src=default_automongobackup.j2 dest=/etc/default/automongobackup owner=root group=root mode=0644
 - name: MongoDB | Deploy backup script
-  template: src=sbin_automongobackup.j2 dest=/usr/sbin/automongobackup owner=root group=root mode=0755
+  copy: src=sbin_automongobackup dest=/usr/sbin/automongobackup owner=root group=root mode=0755

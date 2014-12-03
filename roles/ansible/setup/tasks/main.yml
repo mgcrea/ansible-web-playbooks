@@ -17,4 +17,6 @@
     - python-pycurl
     - python-software-properties
 - name: Setup | Install ansible locally
-  pip: name=ansible state=latest
+  pip: name={{ item }} state=latest
+  with_items:
+    - ansible
