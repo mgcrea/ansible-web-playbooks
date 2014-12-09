@@ -1,0 +1,7 @@
+---
+# File: main.yml
+# Type: task
+# Part: Sudo
+
+- name: System | Setup sudo
+  template: src=sudoers.d_sudo.j2 dest=/etc/sudoers.d/sudo
