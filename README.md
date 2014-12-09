@@ -1,4 +1,4 @@
-# [Ansible WebPlaybooks](http://mgcrea.github.io/ansible-web-playbooks) [![Build Status](https://secure.travis-ci.org/mgcrea/ansible-web-playbooks.png?branch=master)](http://travis-ci.org/#!/mgcrea/ansible-web-playbooks)
+# [Ansible WebPlaybooks](https://galaxy.ansible.com/list#/roles/441) [![Build Status](https://secure.travis-ci.org/mgcrea/ansible-web-playbooks.png?branch=master)](http://travis-ci.org/#!/mgcrea/ansible-web-playbooks)
 
 Set of playbook roles to orchestrate your web servers, powered by Ansible.
 
@@ -17,10 +17,10 @@ Set of playbook roles to orchestrate your web servers, powered by Ansible.
     │   └── redis
     ├── networking
     │   ├── avahi
+    │   ├── btsync
     │   ├── interfaces
     │   ├── openvpn
     │   ├── transmission
-    │   └── x2go
     ├── system
     │   ├── boot
     │   ├── docker
@@ -35,7 +35,7 @@ Set of playbook roles to orchestrate your web servers, powered by Ansible.
 
 ## Documentation and examples
 
-+ Check the [documentation](http://mgcrea.github.io/ansible-web-playbooks) and [changelog](https://github.com/mgcrea/ansible-web-playbooks/releases).
++ Check the [galaxy role](https://galaxy.ansible.com/list#/roles/441) and [changelog](https://github.com/mgcrea/ansible-web-playbooks/releases).
 
 
 
