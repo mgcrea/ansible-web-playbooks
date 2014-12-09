@@ -26,7 +26,7 @@
 - name: Docker | Install ppa key
   apt_key: id=A88D21E9 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x36A1D7869245C8950F966E92D8576A8BA88D21E9 state=present
 - name: Docker | Install ppa
-  apt_repository: repo='deb http://get.docker.io/ubuntu docker main' state=present
+  apt_repository: repo='deb https://get.docker.io/ubuntu docker main' state=present
 - name: Docker | Install package
   apt: name=lxc-docker state={{ docker_apt_state }}
 
