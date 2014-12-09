@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: BTSync
+
+- name: start btsync
+  service: name=btsync state=started
+
+- name: restart btsync
+  service: name=btsync state=restarted

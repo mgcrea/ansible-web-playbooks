@@ -1,0 +1,15 @@
+---
+# File: configure-supervisor.yml
+# Type: task
+# Part: BTSync
+
+- name: BTSync | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_btsync.conf.j2 dest=/etc/supervisor/conf.d/btsync.conf owner=root group=root mode=0644 backup=no
+  register: result
+- name: BTSync | Disable init service
+  service: name=btsync state=stopped enabled=no
+- name: BTSync | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
+- name: BTSync | Start service
+  supervisorctl: name=program:btsync state=restarted config=/etc/supervisor/supervisord.conf

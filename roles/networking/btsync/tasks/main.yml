@@ -1,0 +1,38 @@
+---
+# File: main.yml
+# Type: task
+# Part: BTSync
+
+## Install
+- name: BTSync | Install ppa key
+  apt_key: id=D294A752 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xD294A752 state=present
+- name: BTSync | Install ppa
+  apt_repository: repo=ppa:tuxpoldo/btsync state=present
+- name: BTSync | Install package
+  apt: name=btsync state={{ btsync_apt_state }}
+
+## Configuration
+- name: BTSync | Stop service
+  service: name=btsync state=stopped
+# - name: BTSync | Backup configuration
+#   shell: creates=/etc/BTSync-daemon/settings.json.orig cp /etc/BTSync-daemon/settings.json /etc/BTSync-daemon/settings.json.orig
+#   ignore_errors: True
+#   register: result
+# - name: BTSync | Ensure log file exists
+#   file: path=/var/log/BTSync-daemon.log state=touch owner={{ btsync_user }} group={{ btsync_group }} mode=0660
+# - fetch: src=/etc/BTSync-daemon/settings.json.orig dest=fetched
+#   when: result|changed
+# - name: BTSync | Deploy configuration
+#   template: src=BTSync-daemon_settings.json.j2 dest=/etc/BTSync-daemon/settings.json owner={{ btsync_user }} group={{ btsync_group }} mode=0600
+#   register: result
+# - fetch: src=/etc/BTSync-daemon/settings.json dest=fetched
+#   when: result|changed
+# - name: BTSync | Create base directories
+#   file: state=directory path={{ transmission_path_incompletes }} owner={{ transmission_user }} group={{ transmission_group }} mode=0770
+
+## Service
+# - include: configure-upstart.yml
+#   when: ansible_mounts[0].mount != '/.dockerinit'
+- include: configure-supervisor.yml
+  when: docker == 1 or ansible_mounts[0].mount == '/.dockerinit'
+

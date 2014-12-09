@@ -1,0 +1,4 @@
+[program:btsync-daemon]
+command=/usr/lib/btsync/btsync-daemon --nodaemon --log /var/log/btsync.log --config /etc/btsync/debconf-default.conf
+environment=USER={{ btsync_user }},HOME={{ btsync_path }},
+user={{ btsync_user }}

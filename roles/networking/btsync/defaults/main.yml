@@ -1,0 +1,18 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: BTSync
+
+# Aptitude state
+btsync_apt_state: "latest"
+
+# Network configuration
+btsync_bind_address: "127.0.0.1"
+btsync_port: 8888
+
+# User and group
+btsync_user: "btsync"
+btsync_group: "btsync"
+
+# Default base directory (without trailing '/')
+btsync_path: "/var/lib/btsync"
