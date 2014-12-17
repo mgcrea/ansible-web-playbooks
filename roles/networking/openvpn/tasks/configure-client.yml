@@ -14,11 +14,11 @@
   copy: src=vars/openvpn/{{ openvpn_config }}/{{ item }} dest=/etc/openvpn/{{ openvpn_config }}/{{item}} owner=root group=root mode=644 backup=no
   with_items:
     - ca.crt
-    - client.crt
+    - "{{ openvpn_key_name | default('client') }}.crt"
 - name: OpenVPN | Copy private keys
   copy: src=vars/openvpn/{{ openvpn_config }}/{{ item }} dest=/etc/openvpn/{{ openvpn_config }}/{{item}} owner=root group=root mode=600 backup=no
   with_items:
-    - client.key
     - ta.key
+    - "{{ openvpn_key_name | default('client') }}.key"
 - fetch: src=/etc/openvpn/{{ openvpn_config }}.conf dest=fetched
   when: result | changed

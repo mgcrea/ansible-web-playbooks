@@ -94,8 +94,8 @@ persist-tun
 # for each client.  A single ca
 # file can be used for all clients.
 ca {{ openvpn_config }}/ca.crt
-cert {{ openvpn_config }}/client.crt
-key {{ openvpn_config }}/client.key
+cert {{ openvpn_config }}/{{ openvpn_key_name | default('client') }}.crt
+key {{ openvpn_config }}/{{ openvpn_key_name | default('client') }}.key
 
 # Verify server certificate by checking
 # that the certicate has the nsCertType

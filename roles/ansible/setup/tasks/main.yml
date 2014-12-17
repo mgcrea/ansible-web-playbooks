@@ -20,3 +20,6 @@
   pip: name={{ item }} state=latest
   with_items:
     - ansible
+- name: Setup | Install ansible locally
+  shell: mkdir /etc/ansible; echo 'localhost ansible_connection=local' > /etc/ansible/hosts
+         creates=/etc/ansible/hosts
