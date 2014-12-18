@@ -15,10 +15,21 @@
   with_items:
     - ca.crt
     - "{{ openvpn_key_name | default('client') }}.crt"
+- name: OpenVPN | Decrypt private keys
+  shell: "echo {{ openvpn_key_password }} | openssl rsa -in {{ openvpn_key_name | default('client') }}.key.enc -out {{ openvpn_key_name | default('client') }}.key -passin stdin"
+  args:
+   chdir: "vars/openvpn/{{ openvpn_config }}"
+  when: openvpn_key_password is defined
+  register: decrypt_result
 - name: OpenVPN | Copy private keys
   copy: src=vars/openvpn/{{ openvpn_config }}/{{ item }} dest=/etc/openvpn/{{ openvpn_config }}/{{item}} owner=root group=root mode=600 backup=no
   with_items:
     - ta.key
     - "{{ openvpn_key_name | default('client') }}.key"
+- name: OpenVPN | Remove decrypted private keys
+  shell: "rm {{ openvpn_key_name | default('client') }}.key"
+  args:
+   chdir: "vars/openvpn/{{ openvpn_config }}"
+  when: openvpn_key_password is defined
 - fetch: src=/etc/openvpn/{{ openvpn_config }}.conf dest=fetched
   when: result | changed
