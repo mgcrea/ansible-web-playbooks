@@ -10,7 +10,7 @@
   shell: pecl list | grep -i 'mongo'
   register: result
   ignore_errors: yes
-- shell: pecl install mongo
+- shell: yes "" | pecl install mongo
   when: result|failed
 - name: MongoDB | PECL | Deploy configuration
   template: src=php5_conf.d_mongo.ini.j2 dest=/etc/php5/conf.d/20-mongo.ini owner=root mode=0644

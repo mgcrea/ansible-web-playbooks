@@ -1,3 +1,7 @@
+---
+# File: configure-backup.yml
+# Type: task
+# Part: MongoDB
 
 - name: MongoDB | Deploy backup crontab
   template: src=cron.daily_automongobackup.j2 dest=/etc/cron.daily/automongobackup owner=root group=root mode=0644

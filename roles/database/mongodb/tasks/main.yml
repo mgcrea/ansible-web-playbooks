@@ -28,6 +28,10 @@
 - include: location.yml
   when: "'{{ mongodb_path }}' != '/var/lib/mongodb'"
 
+## Setup php
+- include: php5.yml
+  when: mongodb_php5 is defined
+
 ## Configure user
 - name: MongoDB | Setup group
   user: name={{ mongodb_group }}
@@ -61,7 +65,8 @@
   service: name={{ mongodb_service }} state=started enabled=yes
 
 ## Setup Backup
-- include: backup.yml
+- include: configure-backup.yml
+  when: mongodb_backup == True
 
 ## Setup MMS
 # - include: mms.yml
