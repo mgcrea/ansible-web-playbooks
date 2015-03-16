@@ -9,3 +9,7 @@ docker_apt_state: "latest"
 # User and group
 docker_user: "www-data"
 docker_group: "www-data"
+
+# DockerGen
+docker_gen_version: "0.3.7"
+docker_gen_sha256sum: "98856acc90c11aa755acb545b0c4187505d4a8fa8ca4187cd5c90e91ae31feef"

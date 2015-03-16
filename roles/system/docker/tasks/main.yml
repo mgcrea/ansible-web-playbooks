@@ -9,7 +9,10 @@
 
 ## Kernel
 - name: Docker | Upgrade 12.04 kernel
-  apt: name=linux-image-generic-lts-saucy state=latest
+  apt: name={{ item }} state=latest
+  with_items:
+    - linux-image-generic-lts-trusty
+    - linux-headers-generic-lts-trusty
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
   register: kernel_updated
 - name: Docker | Reboot
@@ -29,6 +32,10 @@
   apt_repository: repo='deb https://get.docker.io/ubuntu docker main' state=present
 - name: Docker | Install package
   apt: name=lxc-docker state={{ docker_apt_state }}
+
+## DockerGen
+- name: Docker | Install DockerGen
+  include: docker-gen.yml
 
 ## Check service
 - name: Docker | Check service daemon
