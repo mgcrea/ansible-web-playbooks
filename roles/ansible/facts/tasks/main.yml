@@ -8,4 +8,4 @@
 - name: Facts | Generate facts
   template: src=hostvars.j2 dest=/tmp/facts.json
 - name: Facts | Fetch facts
-  fetch: src=/tmp/facts.json dest=fetched/{{ ansible_ssh_host }}/facts.json flat=yes fail_on_missing=yes
+  fetch: src=/tmp/facts.json dest=fetched/{{ group_names[0] | default('nogroup') }}/{{ ansible_hostname }}/facts.json flat=yes fail_on_missing=yes

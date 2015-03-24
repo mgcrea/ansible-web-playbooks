@@ -1,5 +1,8 @@
 127.0.0.1 localhost
 127.0.1.1 {{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}
+{% if avahi_extra_hosts %}{% for extra_host in avahi_extra_hosts -%}
+{{ extra_host }}
+{% endfor %}{%- endif %}
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback

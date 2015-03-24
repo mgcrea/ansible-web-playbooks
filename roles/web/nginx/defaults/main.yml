@@ -19,6 +19,8 @@ nginx_group: "www-data"
 
 # Default base directory (without trailing '/')
 nginx_path: "/var/www"
+nginx_access_log: "/var/log/nginx/access.log"
+nginx_error_log: "/var/log/nginx/error.log"
 
 # Configuration
 nginx_worker_processes: "auto"
