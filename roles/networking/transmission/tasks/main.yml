@@ -34,5 +34,5 @@
 # - include: configure-upstart.yml
 #   when: ansible_mounts[0].mount != '/.dockerinit'
 - include: configure-supervisor.yml
-  when: docker == 1 or ansible_mounts[0].mount == '/.dockerinit'
+  when: docker is defined and docker
 

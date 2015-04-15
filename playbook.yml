@@ -4,6 +4,12 @@
 # @cli vagrant destroy; vagrant up; rm -rf fetched/*
 # @cli ansible-playbook -i vagrant_inventory playbook.yml
 
+- name: Setup vars
+  hosts: all
+  tags: always
+  tasks:
+    - set_fact: docker={{ ansible_virtualization_type is defined and ansible_virtualization_type == 'docker' and ansible_virtualization_role == 'guest' }}
+
 - name: Aptitude update
   hosts: all
   sudo: yes
