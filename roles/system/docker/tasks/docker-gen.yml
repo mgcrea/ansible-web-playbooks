@@ -8,6 +8,14 @@
     sha256sum={{ docker_gen_sha256sum }}
   register: result
 - name: DockerGen | Extract package
-  shell: rm /opt/local/bin/docker-gen; mkdir -p /opt/local/bin; tar -xvzf /opt/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz -C /opt/local/bin; chmod +rx /opt/local/bin/docker-gen; ln -fs /opt/local/bin/docker-gen /usr/bin/docker-gen
+  shell: rm /opt/local/bin/docker-gen; mkdir -p /opt/local/bin; tar -xvzf /opt/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz -C /opt/local/bin; chmod +rx /opt/local/bin/docker-gen; ln -fs /opt/local/bin/docker-gen /usr/bin/docker-gen; mkdir /etc/docker/templates
   when: result | changed
-
+- name: DockerGen | Deploy hosts template
+  shell: cp /etc/hosts /etc/docker/templates/hosts.orig
+  args:
+    creates: /etc/docker/templates/hosts.orig
+- name: DockerGen | Deploy hosts template
+  shell: sed '/# The following lines are desirable for IPv6 capable hosts/i\# Docker hosts genenerated by docker-gen\n\{\{ range $key, $value := . \}\}\{\{ $addrLen := len $value.Addresses \}\}\{\{ if gt $addrLen 0 \}\}\{\{ with $address := index $value.Addresses 0 \}\}\{\{ $address.IP \}\} \{\{ $value.Name \}\}.docker\{\{ end \}\}\{\{ end \}\}\n\{\{ end \}\}' /etc/docker/templates/hosts.orig > /etc/docker/templates/hosts.tmpl
+- name: DockerGen | Deploy service configuration
+  template: src=init_docker-gen.conf.j2 dest=/etc/init/docker-gen.conf owner=root group=root mode=0755 backup=no
+  notify: restart docker-gen

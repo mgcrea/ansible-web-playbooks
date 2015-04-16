@@ -3,9 +3,14 @@
 # Type: handler
 # Part: Docker
 
-
 - name: start docker
   service: name=docker state=started
 
 - name: restart docker
   service: name=docker state=restarted
+
+- name: start docker-gen
+  service: name=docker-gen state=started
+
+- name: restart docker-gen
+  service: name=docker-gen state=restarted
