@@ -1,0 +1,13 @@
+# Ansible managed
+
+description "DockerGen"
+author "Olivier Louvignes <olivier@mg-crea.com>"
+
+start on filesystem and started docker
+stop on runlevel [!2345]
+
+respawn
+
+script
+  /usr/bin/docker-gen -only-exposed -watch /etc/docker/templates/hosts.tmpl /etc/hosts
+end script
