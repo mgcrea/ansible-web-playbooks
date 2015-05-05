@@ -5,7 +5,10 @@
 
 
 ## Fetch facts
+- name: Facts | Set base fetch path
+  tags: always
+  set_fact: ansible_fetched_base=fetched/{{ group_names[0] | default('') }}/{{ inventory_hostname }}
 - name: Facts | Generate facts
   template: src=hostvars.j2 dest=/tmp/facts.json
 - name: Facts | Fetch facts
-  fetch: src=/tmp/facts.json dest=fetched/{{ group_names[0] | default('nogroup') }}/{{ ansible_hostname }}/facts.json flat=yes fail_on_missing=yes
+  fetch: src=/tmp/facts.json dest={{ ansible_fetched_base }}/facts.json flat=yes

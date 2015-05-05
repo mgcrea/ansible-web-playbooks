@@ -17,7 +17,9 @@
     - python-pycurl
     - python-software-properties
 - name: Setup | Install ansible locally
+  ignore_errors: True
   pip: name={{ item }} state=latest
+  # extra_args="--proxy http://{{ pip_proxy }}"
   with_items:
     - ansible
 - name: Setup | Install ansible locally

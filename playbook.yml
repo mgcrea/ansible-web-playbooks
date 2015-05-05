@@ -4,13 +4,14 @@
 # @cli vagrant destroy; vagrant up; rm -rf fetched/*
 # @cli ansible-playbook -i vagrant_inventory playbook.yml
 
-- name: Setup vars
+- name: Set global facts
   hosts: all
   tags: always
   tasks:
     - set_fact: docker={{ ansible_virtualization_type is defined and ansible_virtualization_type == 'docker' and ansible_virtualization_role == 'guest' }}
+    - set_fact: ansible_fetched_base=fetched/{{ group_names[0] | default('') }}/{{ inventory_hostname }}
 
-- name: Aptitude update
+- name: Ansible bootstrap
   hosts: all
   sudo: yes
   tags: apt_update
@@ -31,16 +32,6 @@
   roles:
     - role: ansible/facts
       tags: ansible_facts
-
-- name: Setup ansible accelerated mode
-  hosts: all
-  sudo: yes
-  roles:
-    - role: ansible/accelerated
-      tags: accelerated
-    # - role: ansible/fireball
-    #   tags: fireball
-
 
 - name: Execute playbook
   # connection: fireball
