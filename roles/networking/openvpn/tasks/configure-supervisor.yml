@@ -1,0 +1,21 @@
+---
+# File: configure-supervisor.yml
+# Type: task
+# Part: OpenVPN
+
+- name: OpenVPN | Setup dev folder
+  file: state=directory dest=/dev/net
+- name: OpenVPN | Setup tun folder
+  command: mknod /dev/net/tun c 10 200
+  ignore_errors: yes
+- name: OpenVPN | Stop init.d service
+  service: name=openvpn state=stopped enabled=no
+- name: OpenVPN | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_openvpn.conf.j2 dest=/etc/supervisor/conf.d/{{ openvpn_service }}.conf owner=root group=root mode=0644 backup=no
+  register: result
+- name: OpenVPN | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
+- name: OpenVPN | Deploy supervisor service configuration
+  supervisorctl: name=program:openvpn state=started config=/etc/supervisor/supervisord.conf
+  when: result|changed

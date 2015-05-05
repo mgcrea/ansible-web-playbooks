@@ -26,7 +26,7 @@
 
 test $DEBIAN_SCRIPT_DEBUG && set -v -x
 
-{% if ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l' %}
+{% if ansible_architecture.startswith('arm') %}
 DAEMON=/usr/local/sbin/openvpn
 {% else %}
 DAEMON=/usr/sbin/openvpn

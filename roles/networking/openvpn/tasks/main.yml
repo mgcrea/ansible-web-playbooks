@@ -21,18 +21,15 @@
   when: openvpn_config is defined and openvpn_type == 'server'
 
 ## Configure service
-- name: OpenVPN | Backup service configuration
-  shell: creates=/etc/init.d/openvpn.orig.disabled cp /etc/init.d/openvpn /etc/init.d/openvpn.orig.disabled
-  ignore_errors: True
-  register: result
-- fetch: src=/etc/init.d/openvpn.orig.disabled dest=fetched/{{ ansible_host }}/etc/init.d/openvpn.orig flat=yes
-  when: result | changed
-- name: OpenVPN | Deploy service configuration
-  template: src=init.d_openvpn.j2 dest=/etc/init.d/openvpn owner=root group=root mode=0755 backup=no
-  notify: restart openvpn
-  register: result
-- fetch: src=/etc/init.d/openvpn dest=fetched
-  when: result | changed
+- include: configure-upstart.yml
+  when: not docker
+- include: configure-supervisor.yml
+  when: docker
+
+## Configure monit
+- name: OpenVPN | Configure monit
+  include: configure-monit.yml
+  when: not docker and openvpn_monit
 
 ## Make sure service is running
 - name: OpenVPN | Check daemon

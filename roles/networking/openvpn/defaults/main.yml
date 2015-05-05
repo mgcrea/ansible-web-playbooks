@@ -15,12 +15,14 @@ openvpn_port: 9091
 # User and group
 openvpn_user: "nobody"
 openvpn_group: "nogroup"
+openvpn_service: "openvpn"
 
 openvpn_users:
   - client
 
 # Default base directory (without trailing '/')
 openvpn_path: "/etc/openvpn"
+openvpn_config_dir: "/etc/openvpn"
 
 # Default easy rsa params
 easyrsa_req_country: "US"
@@ -30,3 +32,6 @@ easyrsa_req_org: "Copyleft Certificate Co"
 easyrsa_req_email: "me@example.net"
 easyrsa_req_ou: "My Organizational Unit"
 easyrsa_key_size: 2048
+
+# Monit state
+openvpn_monit: False

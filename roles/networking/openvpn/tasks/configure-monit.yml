@@ -1,0 +1,9 @@
+---
+
+## Configure monit
+- name: OpenVPN | Install monit
+  apt: name=monit state=latest
+  notify: restart monit
+- name: OpenVPN | Deploy monit configuration
+  template: src=monit_conf.d_openvpn.conf.j2 dest=/etc/monit/conf.d/openvpn-{{ openvpn_config }}.conf owner=root group=root mode=0644
+  notify: restart monit

@@ -1,0 +1,12 @@
+# Xanview OpenVPN Upstart Script
+
+description "OpenVPN - virtual private network daemon(s)"
+author "Roman Gaufman <roman@xanview.com>"
+version "1.0.0"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+
+exec /usr/sbin/openvpn --status /var/run/openvpn.client.status 10 --cd /etc/openvpn --config /etc/openvpn/client.conf --syslog openvpn

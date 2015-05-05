@@ -31,5 +31,5 @@
   args:
    chdir: "vars/openvpn/{{ openvpn_config }}"
   when: openvpn_key_password is defined
-- fetch: src=/etc/openvpn/{{ openvpn_config }}.conf dest=fetched
+- fetch: src=/etc/openvpn/{{ openvpn_config }}.conf dest={{ ansible_fetched_base }}/openvpn/{{ openvpn_config }}.conf flat=yes
   when: result | changed

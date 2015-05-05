@@ -1,0 +1,3 @@
+check process openvpn with pidfile /var/run/openvpn/{{ openvpn_config }}.pid
+  start program = "/etc/init.d/openvpn start {{ openvpn_config }}"
+  stop program = "/etc/init.d/openvpn stop {{ openvpn_config }}"

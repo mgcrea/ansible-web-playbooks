@@ -1,0 +1,4 @@
+[program:openvpn]
+command=/usr/sbin/openvpn --cd "{{ openvpn_config_dir }}" --config "{{ openvpn_path }}/{{ openvpn_server_name }}.conf"
+environment=USER=root,HOME={{ openvpn_path }},
+user=root
