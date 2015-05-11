@@ -1,0 +1,4 @@
+[program:mysqld]
+command=/usr/bin/pidproxy /var/run/mysqld/mysqld.pid /usr/sbin/mysqld
+environment=USER={{ mysql_user }},HOME={{ mysql_path }},
+user={{ mysql_user }}

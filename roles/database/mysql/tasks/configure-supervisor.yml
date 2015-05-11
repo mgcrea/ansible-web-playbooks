@@ -1,0 +1,15 @@
+---
+# File: configure-supervisor.yml
+# Type: task
+# Part: MySQL
+
+- name: MySQL | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_mysqld.conf.j2 dest=/etc/supervisor/conf.d/{{ mysql_service }}.conf owner=root group=root mode=0644 backup=no
+  notify: restart mysql
+  register: result
+- name: MySQL | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
+- name: MySQL | Deploy supervisor service configuration
+  supervisorctl: name=program:mysqld state=started config=/etc/supervisor/supervisord.conf
+  when: result|changed

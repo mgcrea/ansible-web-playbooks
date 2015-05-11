@@ -13,6 +13,7 @@ mysql_port: 3306
 # User and group
 mysql_user: "mysql"
 mysql_group: "mysql"
+mysql_service: "mysql"
 
 # Default base directory (without trailing '/')
 mysql_path: "/var/lib/mysql"

@@ -1,0 +1,23 @@
+---
+# File: configure-upstart.yml
+# Type: task
+# Part: MySQL
+
+- name: MySQL | Backup service configuration
+  shell: creates=/etc/init/{{ mysql_service }}.conf.orig.disabled cp /etc/init/{{ mysql_service }}.conf /etc/init/{{ mysql_service }}.conf.orig.disabled
+  ignore_errors: True
+  register: result
+- fetch: src=/etc/init/{{ mysql_service }}.conf.orig.disabled dest=fetched
+  when: result|changed
+# - name: MySQL | Deploy service configuration
+#   template: src=init.d_mongod.j2 dest=/etc/init.d/{{ mongodb_service }} owner=root group=root mode=0755 backup=no
+#   when: ansible_distribution == 'Debian'
+#   notify: restart mongod
+#   register: result
+# - name: MySQL | Deploy upstart service configuration
+#   template: src=init_mongod.conf.j2 dest=/etc/init/{{ mongodb_service }}.conf owner=root group=root mode=0755 backup=no
+#   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linaro'
+#   notify: restart mongod
+#   register: result
+# - fetch: src=/etc/init/{{ mongodb_service }}.conf dest=fetched
+#   when: result|changed
