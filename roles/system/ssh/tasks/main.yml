@@ -1,0 +1,13 @@
+---
+# File: main.yml
+# Type: task
+# Part: SSH
+
+- name: System | Create SSH directoriy
+  file: state=directory path="/home/{{ ansible_ssh_user }}/.ssh" owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0700
+- name: System | Deploy SSH authorized_keys
+  template: src=authorized_keys.j2 dest="/home/{{ ansible_ssh_user }}/.ssh/authorized_keys" owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0600
+  when: ssh_authorized_keys is defined
+- name: System | Change user password
+  user: name={{ ansible_ssh_user }} password={{ ssh_user_password }}
+  when: ssh_user_password is defined
