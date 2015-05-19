@@ -60,10 +60,6 @@
 - include: configure-supervisor.yml
   when: docker
 
-## Check service
-- name: MongoDB | Check service daemon
-  service: name={{ mongodb_service }} state=started enabled=yes
-
 ## Setup Backup
 - include: configure-backup.yml
   when: mongodb_backup == True

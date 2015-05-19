@@ -9,6 +9,7 @@
 - name: MongoDB | Reread supervisor
   shell: supervisorctl reload
   when: result|changed
-- name: MongoDB | Deploy supervisor service configuration
+
+## Check service
+- name: MongoDB | Check service daemon
   supervisorctl: name=program:mongod state=started config=/etc/supervisor/supervisord.conf
-  when: result|changed

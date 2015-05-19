@@ -21,3 +21,7 @@
   register: result
 - fetch: src=/etc/init/{{ mongodb_service }}.conf dest=fetched
   when: result|changed
+
+## Check service
+- name: MongoDB | Check service daemon
+  service: name={{ mongodb_service }} state=started enabled=yes
