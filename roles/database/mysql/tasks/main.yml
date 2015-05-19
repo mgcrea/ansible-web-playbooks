@@ -5,22 +5,15 @@
 
 
 ## Preseed install for root password
-- name: MySQL | Check for previous installation
-  shell: "[ -f /usr/sbin/mysqld ]"
-  when: mysql_root_password is defined
-  register: mysqld_exists
-  ignore_errors: True
-- name: MySQL | Preseed MySQL file
-  template: src=mysql_seed.j2 dest=/root/mysql.seed
-  when: mysqld_exists|failed
-- command: /usr/bin/debconf-set-selections /root/mysql.seed
-  when: mysqld_exists|failed
+- include: password.yml
+  when: mysql_root_password is defined and mysql_root_password != ""
 
 ## Install
 - name: MySQL | Install package
   apt: name=mysql-server state={{ mysql_apt_state }}
   notify: restart mysql
 - name: MySQL | Setup MySQL password file
+  when: mysql_root_password is defined and mysql_root_password != ""
   template: src=root_my.cnf.j2 dest=/root/.my.cnf
 
 ## Install ansible related packages

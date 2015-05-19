@@ -1,0 +1,8 @@
+---
+# Type: handler
+# Part: MySQL
+
+- name: start mysql
+  supervisorctl: name=program:mysqld state=started config=/etc/supervisor/supervisord.conf
+- name: restart mysql
+  supervisorctl: name=program:mysqld state=restarted config=/etc/supervisor/supervisord.conf
