@@ -1,0 +1,3 @@
+[program:docker-gen]
+command=/usr/bin/docker-gen -watch -notify "supervisorctl status nginx | sed \"s/.*[pid ]\([0-9]\+\)\,.*/\1/\" | xargs kill -HUP" /etc/docker/templates/nginx.tmpl /etc/nginx/sites-enabled/default
+environment=DOCKER_HOST="unix:///tmp/docker.sock"

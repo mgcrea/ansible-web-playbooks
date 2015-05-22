@@ -1,4 +1,3 @@
-{% raw %}
 # https://github.com/jwilder/nginx-proxy/blob/master/nginx.tmpl
 
 # If we receive X-Forwarded-Proto, pass it through; otherwise, pass along the
@@ -151,7 +150,8 @@ server {
     proxy_set_header X-NginX-Proxy true;
 
     proxy_pass http://proxy_{{ $host }};
-    proxy_redirect http://proxy_{{ $host }} https://{{ $host }};
+    proxy_redirect off
+    #proxy_redirect http://proxy_{{ $host }} https://{{ $host }};
 
     # Handle websocket with nginx (>= 1.3.13)
     proxy_http_version 1.1;
@@ -162,4 +162,3 @@ server {
 }
 
 {{ end }}
-{% endraw %}

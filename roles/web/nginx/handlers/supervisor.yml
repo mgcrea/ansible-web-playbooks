@@ -1,0 +1,16 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Nginx
+
+- name: start nginx on docker
+  supervisorctl: name=nginx state=started
+
+- name: restart nginx on docker
+  supervisorctl: name=nginx state=restarted
+
+- name: reload nginx on docker
+  supervisorctl: name=nginx state=reloaded
+
+- name: restart docker-gen
+  supervisorctl: name=docker-gen state=restarted

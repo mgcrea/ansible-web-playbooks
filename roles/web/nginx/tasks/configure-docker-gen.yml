@@ -1,0 +1,19 @@
+---
+# Type: task
+# Part: DockerGen
+
+- name: DockerGen | Check directory
+  file: state=directory path=/etc/docker/templates owner=root group=root mode=0775
+- name: DockerGen | Deploy nginx template
+  template: src=docker-gen_nginx.tmpl.j2 dest=/etc/docker/templates/nginx.tmpl owner=root group=root mode=0644 backup=no
+  notify:
+    - restart docker-gen
+    - restart nginx on docker
+- name: DockerGen | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_docker-gen.conf.j2 dest=/etc/supervisor/conf.d/docker-gen.conf owner=root group=root mode=0644 backup=no
+  register: result
+- name: DockerGen | Reload supervisor
+  shell: supervisorctl reload
+  when: result|changed
+- name: DockerGen | Check service
+  supervisorctl: name=program:docker-gen state=started config=/etc/supervisor/supervisord.conf

@@ -15,3 +15,5 @@
   register: result
 - fetch: src=/etc/init.d/nginx dest=fetched
   when: result|changed
+- name: Nginx | Check service daemon
+  service: name=nginx state=started

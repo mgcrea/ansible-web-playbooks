@@ -13,6 +13,8 @@
   apt: name=nginx state={{ nginx_apt_state }}
 
 ## Setup custom location
+- name: Nginx | Setup directory
+  file: state=directory dest={{ nginx_path }} mode=770 owner={{ nginx_user }} group={{ nginx_group }}
 - include: location.yml
   when: "'{{ nginx_path }}' != '/var/www'"
 
@@ -24,7 +26,9 @@
   when: result|changed
 - name: Nginx | Deploy configuration
   template: src=nginx_nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root mode=0644 backup=yes
-  notify: restart nginx
+  notify:
+    - restart nginx
+    - restart nginx on docker
   register: result
 - fetch: src=/etc/nginx/nginx.conf dest=fetched
   when: result|changed
@@ -34,19 +38,24 @@
   when: not docker
 - include: configure-supervisor.yml
   when: docker
+- include: configure-docker-gen.yml
+  when: docker and nginx_docker_proxy
+  tags: nginx_configure_docker-gen
 
 ## Configure vhosts
 - name: Nginx | Remove default vhost
   file: path=/etc/nginx/sites-enabled/default state=absent
-  notify: restart nginx
+  when: not nginx_configure_docker-gen
+  notify:
+    - restart nginx
+    - restart nginx on docker
 - name: Nginx | Add no-default vhost
   template: src=nginx_sites-available_no-default.j2 dest=/etc/nginx/sites-available/no-default owner=root mode=0644
-  notify: restart nginx
+  notify:
+    - restart nginx
+    - restart nginx on docker
 - name: Nginx | Activate no-default vhost
   file: state=link src=/etc/nginx/sites-available/no-default dest=/etc/nginx/sites-enabled/no-default
-  notify: restart nginx
-
-## Check service
-- name: Nginx | Check service daemon
-  service: name=nginx state=started
-
+  notify:
+    - restart nginx
+    - restart nginx on docker
