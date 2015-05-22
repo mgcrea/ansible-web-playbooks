@@ -16,3 +16,5 @@
   register: result
 - fetch: src=/etc/init.d/openvpn dest={{ ansible_fetched_base }}
   when: result | changed
+- name: OpenVPN | Check daemon
+  service: name=openvpn state=started enabled=yes

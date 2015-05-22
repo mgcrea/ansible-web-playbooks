@@ -30,7 +30,3 @@
 - name: OpenVPN | Configure monit
   include: configure-monit.yml
   when: not docker and openvpn_monit
-
-## Make sure service is running
-- name: OpenVPN | Check daemon
-  service: name=openvpn state=started enabled=yes

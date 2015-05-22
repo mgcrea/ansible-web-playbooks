@@ -16,6 +16,5 @@
 - name: OpenVPN | Reread supervisor
   shell: supervisorctl reload
   when: result|changed
-- name: OpenVPN | Deploy supervisor service configuration
+- name: OpenVPN | Check daemon
   supervisorctl: name=program:openvpn state=started config=/etc/supervisor/supervisord.conf
-  when: result|changed
