@@ -3,8 +3,10 @@
 # Type: task
 # Part: Docker
 
+- name: DockerGen | Check directory
+  file: state=directory path=/etc/opt/downloads owner=root group=root mode=0775
 - name: DockerGen | Fetch package
-  action: get_url url=https://github.com/jwilder/docker-gen/releases/download/{{ docker_gen_version }}/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz dest=/opt/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz
+  action: get_url url=https://github.com/jwilder/docker-gen/releases/download/{{ docker_gen_version }}/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz dest=/opt/downloads/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz
     sha256sum={{ docker_gen_sha256sum }}
   register: result
 - name: DockerGen | Extract package
