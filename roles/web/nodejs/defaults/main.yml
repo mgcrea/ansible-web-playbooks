@@ -17,6 +17,7 @@ nodejs_group: "www-data"
 
 # Default base directory (without trailing '/')
 nodejs_path: "/var/www"
+nodejs_args: "."
 
 # Npm modules
 nodejs_npm_modules:

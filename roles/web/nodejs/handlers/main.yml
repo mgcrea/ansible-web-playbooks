@@ -9,3 +9,10 @@
 
 - name: restart nodejs
   service: name=nodejs state=restarted
+
+- name: reload supervisor
+  shell: supervisorctl reload
+  notify: ensure supervisor service
+
+- name: ensure supervisor service
+  action: service name=supervisor state=started

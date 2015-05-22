@@ -1,0 +1,9 @@
+---
+# Type: task
+# Part: NodeJS
+
+- name: NodeJS | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_node.conf.j2 dest=/etc/supervisor/conf.d/node.conf owner=root group=root mode=0644 backup=no
+  notify: reload supervisor
+- name: NodeJS | Start supervisor service
+  supervisorctl: name=node state=started config=/etc/supervisor/supervisord.conf
