@@ -1,0 +1,15 @@
+---
+
+- name: PHP5 | FPM | Backup configuration
+  shell: creates=/etc/php5/fpm/php.ini.orig cp /etc/php5/fpm/php.ini /etc/php5/fpm/php.ini.orig
+  register: result
+- fetch: src=/etc/php5/fpm/php.ini.orig dest=fetched
+  when: result|changed
+- name: PHP5 | FPM | Deploy configuration
+  template: src=php5_fpm_php.ini.j2 dest=/etc/php5/fpm/php.ini mode=0644 owner=root group=root backup=yes
+  register: result
+- fetch: src=/etc/php5/fpm/php.ini dest=fetched
+  when: result|changed
+
+- include: configure-supervisor.yml
+  when: docker

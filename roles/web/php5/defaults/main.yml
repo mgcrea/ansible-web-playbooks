@@ -5,7 +5,16 @@
 
 
 # Aptitude state
+php5_flavor: "php5-fpm"
 php5_apt_state: "latest"
+
+# User and group
+php5_user: "root"
+php5_group: "root"
+
+# Default base directory (without trailing '/')
+php5_path: "/srv/www"
+
 
 # Aptitude modules
 php5_apt_modules:
@@ -17,3 +26,5 @@ php5_apt_modules:
   - php5-imagick
   - php5-mcrypt
   - php5-mysql
+  - php5-redis
+  - php5-json

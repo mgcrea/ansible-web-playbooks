@@ -1,0 +1,13 @@
+---
+
+- name: PHP5 | CLI | Backup configuration
+  shell: creates=/etc/php5/cli/php.ini.orig cp /etc/php5/cli/php.ini /etc/php5/cli/php.ini.orig
+  register: result
+- fetch: src=/etc/php5/cli/php.ini.orig dest=fetched
+  when: result|changed
+- name: PHP5 | CLI | Deploy configuration
+  template: src=cli_php.ini.j2 dest=/etc/php5/cli/php.ini mode=0644 owner=root group=root backup=yes
+  notify: restart apache2
+  register: result
+- fetch: src=/etc/php5/cli/php.ini dest=fetched
+  when: result|changed

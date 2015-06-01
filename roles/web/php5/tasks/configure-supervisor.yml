@@ -1,0 +1,12 @@
+---
+
+- name: PHP5 | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_php5-fpm.conf.j2 dest=/etc/supervisor/conf.d/php5-fpm.conf owner=root group=root mode=0644 backup=no
+  register: result
+- name: PHP5 | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
+
+## Check service
+- name: PHP5 | Check service daemon
+  supervisorctl: name=program:php5-fpm state=started config=/etc/supervisor/supervisord.conf
