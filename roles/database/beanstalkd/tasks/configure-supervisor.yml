@@ -1,0 +1,15 @@
+---
+# File: configure-supervisor.yml
+# Type: task
+# Part: Beanstalkd
+
+- name: Beanstalkd | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_beanstalkd.conf.j2 dest=/etc/supervisor/conf.d/beanstalkd.conf owner=root group=root mode=0644 backup=no
+  notify: restart beanstalkd
+  register: result
+- name: Beanstalkd | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
+
+- name: Beanstalkd | Check service daemon
+  supervisorctl: name=program:beanstalkd state=started config=/etc/supervisor/supervisord.conf

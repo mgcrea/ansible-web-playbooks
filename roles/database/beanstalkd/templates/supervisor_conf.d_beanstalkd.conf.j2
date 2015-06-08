@@ -1,0 +1,4 @@
+[program:beanstalkd]
+command=/usr/bin/beanstalkd -l {{ beanstalkd_bind_address }} -p {{ beanstalkd_port }}
+environment=USER={{ beanstalkd_user }},HOME="{{ beanstalkd_path }}"
+user={{ beanstalkd_user }}

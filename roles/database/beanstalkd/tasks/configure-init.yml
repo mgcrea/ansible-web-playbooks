@@ -1,0 +1,16 @@
+---
+
+- name: Beanstalkd | Backup configuration
+  shell: creates=/etc/default/beanstalkd.orig cp /etc/default/beanstalkd /etc/default/beanstalkd.orig
+  register: result
+- fetch: src=/etc/default/beanstalkd.orig dest=fetched
+  when: result|changed
+- name: Beanstalkd | Deploy configuration
+  template: src=default_beanstalkd.j2 dest=/etc/default/beanstalkd owner=root mode=0644 backup=yes
+  notify: restart beanstalkd
+  register: result
+- fetch: src=/etc/default/beanstalkd dest=fetched
+  when: result|changed
+
+- name: Beanstalkd | Check service daemon
+  service: name=beanstalkd state=started
