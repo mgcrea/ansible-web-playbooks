@@ -3,7 +3,6 @@
 # Type: task
 # Part: PHP5
 
-
 ## Install PHP5
 - name: PHP5 | Install package
   apt: name={{ php5_flavor }} state={{ php5_apt_state }}

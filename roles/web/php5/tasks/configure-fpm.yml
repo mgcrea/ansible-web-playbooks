@@ -10,6 +10,9 @@
   register: result
 - fetch: src=/etc/php5/fpm/php.ini dest=fetched
   when: result|changed
+- name: PHP5 | FPM | Deploy pool configuration
+  template: src=php5_fpm_pool.d_www.conf.j2 dest=/etc/php5/fpm/pool.d/www.conf mode=0644 owner=root group=root backup=yes
+  register: result
 
 - include: configure-supervisor.yml
   when: docker

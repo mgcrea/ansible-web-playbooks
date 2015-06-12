@@ -1,4 +1,8 @@
 [program:php5-fpm]
+{% if ansible_lsb.major_release|int < 14 %}
+command=/usr/sbin/php5-fpm --fpm-config /etc/php5/fpm/php-fpm.conf
+{% else %}
 command=/usr/sbin/php5-fpm --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf
-environment=USER={{ php5_user }},HOME={{ php5_path }}
+{% endif %}
+environment=USER={{ php5_user }},HOME="{{ php5_path }}"
 user={{ php5_user }}
