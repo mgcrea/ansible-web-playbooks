@@ -4,7 +4,7 @@
 # Part: Docker
 
 - name: DockerGen | Check directory
-  file: state=directory path=/etc/opt/downloads owner=root group=root mode=0775
+  file: state=directory path=/opt/downloads owner=root group=root mode=0775
 - name: DockerGen | Fetch package
   action: get_url url=https://github.com/jwilder/docker-gen/releases/download/{{ docker_gen_version }}/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz dest=/opt/downloads/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz
     sha256sum={{ docker_gen_sha256sum }}
@@ -17,7 +17,8 @@
   args:
     creates: /etc/docker/templates/hosts.orig
 - name: DockerGen | Deploy hosts template
-  shell: sed '/# The following lines are desirable for IPv6 capable hosts/i\# Docker hosts genenerated by docker-gen\n\{\{ range $key, $value := . \}\}\{\{ $addrLen := len $value.Addresses \}\}\{\{ if gt $addrLen 0 \}\}\{\{ with $address := index $value.Addresses 0 \}\}\{\{ $address.IP \}\} \{\{ $value.Name \}\}.docker\{\{ end \}\}\{\{ end \}\}\n\{\{ end \}\}' /etc/docker/templates/hosts.orig > /etc/docker/templates/hosts.tmpl
+  shell: sed '/# The following lines are desirable for IPv6 capable hosts/i\# Docker hosts genenerated by docker-gen\n\{\{ range $key, $value := . \}\}\{\{ $addrLen := len $value.Addresses \}\}\{\{ if gt $addrLen 0 \}\}\{\{ with $address := index $value.Addresses 0 \}\}\{\{ $address.IP \}\}\t\{\{ $value.Name \}\}.docker {{ ansible_hostname }}.\{\{ $value.Name \}\}\{\{ end \}\}\{\{ end \}\}\n\{\{ end \}\}' /etc/docker/templates/hosts.orig > /etc/docker/templates/hosts.tmpl
+  notify: restart docker-gen
 - name: DockerGen | Deploy service configuration
   template: src=init_docker-gen.conf.j2 dest=/etc/init/docker-gen.conf owner=root group=root mode=0755 backup=no
   notify: restart docker-gen
