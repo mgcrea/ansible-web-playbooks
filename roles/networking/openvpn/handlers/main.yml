@@ -1,7 +1,7 @@
 ---
 # File: main.yml
 # Type: handler
-# Part: Nginx
+# Part: OpenVPN
 
 - include: init.yml
   when: not docker
