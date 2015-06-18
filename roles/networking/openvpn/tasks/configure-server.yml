@@ -42,8 +42,10 @@
   shell: openvpn --genkey --secret ta.key chdir=/etc/openvpn/easyrsa/easyrsa3/pki
   when: result|changed
 - name: OpenVPN | Deploy server configuration
-  template: src=server.conf.j2 dest=/etc/openvpn/{{ openvpn_server_name }}.conf owner=root group=root mode=0755 backup=no
-  notify: restart openvpn
+  template: src=server.conf.j2 dest=/etc/openvpn/{{ openvpn_config_name }}.conf owner=root group=root mode=0755 backup=no
+  notify:
+    - restart openvpn
+    - restart openvpn on docker
   register: result
 - name: OpenVPN | Deploy logrotate configuration
   template: src=logrotate.d_openvpn.j2 dest=/etc/logrotate.d/openvpn owner=root group=root mode=0644

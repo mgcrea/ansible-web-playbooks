@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: OpenVPN
+
+- name: start openvpn on docker
+  supervisorctl: name=openvpn state=started
+
+- name: restart openvpn on docker
+  supervisorctl: name=openvpn state=restarted

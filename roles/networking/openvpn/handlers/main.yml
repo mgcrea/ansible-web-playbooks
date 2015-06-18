@@ -1,13 +1,9 @@
 ---
 # File: main.yml
 # Type: handler
-# Part: OpenVPN
+# Part: Nginx
 
-- name: start openvpn
-  service: name=openvpn state=started
-
-- name: restart openvpn
-  service: name=openvpn state=restarted
-
-- name: restart monit
-  service: name=monit state=restarted
+- include: init.yml
+  when: not docker
+- include: supervisor.yml
+  when: docker

@@ -23,6 +23,8 @@ openvpn_users:
 # Default base directory (without trailing '/')
 openvpn_path: "/etc/openvpn"
 openvpn_config_dir: "/etc/openvpn"
+openvpn_server_name: "server"
+openvpn_config_name: "server"
 
 # Default easy rsa params
 easyrsa_req_country: "US"

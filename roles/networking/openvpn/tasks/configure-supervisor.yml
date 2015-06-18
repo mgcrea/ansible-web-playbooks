@@ -12,6 +12,7 @@
   service: name=openvpn state=stopped enabled=no
 - name: OpenVPN | Deploy supervisor service configuration
   template: src=supervisor_conf.d_openvpn.conf.j2 dest=/etc/supervisor/conf.d/{{ openvpn_service }}.conf owner=root group=root mode=0644 backup=no
+  notify: restart openvpn on docker
   register: result
 - name: OpenVPN | Reread supervisor
   shell: supervisorctl reload
