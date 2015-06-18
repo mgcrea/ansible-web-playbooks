@@ -13,7 +13,7 @@
 
 ## Install global packages
 - name: NodeJS | NPM | Install global packages
-  npm: name={{ item }} global=yes state={{ nodejs_apt_state }}
+  npm: name={{ item }} global=yes state={{ nodejs_apt_state }} registry={{ nodejs_npm_registry }}
   when: nodejs_npm_modules is defined
   with_items: nodejs_npm_modules
 
