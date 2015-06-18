@@ -55,7 +55,7 @@ upstream proxy_{{ $host }} {
 {{ $certName := (first (groupByKeys $containers "Env.CERT_NAME")) }}
 
 {{/* Get the best matching cert  by name for the vhost. */}}
-{{ $vhostCert := (closest (dir "/etc/nginx/certs") (printf "%s.crt" $host))}}
+{{ $vhostCert := (closest (dir "/etc/nginx/certs") (printf "%s.crt" $host)) }}
 
 {{/* vhostCert is actually a filename so remove any suffixes since they are added later */}}
 {{ $vhostCert := replace $vhostCert ".crt" "" -1 }}
@@ -90,11 +90,14 @@ server {
 
 server {
 
-  listen 443 ssl spdy deferred;
-  # listen [::]:443 ipv6only=on default_server ssl deferred;
+  listen 443 ssl spdy;
+  # listen [::]:443 ipv6only=on default_server ssl;
 
   # The host name to respond to
   server_name {{ $host }};
+
+  # Sets the maximum allowed size of the client request body
+  client_max_body_size 5m;
 
   # HTTPS certificates
   ssl on;

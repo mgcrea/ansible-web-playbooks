@@ -1,5 +1,5 @@
 [program:nginx]
 command=/usr/sbin/nginx
 directory={{ nginx_path }}
-environment=USER=root,HOME={{ nginx_path }}
+environment=USER=root,HOME="{{ nginx_path }}"
 user=root

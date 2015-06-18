@@ -15,6 +15,7 @@
 ## Setup custom location
 - name: Nginx | Setup directory
   file: state=directory dest={{ nginx_path }} mode=770 owner={{ nginx_user }} group={{ nginx_group }}
+  ignore_errors: True
 - include: location.yml
   when: "'{{ nginx_path }}' != '/var/www'"
 
@@ -38,24 +39,38 @@
   when: not docker
 - include: configure-supervisor.yml
   when: docker
+## NginX proxy
 - include: configure-docker-gen.yml
   when: docker and nginx_docker_proxy
   tags: nginx_configure_docker-gen
 
-## Configure vhosts
+## Cleanup vhosts
 - name: Nginx | Remove default vhost
   file: path=/etc/nginx/sites-enabled/default state=absent
-  when: not nginx_configure_docker-gen
+  when: nginx_docker_proxy is undefined
   notify:
     - restart nginx
     - restart nginx on docker
 - name: Nginx | Add no-default vhost
   template: src=nginx_sites-available_no-default.j2 dest=/etc/nginx/sites-available/no-default owner=root mode=0644
+  when: nginx_use_php5 is undefined
   notify:
     - restart nginx
     - restart nginx on docker
 - name: Nginx | Activate no-default vhost
   file: state=link src=/etc/nginx/sites-available/no-default dest=/etc/nginx/sites-enabled/no-default
+  when: nginx_use_php5 is undefined
   notify:
     - restart nginx
     - restart nginx on docker
+
+## Setup PHP5
+- name: Nginx | Add PHP5 vhost
+  template: src=nginx_sites-available_default-php5.j2 dest=/etc/nginx/sites-available/default-php5 owner=root mode=0644
+  when: nginx_use_php5
+  notify:
+    - restart nginx
+    - restart nginx on docker
+- name: Nginx | Enable vhost
+  file: state=link src=/etc/nginx/sites-available/default-php5 dest=/etc/nginx/sites-enabled/default
+  when: nginx_use_php5

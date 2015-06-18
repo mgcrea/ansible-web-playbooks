@@ -18,10 +18,11 @@ nginx_user: "www-data"
 nginx_group: "www-data"
 
 # Default base directory (without trailing '/')
-nginx_path: "/var/www"
+nginx_path: "/usr/share/nginx/www"
 nginx_access_log: "/var/log/nginx/access.log"
 nginx_error_log: "/var/log/nginx/error.log"
 
 # Configuration
 nginx_worker_processes: "auto"
 nginx_docker_proxy: False
+nginx_use_php5: False
