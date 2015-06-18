@@ -11,6 +11,10 @@
 - name: BTSync | Install package
   apt: name=btsync state={{ btsync_apt_state }}
 
+#mkdir -p /opt/btsync
+#curl -s -k -L "https://download-cdn.getsyncapp.com/stable/linux-x64/BitTorrent-Sync_x64.tar.gz" |  tar -xzf - -C /opt/btsync
+
+
 ## Configuration
 - name: BTSync | Stop service
   service: name=btsync state=stopped
