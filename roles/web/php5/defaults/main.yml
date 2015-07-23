@@ -14,6 +14,8 @@ php5_group: "root"
 
 # Default base directory (without trailing '/')
 php5_path: "/srv/www"
+php5_pm_max_children: 20
+php5_pm_max_requests: 500
 
 # Aptitude modules
 php5_apt_modules:

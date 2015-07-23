@@ -96,7 +96,7 @@ pm = dynamic
 ; forget to tweak pm.* to fit your needs.
 ; Note: Used when pm is set to 'static', 'dynamic' or 'ondemand'
 ; Note: This value is mandatory.
-pm.max_children = 5
+pm.max_children = {{ php5_pm_max_children }}
 
 ; The number of child processes created on startup.
 ; Note: Used only when pm is set to 'dynamic'
@@ -122,7 +122,7 @@ pm.max_spare_servers = 3
 ; This can be useful to work around memory leaks in 3rd party libraries. For
 ; endless request processing specify '0'. Equivalent to PHP_FCGI_MAX_REQUESTS.
 ; Default Value: 0
-;pm.max_requests = 500
+pm.max_requests = {{ php5_pm_max_requests }}
 
 ; The URI to view the FPM status page. If this value is not set, no URI will be
 ; recognized as a status page. It shows the following informations:
