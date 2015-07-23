@@ -1,37 +1,43 @@
-# [Ansible WebPlaybooks](https://galaxy.ansible.com/list#/roles/441) [![Build Status](https://secure.travis-ci.org/mgcrea/ansible-web-playbooks.png?branch=master)](http://travis-ci.org/#!/mgcrea/ansible-web-playbooks)
+# [Ansible WebPlaybooks](https://galaxy.ansible.com/list#/roles/441) [![npm version](https://img.shields.io/npm/v/ansible-web-playbooks.svg?style=flat)](https://www.npmjs.com/package/ansible-web-playbooks) [![build status](http://img.shields.io/travis/mgcrea/ansible-web-playbooks/master.svg?style=flat)](http://travis-ci.org/mgcrea/ansible-web-playbooks) [![npm downloads](https://img.shields.io/npm/dm/ansible-web-playbooks.svg?style=flat)](https://www.npmjs.com/package/ansible-web-playbooks) [![dependencies status](http://img.shields.io/david/mgcrea/ansible-web-playbooks.svg?style=flat)](https://david-dm.org/mgcrea/ansible-web-playbooks)
 
 Set of playbook roles to orchestrate your web servers, powered by Ansible.
 
 >
-    $ tree roles -L 2
-    roles
-    ├── ansible
-    │   ├── accelerated
-    │   ├── facts
-    │   ├── fireball
-    │   └── setup
-    ├── database
-    │   ├── beanstalkd
-    │   ├── mongodb
-    │   ├── mysql
-    │   └── redis
-    ├── networking
-    │   ├── avahi
-    │   ├── btsync
-    │   ├── interfaces
-    │   ├── openvpn
-    │   ├── transmission
-    ├── system
-    │   ├── boot
-    │   ├── docker
-    │   ├── sudo
-    │   └── vlc
-    └── web
-        ├── apache2
-        ├── nginx
-        ├── nodejs
-        ├── php5
-        └── varnish
+```
+$ tree roles -L 2
+roles
+├── ansible
+│   ├── accelerated
+│   ├── facts
+│   ├── fireball
+│   └── setup
+├── database
+│   ├── beanstalkd
+│   ├── mongodb
+│   ├── mysql
+│   └── redis
+├── networking
+│   ├── avahi
+│   ├── btsync
+│   ├── interfaces
+│   ├── openvpn
+│   ├── pptp
+│   ├── transmission
+│   └── x2go
+├── system
+│   ├── boot
+│   ├── docker
+│   ├── ssh
+│   ├── sudo
+│   └── vlc
+└── web
+    ├── apache2
+    ├── iojs
+    ├── nginx
+    ├── nodejs
+    ├── php5
+    └── varnish
+```
 
 ## Documentation and examples
 
