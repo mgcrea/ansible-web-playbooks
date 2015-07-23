@@ -1,0 +1,13 @@
+---
+# File: main.yml
+# Type: task
+# Part: NodeJS | Raspberry
+
+- name: NodeJS | Raspberry | Fetch package
+  get_url: url=http://nodejs.org/dist/v0.10.21/node-v0.10.21-linux-arm-pi.tar.gz dest=/opt
+    sha256sum=5a5c3b4a9c98fa850cc8c5f6fa06213b856f217e368452fc6ac5f5868044ff39
+  register: result
+- name: NodeJS | Raspberry | Install package
+  command: tar -xzf /opt/node-v0.10.21-linux-arm-pi.tar.gz -C /usr/local --strip-components 1 --exclude='LICENSE' --exclude='README.md' --exclude='ChangeLog'
+  when: result | changed
+

@@ -1,0 +1,17 @@
+---
+# File: main.yml
+# Type: task
+# Part: ioJS | Default (Ubuntu)
+
+## Install
+- name: ioJS | Install ppa key
+  apt_key: id=68576280 url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
+- name: ioJS | Remove launchpad ppa
+  apt_repository: repo=ppa:chris-lea/node.js state=absent
+- name: ioJS | Install ppa
+  apt_repository: repo="{{ item }}"
+  with_items:
+    - "deb https://deb.nodesource.com/{{ iojs_branch }} {{ ansible_distribution_release }} main"
+    - "deb-src https://deb.nodesource.com/{{ iojs_branch }} {{ ansible_distribution_release }} main"
+- name: ioJS | Install package
+  apt: name=iojs state={{ iojs_apt_state }}

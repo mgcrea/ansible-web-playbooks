@@ -1,0 +1,28 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: ioJS
+
+# Aptitude state
+iojs_branch: "iojs_2.x"
+iojs_apt_state: "latest"
+
+# Network configuration
+iojs_bind_address: "0.0.0.0"
+iojs_port_http: 80
+iojs_port_https: 443
+
+# User and group
+iojs_user: "www-data"
+iojs_group: "www-data"
+
+# Default base directory (without trailing '/')
+iojs_path: "/var/www"
+iojs_args: "."
+
+# Npm modules
+iojs_npm_registry: "https://registry.npmjs.org/"
+iojs_npm_modules:
+  - npm
+  - bower
+  - nodemon

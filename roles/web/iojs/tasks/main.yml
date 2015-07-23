@@ -1,0 +1,23 @@
+---
+# File: main.yml
+# Type: task
+# Part: ioJS
+
+## Install
+- include: install-raspberry.yml
+  when: ansible_architecture == 'armv6l' and ansible_distribution == 'Debian'
+- include: install-armv7l.yml
+  when: ansible_architecture == 'armv7l'
+- include: install-ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
+## Install global packages
+- name: ioJS | NPM | Install global packages
+  npm: name={{ item }} global=yes state={{ iojs_apt_state }} registry={{ iojs_npm_registry }}
+  when: nodejs_npm_modules is defined
+  with_items: nodejs_npm_modules
+
+## Install supervisor service
+- include: configure-supervisor.yml
+  tags: web_iojs_supervisor
+  when: docker

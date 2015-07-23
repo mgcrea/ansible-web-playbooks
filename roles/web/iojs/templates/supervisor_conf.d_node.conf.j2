@@ -1,0 +1,5 @@
+[program:node]
+command=/usr/bin/node {{ iojs_args }}
+directory={{ iojs_chdir if iojs_chdir is defined else iojs_path }}
+environment=USER={{ iojs_user }},HOME={{ iojs_path }},NODE_ENV=production,NODE_PATH={{ iojs_path }}
+user={{ iojs_user }}
