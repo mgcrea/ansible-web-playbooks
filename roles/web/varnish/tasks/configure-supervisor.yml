@@ -8,3 +8,9 @@
 - name: Varnish | Deploy supervisor service configuration
   supervisorctl: name=program:varnish state=started config=/etc/supervisor/supervisord.conf
   when: result|changed
+
+## Check service
+- name: Varnish | Check service daemon
+  supervisorctl: name=program:varnishd state=started config=/etc/supervisor/supervisord.conf
+- name: Varnish | Check log service daemon
+  supervisorctl: name=program:varnishlog state=started config=/etc/supervisor/supervisord.conf

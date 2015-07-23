@@ -5,9 +5,24 @@
 
 - name: start varnish
   service: name=varnish start=started
+  when: not docker
 
 - name: restart varnish
   service: name=varnish state=restarted
+  when: not docker
 
 - name: reload varnish
   service: name=varnish state=reloaded
+  when: not docker
+
+- name: start varnish on docker
+  supervisorctl: name=varnishd state=started
+  when: docker
+
+- name: restart varnish on docker
+  supervisorctl: name=varnishd state=restarted
+  when: docker
+
+- name: reload varnish on docker
+  supervisorctl: name=varnishd state=reloaded
+  when: docker

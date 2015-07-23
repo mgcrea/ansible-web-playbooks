@@ -15,3 +15,7 @@
   register: result
 - fetch: src=/etc/init.d/varnish dest=fetched
   when: result|changed
+
+## Check service
+- name: Varnish | Check service daemon
+  service: name=varnish state=started

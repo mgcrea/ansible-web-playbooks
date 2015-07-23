@@ -14,11 +14,6 @@
 - name: Varnish | Install package
   apt: name=varnish state={{ varnish_apt_state }}
 
-
-## Setup custom location
-# - include: location.yml
-#   when: "'{{ varnish_path }}' != '/var/www'"
-
 ## Configure
 - name: Varnish | Backup configuration
   shell: creates=/etc/default/varnish.orig cp /etc/default/varnish /etc/default/varnish.orig
@@ -34,15 +29,12 @@
 
 - name: Varnish | Deploy configuration
   template: src=varnish_default.vcl.j2 dest=/etc/varnish/default.vcl owner=root mode=0644 backup=yes
-  notify: restart varnish
+  notify:
+    - restart varnish on docker
+    - restart varnish
 
 ## Configure service
 - include: configure-init.yml
   when: not docker
 - include: configure-supervisor.yml
   when: docker
-
-## Check service
-- name: Varnish | Check service daemon
-  service: name=varnish state=started
-

@@ -14,8 +14,8 @@ varnish_port_http: 80
 varnish_port_https: 443
 
 # User and group
-varnish_user: "varnish"
-varnish_group: "varnish"
+varnish_user: "root"
+varnish_group: "root"
 
 # Default base directory (without trailing '/')
 varnish_path: "/var/www"
