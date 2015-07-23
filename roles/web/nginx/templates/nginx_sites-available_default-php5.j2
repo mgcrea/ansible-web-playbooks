@@ -44,6 +44,15 @@ server {
     deny all;
   }
 
+  location ~ ^/(status|ping)$ {
+    access_log off;
+    allow 127.0.0.1;
+    allow ::1;
+    deny all;
+    fastcgi_pass unix:/var/run/php5-fpm.sock;
+    include fastcgi_params;
+  }
+
   # Only for nginx-naxsi used with nginx-naxsi-ui : process denied requests
   #location /RequestDenied {
   # proxy_pass http://127.0.0.1:8080;
