@@ -4,7 +4,7 @@
 # Part: ioJS
 
 # Aptitude state
-iojs_branch: "iojs_2.x"
+iojs_branch: "iojs_3.x"
 iojs_apt_state: "latest"
 
 # Network configuration
