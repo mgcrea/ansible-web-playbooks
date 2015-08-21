@@ -45,6 +45,8 @@
       tags: system_boot
     - role: system/sudo
       tags: system_sudo
+    - role: system/ssh
+      tags: system_ssh
     - role: database/beanstalkd
       tags: database_beanstalkd
     - role: database/mysql
