@@ -21,7 +21,11 @@
 # file!
 
 [server]
+{% if avahi_hostname_override is defined %}
+host-name={{ avahi_hostname_override }}
+{% else %}
 host-name={{ avahi_hostname_prefix }}-{{ ansible_default_ipv4.macaddress | md5 | regex_replace('^(.{4}).*$', '\\1') }}
+{% endif %}
 domain-name=local
 #browse-domains=0pointer.de, zeroconf.org
 use-ipv4=yes
