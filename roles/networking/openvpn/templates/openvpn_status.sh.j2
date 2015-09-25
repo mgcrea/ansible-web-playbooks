@@ -1,0 +1,12 @@
+#!/bin/bash
+
+script="{{ openvpn_script_up }}"
+if [[ -e "$script" ]]; then
+  /bin/bash "$script" $@
+fi
+
+function finish {
+  # Safely exit to preserve openvpn
+  exit 0
+}
+trap finish EXIT

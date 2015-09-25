@@ -5,9 +5,12 @@
 
 ## Configure client
 - name: OpenVPN | Deploy client configuration
-  template: src=client.conf.j2 dest=/etc/openvpn/{{ openvpn_config }}.conf owner=root group=root mode=0755 backup=yes
+  template: src=client.conf.j2 dest=/etc/openvpn/{{ openvpn_config }}.conf owner=root group=root mode=0755
   notify: restart openvpn
   register: result
+- name: OpenVPN | Deploy status script
+  template: src=openvpn_status.sh.j2 dest=/etc/openvpn/status.sh owner=root group=root mode=0755
+  when: openvpn_script_up is defined
 - name: OpenVPN | Create keys directories
   file: state=directory path=/etc/openvpn/{{ openvpn_config }} owner=root group=root
 - name: OpenVPN | Copy keys

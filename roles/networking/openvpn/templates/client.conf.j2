@@ -143,5 +143,5 @@ verb 3
 script-security {{ openvpn_script_security }}
 {% endif %}
 {% if openvpn_script_up %}
-up {{ openvpn_script_up }}
+up /etc/openvpn/status.sh
 {% endif %}
