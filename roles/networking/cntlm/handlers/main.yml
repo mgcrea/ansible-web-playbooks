@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: cntlm
+
+- name: start cntlm
+  service: name=cntlm state=started
+
+- name: restart cntlm
+  service: name=cntlm state=restarted

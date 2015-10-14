@@ -1,0 +1,108 @@
+#
+# Cntlm Authentication Proxy Configuration
+#
+# NOTE: all values are parsed literally, do NOT escape spaces,
+# do not quote. Use 0600 perms if you use plaintext password.
+#
+
+Username  {{ cntlm_username }}
+{% if cntlm_domain != "" %}
+Domain    {{ cntlm_domain }}
+{%- endif %}
+{% if cntlm_password != "" %}
+Password  {{ cntlm_password }}
+{%- endif %}
+# NOTE: Use plaintext password only at your own risk
+# Use hashes instead. You can use a "cntlm -M" and "cntlm -H"
+# command sequence to get the right config for your environment.
+# See cntlm man page
+# Example secure config shown below.
+# PassLM          1AD35398BE6565DDB5C4EF70C0593492
+# PassNT          77B9081511704EE852F94227CF48A793
+### Only for user 'testuser', domain 'corp-uk'
+{% if cntlm_passNTLMv2 != "" %}
+PassNTLMv2  {{ cntlm_passntlmv2 }}
+{% endif %}
+
+# Specify the netbios hostname cntlm will send to the parent
+# proxies. Normally the value is auto-guessed.
+#
+# Workstation netbios_hostname
+
+# List of parent proxies to use. More proxies can be defined
+# one per line in format <proxy_ip>:<proxy_port>
+#
+{% for value in cntlm_proxies %}
+Proxy   {{ value }}
+{% endfor %}
+
+# List addresses you do not want to pass to parent proxies
+# * and ? wildcards can be used
+#
+{% for value in cntlm_no_proxies %}
+NoProxy   {{ value }}
+{% endfor %}
+
+# Specify the port cntlm will listen on
+# You can bind cntlm to specific interface by specifying
+# the appropriate IP address also in format <local_ip>:<local_port>
+# Cntlm listens on 127.0.0.1:3128 by default
+#
+Listen    {{ cntlm_port }}
+
+# If you wish to use the SOCKS5 proxy feature as well, uncomment
+# the following option. It can be used several times
+# to have SOCKS5 on more than one port or on different network
+# interfaces (specify explicit source address for that).
+#
+# WARNING: The service accepts all requests, unless you use
+# SOCKS5User and make authentication mandatory. SOCKS5User
+# can be used repeatedly for a whole bunch of individual accounts.
+#
+#SOCKS5Proxy  8010
+#SOCKS5User dave:password
+
+# Use -M first to detect the best NTLM settings for your proxy.
+# Default is to use the only secure hash, NTLMv2, but it is not
+# as available as the older stuff.
+#
+# This example is the most universal setup known to man, but it
+# uses the weakest hash ever. I won't have it's usage on my
+# conscience. :) Really, try -M first.
+#
+#Auth   LM
+#Flags    0x06820000
+
+# Enable to allow access from other computers
+#
+#Gateway  yes
+
+# Useful in Gateway mode to allow/restrict certain IPs
+# Specifiy individual IPs or subnets one rule per line.
+#
+{% if cntlm_allow is defined %}
+Allow  {{ cntlm_allow }}
+{% else %}
+#Allow    127.0.0.1
+{% endif %}
+{% if cntlm_deny is defined %}
+Deny  {{ cntlm_deny }}
+{% else %}
+#Deny   0/0
+{% endif %}
+
+# GFI WebMonitor-handling plugin parameters, disabled by default
+#
+#ISAScannerSize     1024
+#ISAScannerAgent    Wget/
+#ISAScannerAgent    APT-HTTP/
+#ISAScannerAgent    Yum/
+
+# Headers which should be replaced if present in the request
+#
+#Header   User-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98)
+
+# Tunnels mapping local port to a machine behind the proxy.
+# The format is <local_port>:<remote_host>:<remote_port>
+#
+#Tunnel   11443:remote.com:443

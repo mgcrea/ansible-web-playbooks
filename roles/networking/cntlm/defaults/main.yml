@@ -1,0 +1,26 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: cntlm
+
+# Aptitude state
+cntlm_apt_state: "latest"
+
+# Service configuration
+cntlm_username: "testuser"
+cntlm_domain: ""
+cntlm_password: ""
+cntlm_passntlmv2: ""
+cntlm_proxies:
+  - "10.0.0.41:8080"
+  - "10.0.0.42:8080"
+cntlm_no_proxies:
+  - "localhost, 127.0.0.*, 10.*, 192.168.*"
+cntlm_port: 3128
+
+# User and group
+cntlm_user: "cntlm"
+cntlm_group: "cntlm"
+
+# Default base directory (without trailing '/')
+cntlm_path: "/var/lib/cntlm"
