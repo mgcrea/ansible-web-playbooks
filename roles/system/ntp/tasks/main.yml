@@ -1,0 +1,8 @@
+---
+# File: main.yml
+# Type: task
+# Part: NTP
+
+- name: System | Deploy NTP config
+  sudo: True
+  template: src=ntp.j2 dest="/etc/ntp.conf" owner=root group=root mode=0644
