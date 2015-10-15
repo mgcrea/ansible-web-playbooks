@@ -4,6 +4,7 @@
 # Part: NodeJS
 
 # Aptitude state
+nodejs_branch: "node_4.x"
 nodejs_apt_state: "latest"
 
 # Network configuration
@@ -21,7 +22,4 @@ nodejs_args: "."
 
 # Npm modules
 nodejs_npm_registry: "https://registry.npmjs.org/"
-nodejs_npm_modules:
-  - npm
-  - bower
-  - nodemon
+# nodejs_npm_modules:

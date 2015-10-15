@@ -47,6 +47,8 @@
       tags: system_sudo
     - role: system/ssh
       tags: system_ssh
+    - role: system/ntp
+      tags: system_ntp
     - role: database/beanstalkd
       tags: database_beanstalkd
     - role: database/mysql
@@ -73,3 +75,5 @@
       tags: networking_avahi
     - role: networking/btsync
       tags: networking_btsync
+    - role: networking/cntlm
+      tags: networking_cntlm

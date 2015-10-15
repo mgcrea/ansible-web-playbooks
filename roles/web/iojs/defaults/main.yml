@@ -22,7 +22,4 @@ iojs_args: "."
 
 # Npm modules
 iojs_npm_registry: "https://registry.npmjs.org/"
-iojs_npm_modules:
-  - npm
-  - bower
-  - nodemon
+# iojs_npm_modules:

@@ -16,6 +16,8 @@ openvpn_port: 9091
 openvpn_user: "nobody"
 openvpn_group: "nogroup"
 openvpn_service: "openvpn"
+openvpn_service_state: "started"
+openvpn_service_enabled: True
 
 openvpn_users:
   - client

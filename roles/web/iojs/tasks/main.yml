@@ -14,8 +14,8 @@
 ## Install global packages
 - name: ioJS | NPM | Install global packages
   npm: name={{ item }} global=yes state={{ iojs_apt_state }} registry={{ iojs_npm_registry }}
-  when: nodejs_npm_modules is defined
-  with_items: nodejs_npm_modules
+  when: iojs_npm_modules is defined
+  with_items: iojs_npm_modules
 
 ## Install supervisor service
 - include: configure-supervisor.yml

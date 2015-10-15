@@ -5,11 +5,11 @@
 # do not quote. Use 0600 perms if you use plaintext password.
 #
 
-Username  {{ cntlm_username }}
-{% if cntlm_domain != "" %}
+Username  {{ cntlm_username | default('testuser') }}
+{% if cntlm_domain is defined %}
 Domain    {{ cntlm_domain }}
 {%- endif %}
-{% if cntlm_password != "" %}
+{% if cntlm_password is defined %}
 Password  {{ cntlm_password }}
 {%- endif %}
 # NOTE: Use plaintext password only at your own risk
