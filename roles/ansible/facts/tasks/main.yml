@@ -8,6 +8,7 @@
 - name: Facts | Set base fetch path
   tags: always
   set_fact: ansible_fetched_base=fetched/{{ group_names[0] | default('') }}/{{ inventory_hostname }}
+- debug: msg=ansible_fetched_base={{ ansible_fetched_base }}
 - name: Facts | Generate facts
   template: src=hostvars.j2 dest=/tmp/facts.json
 - name: Facts | Fetch facts
