@@ -15,7 +15,7 @@
   register: result
 - name: OpenVPN | ARM | Extract package
   shell: mkdir -p /opt/tmp/openvpn-{{ openvpn_arm_version }}; tar -xzf /opt/openvpn-{{ openvpn_arm_version }}.tar.gz -C /opt/tmp/openvpn-{{ openvpn_arm_version }} --strip-components 1
-  when: result | changed
+  when: result|changed
 - name: OpenVPN | ARM | Check version
   shell: openvpn --version | head -n 1 | cut -c 9-13
   ignore_errors: True

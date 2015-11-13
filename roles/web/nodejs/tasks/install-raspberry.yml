@@ -9,5 +9,5 @@
   register: result
 - name: NodeJS | Raspberry | Install package
   command: tar -xzf /opt/node-v0.10.21-linux-arm-pi.tar.gz -C /usr/local --strip-components 1 --exclude='LICENSE' --exclude='README.md' --exclude='ChangeLog'
-  when: result | changed
+  when: result|changed
 

@@ -10,7 +10,7 @@
   register: result
 - name: Boot | Configure grub
   shell: update-grub
-  when: result | changed
+  when: result|changed
 
 ## rcS
 - name: Boot | Configure rcS

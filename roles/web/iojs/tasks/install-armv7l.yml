@@ -9,4 +9,4 @@
   register: result
 - name: NodeJS | armv7l | Install package
   command: tar -xJf /opt/node-v0.10.21-precise-armhf.tar.xz -C /usr/local --strip-components 1
-  when: result | changed
+  when: result|changed

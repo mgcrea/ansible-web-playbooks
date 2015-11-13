@@ -8,13 +8,13 @@
   shell: creates=/etc/init.d/openvpn.orig.disabled cp /etc/init.d/openvpn /etc/init.d/openvpn.orig.disabled
   ignore_errors: True
   register: result
-- fetch: src=/etc/init.d/openvpn.orig.disabled dest=fetched/{{ ansible_host }}/etc/init.d/openvpn.orig flat=yes
-  when: result | changed
+- fetch: src=/etc/init.d/openvpn.orig.disabled dest="{{ ansible_fetched_base }}/openvpn.orig" flat=yes
+  when: result|changed
 - name: OpenVPN | Deploy service configuration
   template: src=init.d_openvpn.j2 dest=/etc/init.d/openvpn owner=root group=root mode=0755 backup=no
   notify: restart openvpn
   register: result
 - fetch: src=/etc/init.d/openvpn dest={{ ansible_fetched_base }}
-  when: result | changed
+  when: result|changed
 - name: OpenVPN | Check daemon
   service: name=openvpn state={{ openvpn_service_state }} enabled={{ openvpn_service_enabled }}

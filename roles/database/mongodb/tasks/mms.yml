@@ -11,7 +11,7 @@
   register: result
 - name: MongoDB | Monitoring | Install package
   shell: dpkg -i mongodb-mms-monitoring-agent_{{ mms_version }}_amd64.deb
-  when: result | changed
+  when: result|changed
 # - name: MongoDB | Monitoring | Deploy configuration
 #   template: src=php5_conf.d_mongo.ini.j2 dest=/etc/php5/conf.d/20-mongo.ini owner=root mode=0644
 #   notify: restart apache2

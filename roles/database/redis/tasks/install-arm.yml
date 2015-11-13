@@ -11,7 +11,7 @@
   register: result
 - name: Redis | ARM | Extract package
   shell: mkdir -p /opt/tmp/redis-2.8.6; tar -xzf /opt/redis-2.8.6.tar.gz -C /opt/tmp/redis-2.8.6 --strip-components 1 --exclude='LICENSE' --exclude='README.md' --exclude='ChangeLog'
-  when: result | changed
+  when: result|changed
 - name: Redis | ARM | Check version
   shell: redis-server --version | cut -c 16-20
   ignore_errors: True
