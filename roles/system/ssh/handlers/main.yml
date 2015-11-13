@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: SSH
+
+- name: start ssh
+  service: name=ssh state=started
+
+- name: restart ssh
+  service: name=ssh state=restarted

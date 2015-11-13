@@ -3,11 +3,29 @@
 # Type: task
 # Part: SSH
 
-- name: System | Create SSH directoriy
-  file: state=directory path="/home/{{ ansible_ssh_user }}/.ssh" owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0700
-- name: System | Deploy SSH authorized_keys
-  template: src=authorized_keys.j2 dest="/home/{{ ansible_ssh_user }}/.ssh/authorized_keys" owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode=0600
+- name: System | Setup SSH user group
+  group: name={{ ssh_user_group }}
+  when: ssh_user_group is defined
+
+- name: System | Setup SSH user
+  user: name={{ ssh_user_name }} group={{ ssh_user_group }} groups={{ ssh_user_groups }} password={{ ssh_user_password }} shell="/bin/bash" comment="Carlipa"
+  when: ssh_user_name is defined
+
+- name: System | Create SSH directory
+  file: state=directory path="/home/{{ ssh_user_name | default(ansible_ssh_user) }}/.ssh" owner={{ ssh_user_name | default(ansible_ssh_user) }} group={{ ssh_user_name | default(ansible_ssh_user) }} mode=0700
   when: ssh_authorized_keys is defined
-- name: System | Change user password
-  user: name={{ ansible_ssh_user }} password={{ ssh_user_password }}
-  when: ssh_user_password is defined
+
+- name: System | Deploy SSH authorized_keys
+  template: src=authorized_keys.j2 dest="/home/{{ ssh_user_name | default(ansible_ssh_user) }}/.ssh/authorized_keys" owner={{ ssh_user_name | default(ansible_ssh_user) }} group={{ ssh_user_name | default(ansible_ssh_user) }} mode=0600
+  when: ssh_authorized_keys is defined
+
+- name: System | Configure UFW
+  ufw: rule=allow port={{ ssh_port }} proto=tcp
+- name: System | Configure UFW logging
+  ufw: logging=on
+- name: System | Enable UFW
+  ufw: state=enabled policy=allow
+
+- name: System | Deploy SSH configuration
+  template: src=ssh_sshd_config.j2 dest="/etc/ssh/sshd_config" owner=root group=root mode=0644
+  notify: restart ssh

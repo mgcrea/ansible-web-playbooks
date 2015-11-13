@@ -1,0 +1,8 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: SSH
+
+ssh_port: 22
+ssh_protocol: 2
+ssh_permit_root_login: True
