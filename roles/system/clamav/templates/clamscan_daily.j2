@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# email subject
+SUBJECT="VIRUS DETECTED ON `hostname`!!!"
+# Email To ?
+EMAIL="{{ clamav_email }}"
+# Log location
+LOG=/var/log/clamav/scan.log
+
+check_scan () {
+
+    # Check the last set of results. If there are any "Infected" counts that aren't zero, we have a problem.
+    if [ `tail -n 12 ${LOG}  | grep Infected | grep -v 0 | wc -l` != 0 ]
+    then
+        EMAILMESSAGE=`mktemp /tmp/virus-alert.XXXXX`
+        echo "To: ${EMAIL}" >>  ${EMAILMESSAGE}
+        echo "From: alert@domain.com" >>  ${EMAILMESSAGE}
+        echo "Subject: ${SUBJECT}" >>  ${EMAILMESSAGE}
+        echo "Importance: High" >> ${EMAILMESSAGE}
+        echo "X-Priority: 1" >> ${EMAILMESSAGE}
+        echo "`tail -n 50 ${LOG}`" >> ${EMAILMESSAGE}
+        {% if clamav_sendmail is defined -%}
+        {{ clamav_sendmail }} < ${EMAILMESSAGE} >> ${LOG}
+        {% else -%}
+        sendmail -t < ${EMAILMESSAGE} >> ${LOG}
+        {%- endif %}
+    fi
+
+}
+
+echo `date +"%Y-%m-%dT%H:%M:%SZ"` - Starting daily scan... >> ${LOG}
+
+{% if clamav_quarantine is defined -%}
+clamscan -r / --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
+{% else -%}
+clamscan -r / --exclude-dir=/sys/ --quiet --infected --log=${LOG}
+{%- endif %}
+check_scan
+
+echo `date +"%Y-%m-%dT%H:%M:%SZ"` - Ended daily scan. >> ${LOG}

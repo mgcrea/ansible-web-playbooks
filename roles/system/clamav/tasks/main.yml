@@ -1,0 +1,45 @@
+---
+# File: main.yml
+# Type: task
+# Part: ClamAV
+
+- name: ClamAV | Install package
+  apt: name={{ clamav_apt_name }} state={{ clamav_apt_state }}
+
+# - name: ClamAV | Definition Updates
+#   cron: name="clamav update" minute="4" hour="5"
+#         user="root" job="/usr/bin/freshclam --quiet -l /var/log/clamav/freshclam.log"
+#         cron_file=clamav_update
+
+- name: ClamAV | Create user directory
+  file: state=directory path=/usr/local/etc/clamav owner={{ clamav_user }} group={{ clamav_group }}
+
+- name: ClamAV | Create quarantine directory
+  file: state=directory path=/usr/local/etc/clamav/quarantine owner={{ clamav_user }} group={{ clamav_group }}
+
+- name: ClamAV | Deploy Daily Scan script
+  template: src=clamscan_daily.j2 dest=/usr/local/etc/clamav/clamscan_daily
+            owner={{ clamav_user }} group={{ clamav_group }} mode=0755 backup=no
+
+- name: ClamAV | Daily Scan
+  cron: name="clamav daily scan" special_time="daily"
+        user="root" job="/usr/local/etc/clamav/clamscan_daily"
+        cron_file=clamav_daily_scan
+
+- name: ClamAV | Deploy Hourly Scan script
+  template: src=clamscan_hourly.j2 dest=/usr/local/etc/clamav/clamscan_hourly
+            owner={{ clamav_user }} group={{ clamav_group }} mode=0755 backup=no
+
+- name: ClamAV | Hourly Scan
+  cron: name="clamav hourly scan" special_time="hourly"
+        user="root" job="/usr/local/etc/clamav/clamscan_hourly"
+        cron_file=clamav_hourly_scan
+
+- name: ClamAV | Deploy AppArmor profile
+  template: src=apparmor.d_local_usr.sbin.clamd.j2 dest=/etc/apparmor.d/local/usr.sbin.clamd
+            owner=root group=root mode=0644 backup=no
+
+# /etc/apparmor.d/local/usr.sbin.clamd
+# /bin/** r,
+# /srv/** r,
+# /tmp/** r,

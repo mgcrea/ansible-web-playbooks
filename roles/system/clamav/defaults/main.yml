@@ -1,0 +1,14 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: ClamAV
+
+# Aptitude state
+clamav_apt_name: "clamav"
+clamav_apt_state: "latest"
+
+clamav_user: "clamav"
+clamav_group: "clamav"
+
+clamav_email: "me@domain.com"
+clamav_sendmail: "sendmail"
