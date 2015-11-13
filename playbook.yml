@@ -49,6 +49,10 @@
       tags: system_ssh
     - role: system/ntp
       tags: system_ntp
+    - role: system/fail2ban
+      tags: system_fail2ban
+    - role: system/clamav
+      tags: system_clamav
     - role: database/beanstalkd
       tags: database_beanstalkd
     - role: database/mysql
