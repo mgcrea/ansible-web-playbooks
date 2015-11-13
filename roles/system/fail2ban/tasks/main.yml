@@ -1,0 +1,7 @@
+---
+# File: main.yml
+# Type: task
+# Part: fail2ban
+
+- name: fail2ban | Install package
+  apt: name=fail2ban state=latest
