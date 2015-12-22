@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: fail2ban
+
+- name: start fail2ban
+  service: name=fail2ban state=started
+
+- name: restart fail2ban
+  service: name=fail2ban state=restarted

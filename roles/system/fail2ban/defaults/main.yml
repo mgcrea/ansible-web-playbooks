@@ -1,0 +1,7 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: fail2ban
+
+ssh_port: "ssh"
+fail2ban_ignoreip: []
