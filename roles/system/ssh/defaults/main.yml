@@ -6,3 +6,6 @@
 ssh_port: 22
 ssh_protocol: 2
 ssh_permit_root_login: True
+ssh_authorized_keys_file: False
+ssh_sftp_user: False
+ssh_sftp_group: False

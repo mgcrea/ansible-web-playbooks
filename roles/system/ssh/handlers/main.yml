@@ -8,3 +8,9 @@
 
 - name: restart ssh
   service: name=ssh state=restarted
+
+- name: start ufw
+  service: name=ufw state=started
+
+- name: restart ufw
+  service: name=ufw state=restarted
