@@ -1,0 +1,28 @@
+---
+# File: main.yml
+# Type: task
+# Part: ufw
+
+- name: System | Reset ufw rules
+  command: echo "y" | ufw reset
+  when: ufw_reset_rules
+
+- name: System | Configure ufw policies
+  ufw: direction={{ item.direction }} policy={{ item.policy }}
+  with_items: ufw_policies
+  notify: restart ufw
+
+- name: System | Configure ufw rules
+  ufw: rule={{ item.rule }} proto={{ item.proto }} port={{ item.port }} interface={{ item.interface | default('') }} direction={{ item.direction | default('in') }}
+  with_items: ufw_rules
+  notify: restart ufw
+
+- name: System | Configure ufw logging
+  ufw: logging=on
+  notify: restart ufw
+
+- name: System | Enable ufw
+  ufw: state=enabled
+
+- name: System | Check ufw daemon
+  service: name=ufw state=started

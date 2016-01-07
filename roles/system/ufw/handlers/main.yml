@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: ufw
+
+- name: start ufw
+  service: name=ufw state=started
+
+- name: restart ufw
+  service: name=ufw state=restarted

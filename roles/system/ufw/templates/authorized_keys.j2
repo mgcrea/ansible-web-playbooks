@@ -1,0 +1,5 @@
+# Ansible managed
+
+{% for value in ssh_authorized_keys|default([]) %}
+{{ value }}
+{% endfor %}
