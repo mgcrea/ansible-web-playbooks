@@ -3,6 +3,9 @@
 # Type: task
 # Part: NTP
 
-- name: System | Deploy NTP config
-  sudo: True
+- name: NTP | Install package
+  apt: name=ntp state=latest
+
+- name: NTP | Deploy config
   template: src=ntp.j2 dest="/etc/ntp.conf" owner=root group=root mode=0644
+  notify: restart ntp
