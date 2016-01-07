@@ -1,0 +1,19 @@
+---
+# File: main.yml
+# Type: task
+# Part: Aptitude
+
+- name: Aptitude | Update cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Aptitude | Update all packages to the latest version
+  apt: upgrade=dist
+
+- name: Aptitude | Deploy sources.list
+  template: src=apt_sources.list.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
+  register: result
+  sudo: True
+
+- name: Aptitude | Update cache
+  apt: update_cache=yes
+  when: result|changed
