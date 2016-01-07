@@ -1,0 +1,5 @@
+#!/bin/bash
+
+date > /root/.last_apc_doshutdown
+/etc/apcupsd/apccontrol killpower & /sbin/halt
+exit 99

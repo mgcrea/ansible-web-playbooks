@@ -1,0 +1,27 @@
+---
+# File: main.yml
+# Type: task
+# Part: APC UPS
+
+- name: APC UPS | Install package
+  apt: name={{ apcups_apt_name }} state={{ apcups_apt_state }}
+
+- name: APC UPS | Deploy configuration
+  template: src=apcupsd_apcupsd.conf.j2 dest=/etc/apcupsd/apcupsd.conf
+            owner=root group=root mode=0644 backup=no
+  notify: restart apcupsd
+
+- name: APC UPS | Deploy default configuration
+  template: src=default_apcupsd.j2 dest=/etc/default/apcupsd
+            owner=root group=root mode=0644 backup=no
+  notify: restart apcupsd
+
+- name: APC UPS | Deploy default configuration
+  template: src=apcupsd_doshutdown.j2 dest=/etc/apcupsd/doshutdown
+            owner=root group=root mode=0755 backup=no
+  notify: restart apcupsd
+
+- name: APC UPS | Check service daemon
+  service: name=apcupsd state=started
+
+# Power failure on UPS player-2e9a. Running on batteries.

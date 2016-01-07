@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: APC UPS
+
+- name: start apcupsd
+  service: name=apcupsd state=started
+
+- name: restart apcupsd
+  service: name=apcupsd state=restarted

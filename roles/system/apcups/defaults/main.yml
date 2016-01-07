@@ -1,0 +1,14 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: APCUPS
+
+# Aptitude state
+apcups_apt_name: "apcupsd"
+apcups_apt_state: "latest"
+
+apcups_upscable: "smart"
+apcups_upstype: "apcsmart"
+apcups_device: "/dev/ttyS0"
+apcups_batterylevel: 5
+apcups_timeout: 0
