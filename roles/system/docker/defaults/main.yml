@@ -11,5 +11,5 @@ docker_user: "www-data"
 docker_group: "www-data"
 
 # DockerGen
-docker_gen_version: "0.4.1"
-docker_gen_sha256sum: "97a376f93833a5ed653acdc8717060dc697b9d35fd6aae035f6d44e99cebd782"
+docker_gen_version: "0.5.0"
+docker_gen_sha256sum: "f608a601293363855ffaca5a732eac212d7c41ec44874a748cef94d486e0aa87"

@@ -49,6 +49,7 @@
 
 ## DockerGen
 - name: Docker | Install DockerGen
+  tags: system_docker-gen
   include: docker-gen.yml
 
 ## Check service
