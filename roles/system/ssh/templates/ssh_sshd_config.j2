@@ -37,7 +37,7 @@ StrictModes yes
 RSAAuthentication yes
 PubkeyAuthentication yes
 #AuthorizedKeysFile %h/.ssh/authorized_keys
-{% if ssh_authorized_keys_file %}
+{% if ssh_authorized_keys_file is defined %}
 AuthorizedKeysFile {{ ssh_authorized_keys_file }}/%u
 {% endif %}
 
@@ -83,7 +83,7 @@ TCPKeepAlive yes
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
 
-{% if ssh_sftp_user or ssh_sftp_group %}
+{% if ssh_sftp_user is defined or ssh_sftp_group is defined %}
 Subsystem sftp internal-sftp -f AUTH -l VERBOSE
 {% else %}
 Subsystem sftp /usr/lib/openssh/sftp-server
@@ -108,7 +108,7 @@ KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,d
 {% endif %}
 
 # SFTP configuration
-{% if ssh_sftp_user %}
+{% if ssh_sftp_user is defined %}
 Match User {{ ssh_sftp_user }}
   ChrootDirectory %h
   ForceCommand internal-sftp -u 0007
@@ -116,7 +116,7 @@ Match User {{ ssh_sftp_user }}
   PermitTunnel no
   X11Forwarding no
 {% endif %}
-{% if ssh_sftp_group %}
+{% if ssh_sftp_group is defined %}
 Match Group {{ ssh_sftp_group }}
   ChrootDirectory %h
   ForceCommand internal-sftp -u 0007
