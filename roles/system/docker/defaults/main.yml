@@ -10,6 +10,10 @@ docker_apt_state: "latest"
 docker_user: "www-data"
 docker_group: "www-data"
 
+# DockerCompose
+docker_compose_version: 1.6.0
+docker_compose_sha256sum: "aaaaa601293363855ffaca5a732eac212d7c41ec44874a748cef94d486e0aa87"
+
 # DockerGen
 docker_gen_version: "0.5.0"
 docker_gen_sha256sum: "f608a601293363855ffaca5a732eac212d7c41ec44874a748cef94d486e0aa87"

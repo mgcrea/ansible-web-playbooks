@@ -1,0 +1,10 @@
+---
+# File: docker-compose.yml
+# Type: task
+# Part: Docker
+
+- name: Docker | Install compose
+  get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ ansible_architecture }}
+    dest=/usr/local/bin/docker-compose
+    sha256sum={{ docker_gen_sha256sum }}
+- file: path=/usr/local/bin/docker-compose owner=root group=root mode=0755

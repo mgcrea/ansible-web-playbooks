@@ -43,9 +43,10 @@
 - name: Docker | Install package
   apt: name=docker-engine state={{ docker_apt_state }}
 
-- name: Docker | Install compose
-  get_url: url="https://github.com/docker/compose/releases/download/1.5.2/docker-compose-linux-{{ ansible_architecture }}" dest=/usr/local/bin/docker-compose
-- file: path=/usr/local/bin/docker-compose owner=root group=root mode=0755
+## DockerCompose
+- name: Docker | Install DockerCompose
+  tags: system_docker-compose
+  include: docker-compose.yml
 
 ## DockerGen
 - name: Docker | Install DockerGen
