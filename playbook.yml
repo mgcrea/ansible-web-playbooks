@@ -53,6 +53,8 @@
       tags: system_ufw
     - role: system/ntp
       tags: system_ntp
+    - role: system/td-agent
+      tags: system_td-agent
     - role: system/fail2ban
       tags: system_fail2ban
     - role: system/clamav

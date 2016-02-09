@@ -1,0 +1,16 @@
+---
+# File: main.yml
+# Type: task
+# Part: td-agent
+
+## Install
+- name: td-agent | Install ppa key
+  # apt_key: id=801DF724 url=https://packages.treasuredata.com/GPG-KEY-td-agent state=present validate_certs=no
+  apt_key: data={{ lookup('file', 'files/GPG-KEY-td-agent') }} state=present
+- name: td-agent | Install ppa
+  apt_repository: repo='deb [arch=amd64] http://packages.treasuredata.com/2/ubuntu/{{ ansible_lsb.codename }}/ {{ ansible_lsb.codename }} contrib' state=present
+- name: td-agent | Install package
+  apt: name=td-agent state=latest
+
+- name: td-agent | Deploy config
+  template: src=td-agent_td-agent.conf.j2 dest=/etc/td-agent/td-agent.conf

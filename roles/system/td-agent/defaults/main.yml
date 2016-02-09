@@ -1,0 +1,7 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: td-agent
+
+# Aptitude state
+td-agent_apt_state: "latest"
