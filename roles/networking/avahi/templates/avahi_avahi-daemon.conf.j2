@@ -34,7 +34,7 @@ use-ipv6=yes
 #deny-interfaces=eth1
 #check-response-ttl=no
 #use-iff-running=no
-{% if docker %}
+{% if docker|default("") != "" %}
 enable-dbus=no
 {% else %}
 #enable-dbus=yes

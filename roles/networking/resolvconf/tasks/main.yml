@@ -1,0 +1,12 @@
+---
+# File: main.yml
+# Type: task
+# Part: Resolvconf
+
+- name: Resolvconf | Setup resolv.conf
+  template: src=resolvconf_resolv.conf.d_head.j2 dest=/etc/resolvconf/resolv.conf.d/head
+  when: resolvconf_nameservers is defined
+  register: result
+- name: Resolvconf | Regenerate resolv.conf
+  command: resolvconf -u
+  when: result|changed

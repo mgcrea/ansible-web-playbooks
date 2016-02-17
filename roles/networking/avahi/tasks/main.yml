@@ -12,14 +12,6 @@
 - name: Avahi | Fetch hosts
   fetch: src=/etc/hosts dest={{ ansible_fetched_base }}/hosts flat=yes
 
-- name: Avahi | Setup resolv.conf
-  template: src=resolvconf_resolv.conf.d_head.j2 dest=/etc/resolvconf/resolv.conf.d/head
-  when: avahi_extra_nameservers is defined
-  register: result
-- name: Avahi | Regenerate resolv.conf
-  command: resolvconf -u
-  when: result|changed
-
 - name: Avahi | Install package
   apt: name=avahi-daemon state={{ avahi_apt_state }}
 - name: Avahi | Setup avahi
