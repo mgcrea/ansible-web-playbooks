@@ -8,37 +8,18 @@
   hosts: all
   tags: always
   tasks:
+    - debug: "msg=Current hostname={{ ansible_hostname }}"
     - set_fact: docker={{ ansible_virtualization_type is defined and ansible_virtualization_type == 'docker' and ansible_virtualization_role == 'guest' }}
     - set_fact: ansible_fetched_base=fetched/{{ group_names[0] | default('') }}/{{ inventory_hostname }}
 
-- name: Ansible bootstrap
+- name: Execute playbook
   hosts: all
-  sudo: yes
-  tags: apt_update
-  tasks:
-    - name: Setup | Update aptitude
-      apt: update_cache=yes cache_valid_time=3600
-
-- name: Ansible setup
-  hosts: all
-  sudo: yes
+  become: yes
   roles:
     - role: ansible/setup
-      tags: ansible
-
-- name: Fetch facts
-  hosts: all
-  sudo: yes
-  roles:
+      tags: ansible_setup
     - role: ansible/facts
       tags: ansible_facts
-
-- name: Execute playbook
-  # connection: fireball
-  # accelerate: true
-  hosts: all
-  sudo: yes
-  roles:
     - role: system/docker
       tags: system_docker
     - role: system/boot
@@ -89,3 +70,5 @@
       tags: networking_btsync
     - role: networking/cntlm
       tags: networking_cntlm
+    - role: networking/resolvconf
+      tags: networking_resolvconf
