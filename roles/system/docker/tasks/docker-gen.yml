@@ -22,12 +22,12 @@
 
 - name: DockerGen | Deploy hosts template
   shell: cp /etc/hosts /etc/docker/templates/hosts.orig
-  creates: /etc/docker/templates/hosts.orig
+    creates=/etc/docker/templates/hosts.orig
 
 - name: DockerGen | Deploy hosts template
-  shell: "sed '/# The following lines are desirable for IPv6 capable hosts/i\# Docker hosts genenerated by docker-gen\n\{\{ range $key, $value := . \}\}\{\{ $addrLen := len $value.Addresses \}\}\{\{ if gt $addrLen 0 \}\}\{\{ with $address := index $value.Addresses 0 \}\}\{\{ $address.IP \}\}\t\{\{ $value.Name \}\}.docker {{ ansible_hostname }}.\{\{ $value.Name \}\}\{\{ end \}\}\{\{ end \}\}\n\{\{ end \}\}' /etc/docker/templates/hosts.orig > /etc/docker/templates/hosts.tmpl"
+  template: src=hosts.j2 dest=/etc/docker/templates/hosts.tmpl owner=root group=root mode=0644 backup=no
   notify: restart docker-gen
 
 - name: DockerGen | Deploy service configuration
-  template: src=init_docker-gen.conf.j2 dest=/etc/init/docker-gen.conf owner=root group=root mode=0755 backup=no
+  template: src=init_docker-gen.conf.j2 dest=/etc/init/docker-gen.conf owner=root group=root mode=0644 backup=no
   notify: restart docker-gen
