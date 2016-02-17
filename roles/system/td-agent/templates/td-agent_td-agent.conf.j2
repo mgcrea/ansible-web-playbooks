@@ -78,6 +78,13 @@
 #  path /var/log/td-agent/access
 #</match>
 
+<match player-*.**>
+  type forward
+  host storage.carlipa.io
+  flush_interval 3s
+  port 24224
+</match>
+
 ## Forwarding
 ## match tag=system.** and forward to another td-agent server
 #<match system.**>

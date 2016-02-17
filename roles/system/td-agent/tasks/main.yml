@@ -14,3 +14,9 @@
 
 - name: td-agent | Deploy config
   template: src=td-agent_td-agent.conf.j2 dest=/etc/td-agent/td-agent.conf
+  notify: restart td-agent
+
+## Check service
+- name: td-agent | Check service daemon
+  service: name=td-agent state=started enabled=yes
+# sudo update-rc.d td-agent enable
