@@ -11,6 +11,11 @@
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
 
+## Configure proxy
+- name: NodeJS | NPM | Configure proxy
+  shell: npm config set proxy {{ npm_proxy }}
+  when: npm_proxy is defined
+
 ## Install global packages
 - name: NodeJS | NPM | Install global packages
   npm: name={{ item }} global=yes state={{ nodejs_apt_state }} registry={{ nodejs_npm_registry }}

@@ -6,6 +6,7 @@
 # Aptitude state
 nodejs_branch: "node_4.x"
 nodejs_apt_state: "latest"
+nodejs_validate_certs: yes
 
 # Network configuration
 nodejs_bind_address: "0.0.0.0"
