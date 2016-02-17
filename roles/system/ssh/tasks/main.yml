@@ -19,6 +19,10 @@
   template: src=authorized_keys.j2 dest="/home/{{ ssh_user_name | default(ansible_ssh_user) }}/.ssh/authorized_keys" owner={{ ssh_user_name | default(ansible_ssh_user) }} group={{ ssh_user_name | default(ansible_ssh_user) }} mode=0600
   when: ssh_authorized_keys is defined
 
+- name: System | Deploy SSH config file
+  file: src={{ ssh_config_file }} dest="/home/{{ ssh_user_name | default(ansible_ssh_user) }}/.ssh/config" owner={{ ssh_user_name | default(ansible_ssh_user) }} group={{ ssh_user_name | default(ansible_ssh_user) }} mode=0644
+  when: ssh_config_file is defined
+
 - name: System | Deploy SSH configuration
   template: src=ssh_sshd_config.j2 dest="/etc/ssh/sshd_config" owner=root group=root mode=0644
   # notify: restart ssh
