@@ -13,3 +13,14 @@
   template: src=hostvars.j2 dest=/tmp/facts.json
 - name: Facts | Fetch facts
   fetch: src=/tmp/facts.json dest={{ ansible_fetched_base }}/facts.json flat=yes
+- name: Facts | Generate lspci
+  shell: lspci > /tmp/lspci.txt
+- name: Facts | Fetch lspci
+  fetch: src=/tmp/lspci.txt dest={{ ansible_fetched_base }}/lspci.txt flat=yes
+- name: Facts | Generate xrandr
+  shell: DISPLAY=:0 xrandr > /tmp/xrandr.txt
+- name: Facts | Fetch xrandr
+  fetch: src=/tmp/xrandr.txt dest={{ ansible_fetched_base }}/xrandr.txt flat=yes
+- name: Facts | Fetch xorg
+  fetch: src=/etc/X11/xorg.conf dest={{ ansible_fetched_base }}/xorg.conf flat=yes fail_on_missing=no
+  ignore_errors: yes
