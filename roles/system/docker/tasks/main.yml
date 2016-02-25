@@ -47,11 +47,13 @@
 - name: Docker | Install DockerCompose
   tags: system_docker-compose
   include: docker-compose.yml
+  when: docker_compose_install
 
 ## DockerGen
 - name: Docker | Install DockerGen
   tags: system_docker-gen
   include: docker-gen.yml
+  when: docker_gen_install
 
 ## Check service
 - name: Docker | Check service daemon
