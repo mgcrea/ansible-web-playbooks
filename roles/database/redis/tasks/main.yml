@@ -8,8 +8,8 @@
   when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
-- service: name=redis-server state=stopped enabled=yes
-  when: ansible_distribution == 'Ubuntu'
+# - service: name=redis-server state=stopped enabled=yes
+#   when: ansible_distribution == 'Ubuntu'
 
 ## Setup custom location
 - include: location.yml
@@ -22,12 +22,12 @@
   user: name={{ redis_user }} group={{ redis_group }} home="/var/lib/redis" shell="/bin/false" comment="Redis Server"
 
 ## Configure Redis
-- name: Redis | Backup configuration
-  shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
-  ignore_errors: True
-  register: result
-- fetch: src=/etc/redis/redis.conf.orig dest={{ ansible_fetched_base }}
-  when: result|changed
+# - name: Redis | Backup configuration
+#   shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
+#   ignore_errors: True
+#   register: result
+# - fetch: src=/etc/redis/redis.conf.orig dest={{ ansible_fetched_base }}
+#   when: result|changed
 - name: Redis | Ensure base folder exists
   file: path=/etc/redis state=directory owner=root group=root mode=0755
 - name: Redis | Ensure log folder exists
