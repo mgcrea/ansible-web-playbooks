@@ -9,6 +9,11 @@
 
 - name: Aptitude | Deploy sources.list
   template: src=apt_sources.list.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
+  register: result
+
+- name: Aptitude | Force update cache
+  apt: update_cache=yes
+  when: result|changed
 
 - name: Aptitude | Update cache
   apt: update_cache=yes cache_valid_time=3600
