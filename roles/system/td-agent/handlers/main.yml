@@ -7,3 +7,5 @@
   service: name=td-agent state=started
 - name: restart td-agent
   service: name=td-agent state=restarted
+- name: restart monit
+  service: name=monit state=restarted

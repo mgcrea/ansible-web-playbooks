@@ -19,4 +19,7 @@
 ## Check service
 - name: td-agent | Check service daemon
   service: name=td-agent state=started enabled=yes
-# sudo update-rc.d td-agent enable
+
+## Configure monit
+- name: td-agent | Configure monit
+  include: configure-monit.yml

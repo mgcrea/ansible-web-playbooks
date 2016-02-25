@@ -8,19 +8,19 @@
 # @see http://docs.fluentd.org/articles/http-to-td
 #
 # This section matches events whose tag is td.DATABASE.TABLE
-<match td.*.*>
-  type tdlog
-  apikey YOUR_API_KEY
-
-  auto_create_table
-  buffer_type file
-  buffer_path /var/log/td-agent/buffer/td
-
-  <secondary>
-    type file
-    path /var/log/td-agent/failed_records
-  </secondary>
-</match>
+#<match td.*.*>
+#  type tdlog
+#  apikey YOUR_API_KEY
+#
+#  auto_create_table
+#  buffer_type file
+#  buffer_path /var/log/td-agent/buffer/td
+#
+#  <secondary>
+#    type file
+#    path /var/log/td-agent/failed_records
+#  </secondary>
+#</match>
 
 ## match tag=debug.** and dump to console
 <match debug.**>
@@ -80,9 +80,8 @@
 
 <match player-*.**>
   type forward
-  host storage.carlipa.io
   flush_interval 3s
-  port 24224
+  host storage.carlipa.io
 </match>
 
 ## Forwarding

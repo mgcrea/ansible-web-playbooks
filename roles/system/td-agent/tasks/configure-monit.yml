@@ -1,0 +1,9 @@
+---
+
+## Configure monit
+- name: td-agent | Install monit
+  apt: name=monit state=latest
+  notify: restart monit
+- name: td-agent | Deploy monit configuration
+  template: src=monit_conf.d_td-agent.conf.j2 dest=/etc/monit/conf.d/td-agent.conf owner=root group=root mode=0644
+  notify: restart monit
