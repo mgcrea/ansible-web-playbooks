@@ -19,8 +19,10 @@
   fetch: src=/tmp/lspci.txt dest={{ ansible_fetched_base }}/lspci.txt flat=yes
 - name: Facts | Generate xrandr
   shell: DISPLAY=:0 xrandr > /tmp/xrandr.txt
+  ignore_errors: yes
 - name: Facts | Fetch xrandr
   fetch: src=/tmp/xrandr.txt dest={{ ansible_fetched_base }}/xrandr.txt flat=yes
+  ignore_errors: yes
 - name: Facts | Fetch xorg
   fetch: src=/etc/X11/xorg.conf dest={{ ansible_fetched_base }}/xorg.conf flat=yes fail_on_missing=no
   ignore_errors: yes
