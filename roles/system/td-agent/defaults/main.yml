@@ -4,4 +4,9 @@
 # Part: td-agent
 
 # Aptitude state
-td-agent_apt_state: "latest"
+td_agent_apt_state: "latest"
+
+td_agent_type: "forward"
+td_agent_host: "192.168.0.11"
+td_agent_match: "system.**"
+# td-agent_flush_interval: "3s"

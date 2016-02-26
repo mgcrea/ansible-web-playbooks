@@ -2,25 +2,15 @@
 ## Output descriptions:
 ##
 
-# Treasure Data (http://www.treasure-data.com/) provides cloud based data
-# analytics platform, which easily stores and processes data from td-agent.
-# FREE plan is also provided.
-# @see http://docs.fluentd.org/articles/http-to-td
-#
-# This section matches events whose tag is td.DATABASE.TABLE
-#<match td.*.*>
-#  type tdlog
-#  apikey YOUR_API_KEY
-#
-#  auto_create_table
-#  buffer_type file
-#  buffer_path /var/log/td-agent/buffer/td
-#
-#  <secondary>
-#    type file
-#    path /var/log/td-agent/failed_records
-#  </secondary>
-#</match>
+<match {{ td_agent_match }}>
+  type {{ td_agent_type }}
+{% if td_agent_flush_interval is defined %}
+  flush_interval {{ td_agent_flush_interval }}
+{% endif %}
+  <server>
+    host {{ td_agent_host }}
+  </server>
+</match>
 
 ## match tag=debug.** and dump to console
 <match debug.**>
@@ -77,12 +67,6 @@
 #  type file
 #  path /var/log/td-agent/access
 #</match>
-
-<match player-*.**>
-  type forward
-  flush_interval 3s
-  host storage.carlipa.io
-</match>
 
 ## Forwarding
 ## match tag=system.** and forward to another td-agent server
