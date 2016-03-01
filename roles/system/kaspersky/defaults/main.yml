@@ -1,0 +1,32 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Kaspersky
+
+# Aptitude state
+kaspersky_version: "8.0.1-50"
+kaspersky_checksum: "sha1:0499d0bebaf4acedac04a23355cfa4546370973f"
+
+kaspersky_install_key_file_src: "3D1589A6.key"
+
+kaspersky_eula_agreed: "yes" # <yes|no>
+kaspersky_service_locale: "en_US.utf8"
+kaspersky_install_key_file: "/opt/kaspersky/kes4lwks.key"
+kaspersky_updater_source: "KLServers" # AKServer|KLServers|<url>
+kaspersky_updater_proxy: "no" # no|<url>
+kaspersky_updater_execute: "yes" # <yes|no>
+kaspersky_updater_enable_auto: "yes" # <yes|no>
+kaspersky_rtp_build_kernel_module: "yes" # <yes|no>
+kaspersky_rtp_build_kernel_srcs: "auto" # <path|auto>
+kaspersky_rtp_samba_enable: "no" # yes|no|auto
+kaspersky_rtp_samba_conf: "" # <path>
+kaspersky_rtp_samba_vfs: "" # <path>
+kaspersky_rtp_samba_vfs_module: "" # <path>
+kaspersky_rtp_start: "yes" # <yes|no>
+kaspersky_gui_enable: "no" # <yes|no>
+
+kaspersky_user: "kluser"
+kaspersky_group: "klusers"
+
+# kaspersky_email: "me@domain.com"
+# kaspersky_sendmail: "sendmail"

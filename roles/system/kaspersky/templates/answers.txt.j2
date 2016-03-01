@@ -1,0 +1,23 @@
+# Ansible managed
+
+EULA_AGREED={{ kaspersky_eula_agreed }}
+SERVICE_LOCALE={{ kaspersky_service_locale }}
+INSTALL_KEY_FILE={{ kaspersky_install_key_file }}
+UPDATER_SOURCE={{ kaspersky_updater_source }}
+UPDATER_PROXY={{ kaspersky_updater_proxy }}
+UPDATER_EXECUTE={{ kaspersky_updater_execute }}
+UPDATER_ENABLE_AUTO={{ kaspersky_updater_enable_auto }}
+RTP_BUILD_KERNEL_MODULE={{ kaspersky_rtp_build_kernel_module }}
+RTP_BUILD_KERNEL_SRCS={{ kaspersky_rtp_build_kernel_srcs }}
+RTP_SAMBA_ENABLE={{ kaspersky_rtp_samba_enable }}
+{%if kaspersky_rtp_samba_conf != "" %}
+RTP_SAMBA_CONF={{ kaspersky_rtp_samba_conf }}
+{%endif%}
+{%if kaspersky_rtp_samba_vfs != "" %}
+RTP_SAMBA_VFS={{ kaspersky_rtp_samba_vfs }}
+{%endif%}
+{%if kaspersky_rtp_samba_vfs_module != "" %}
+RTP_SAMBA_VFS_MODULE={{ kaspersky_rtp_samba_vfs_module }}
+{%endif%}
+RTP_START={{ kaspersky_rtp_start }}
+GUI_ENABLE={{ kaspersky_gui_enable }}
