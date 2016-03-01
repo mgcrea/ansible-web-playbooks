@@ -7,6 +7,6 @@ ssh_port: 22
 ufw_policies:
   - { direction: 'incoming', policy: 'deny' }
   - { direction: 'outgoing', policy: 'allow' }
-ufw_reset_rules: False
+ufw_reset_rules: false
 ufw_rules:
   - { rule: 'allow', proto: 'tcp', port: 22 }
