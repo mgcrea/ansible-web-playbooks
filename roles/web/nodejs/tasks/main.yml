@@ -16,6 +16,10 @@
   shell: npm config set proxy {{ npm_proxy }}
   when: npm_proxy is defined
 
+- name: NodeJS | NPM | Configure registry
+  shell: npm config set registry {{ nodejs_npm_registry }}
+  when: nodejs_npm_registry != "https://registry.npmjs.org/"
+
 ## Install global packages
 - name: NodeJS | NPM | Install global packages
   npm: name={{ item }} global=yes state={{ nodejs_apt_state }} registry={{ nodejs_npm_registry }}

@@ -8,7 +8,7 @@
   when: ssh_user_group is defined
 
 - name: System | Setup SSH user
-  user: name={{ ssh_user_name }} group={{ ssh_user_group }} groups={{ ssh_user_groups }} password={{ ssh_user_password }} shell="/bin/bash" comment="Carlipa"
+  user: name={{ ssh_user_name }} group={{ ssh_user_group }} groups={{ ssh_user_groups }} shell="/bin/bash" comment={{ ssh_user_comment }}
   when: ssh_user_name is defined
 
 - name: System | Create SSH directory
@@ -20,12 +20,17 @@
   when: ssh_authorized_keys is defined
 
 - name: System | Deploy SSH config file
-  file: src={{ ssh_config_file }} dest="/home/{{ ssh_user_name | default(ansible_ssh_user) }}/.ssh/config" owner={{ ssh_user_name | default(ansible_ssh_user) }} group={{ ssh_user_name | default(ansible_ssh_user) }} mode=0644
+  file: src="{{ ssh_config_file }}" dest="/home/{{ ssh_user_name | default(ansible_ssh_user) }}/.ssh/config" owner={{ ssh_user_name | default(ansible_ssh_user) }} group={{ ssh_user_name | default(ansible_ssh_user) }} mode=0644
+  when: ssh_config_file is defined
+- name: Facts | Fetch SSH config file
+  fetch: src="/home/{{ ssh_user_name | default(ansible_ssh_user) }}/.ssh/config" dest={{ ansible_fetched_base }}/.ssh_config flat=yes
   when: ssh_config_file is defined
 
-- name: System | Deploy SSH configuration
+- name: System | Deploy SSHD configuration
   template: src=ssh_sshd_config.j2 dest="/etc/ssh/sshd_config" owner=root group=root mode=0644
   # notify: restart ssh
+- name: Facts | Fetch SSH config file
+  fetch: src="/etc/ssh/sshd_config" dest={{ ansible_fetched_base }}/sshd_config flat=yes
 
 - name: System | Check SSH daemon
   service: name=ssh state=started

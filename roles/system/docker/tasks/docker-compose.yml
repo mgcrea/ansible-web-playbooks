@@ -4,9 +4,10 @@
 # Part: Docker
 
 - name: DockerCompose | Fetch package
-  get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ ansible_architecture }}
+  # get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ ansible_architecture }}
+  get_url: url=https://dev.carlipa-online.com/files/docker-compose-linux-{{ ansible_architecture }}
     dest=/usr/local/bin/docker-compose
-    sha256sum={{ docker_compose_sha256sum }}
+    checksum={{ docker_compose_checksum }}
 
 - name: DockerCompose | Setup rights
   file: path=/usr/local/bin/docker-compose owner=root group=root mode=0755

@@ -43,6 +43,11 @@
 - name: Docker | Install package
   apt: name=docker-engine state={{ docker_apt_state }}
 
+- name: Docker | Create base directory
+  file: state=directory path=/srv/docker owner=root group=root mode=0775
+# - name: Docker | Create legacy symlink
+#   file: state=link path=/opt/docker src=/srv/docker
+
 ## DockerCompose
 - name: Docker | Install DockerCompose
   tags: system_docker-compose

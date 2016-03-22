@@ -12,10 +12,10 @@ docker_group: "www-data"
 
 # DockerCompose
 docker_compose_install: true
-docker_compose_version: 1.6.0
-docker_compose_sha256sum: "58f6d50fcad042f54463cf8e380d72809334d61294e4b958aa256b8283b39781"
+docker_compose_version: 1.6.2
+docker_compose_checksum: "sha1:82129d4e90c7544a52738a570747d653bdb656db"
 
 # DockerGen
 docker_gen_install: false
-docker_gen_version: "0.6.0"
-docker_gen_sha256sum: "5bf6f4a047453024f9fae2da5d5939779369eb0e80435ef58b9f4367e35eade2"
+docker_gen_version: "0.7.0"
+docker_gen_checksum: "sha1:56c5679c042ab3a03856df7ca01603c4b3668daf"

@@ -9,7 +9,7 @@
 - name: DockerGen | Fetch package
   get_url: url=https://github.com/jwilder/docker-gen/releases/download/{{ docker_gen_version }}/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz
     dest=/opt/downloads/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz
-    sha256sum={{ docker_gen_sha256sum }}
+    checksum={{ docker_gen_checksum }}
   register: result
 - name: DockerGen | Extract package
   shell: rm /opt/local/bin/docker-gen; mkdir -p /opt/local/bin; tar -xvzf /opt/downloads/docker-gen-linux-amd64-{{ docker_gen_version }}.tar.gz -C /opt/local/bin; chmod +rx /opt/local/bin/docker-gen
