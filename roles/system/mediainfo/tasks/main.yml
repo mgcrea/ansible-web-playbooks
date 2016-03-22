@@ -1,0 +1,8 @@
+---
+
+- name: Mediainfo | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=B34F70C93804BEA383522B2061260473F9D8BC54
+- name: Mediainfo | Install ppa
+  apt_repository: repo=ppa:shiki/mediainfo state=present
+- name: Mediainfo | Install package
+  apt: name=mediainfo state=latest
