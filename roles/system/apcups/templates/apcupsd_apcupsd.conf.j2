@@ -1,13 +1,13 @@
 ## apcupsd.conf v1.1 ##
 #
-#  for apcupsd release 3.14.10 (13 September 2011) - debian
+#  for apcupsd release 3.14.12 (29 March 2014) - debian
 #
 # "apcupsd" POSIX config file
 
 #
 # ========= General configuration parameters ============
 #
-#
+
 # UPSNAME xxx
 #   Use this to give your UPS a name in log files and such. This
 #   is particulary useful if you have multiple UPSes. This does not
@@ -24,7 +24,7 @@
 #     940-0119A, 940-0127A, 940-0128A, 940-0020B,
 #     940-0020C, 940-0023A, 940-0024B, 940-0024C,
 #     940-1524C, 940-0024G, 940-0095A, 940-0095B,
-#     940-0095C, M-04-02-2000
+#     940-0095C, 940-0625A, M-04-02-2000
 #
 UPSCABLE {{ apcups_upscable }}
 
@@ -75,6 +75,9 @@ UPSCABLE {{ apcups_upscable }}
 #                            which to listen for messages from the UPS, normally
 #                            3052. If this parameter is empty or missing, the
 #                            default of 3052 will be used.
+#
+# modbus    /dev/tty**       Serial device for use with newest SmartUPS models
+#                            supporting the MODBUS protocol.
 #
 UPSTYPE {{ apcups_upstype }}
 DEVICE {{ apcups_device }}

@@ -13,5 +13,5 @@
   template: src=init.d_redis-server.j2 dest=/etc/init.d/redis-server owner=root group=root mode=0755 backup=no
   notify: restart redis
   register: result
-- fetch: src=/etc/init.d/redis-server dest=fetched
+- fetch: src=/etc/init.d/redis-server dest={{ ansible_fetched_base }}
   when: result|changed

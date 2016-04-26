@@ -5,7 +5,9 @@
 
 ssh_port: 22
 ssh_protocol: 2
-ssh_permit_root_login: True
-ssh_authorized_keys_file: False
-ssh_sftp_user: False
-ssh_sftp_group: False
+ssh_permit_root_login: "no"
+# ssh_permit_root_login: "prohibit-password"
+ssh_allow_users: false
+ssh_authorized_keys_file: false
+ssh_sftp_user: false
+ssh_sftp_group: false

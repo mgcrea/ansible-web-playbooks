@@ -11,5 +11,3 @@
 - name: cntlm | Deploy configuration
   template: src=cntlm.conf.j2 dest=/etc/cntlm.conf owner=root group=root mode=0600
   notify: restart cntlm
-- name: cntlm | Deploy environment
-  template: src=environment.j2 dest=/etc/environment owner=root group=root mode=0644

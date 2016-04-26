@@ -16,6 +16,7 @@
     - python-pip
     - python-pycurl
     - python-software-properties
+    - python-setuptools
 - name: Setup | Install ansible locally
   ignore_errors: True
   pip: name={{ item }} state=latest

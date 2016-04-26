@@ -2,4 +2,4 @@
 
 # Apcupsd-devel internal configuration
 APCACCESS=/sbin/apcaccess
-ISCONFIGURED=yes
+ISCONFIGURED={{ 'yes' if apcups_is_configured else 'no' }}

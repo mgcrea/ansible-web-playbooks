@@ -11,7 +11,7 @@
 - name: NodeJS | Install ppa
   apt_repository: repo="{{ item }}" validate_certs={{ nodejs_validate_certs }}
   with_items:
-    - "deb https://deb.nodesource.com/{{ nodejs_branch }} {{ ansible_distribution_release }} main"
-    - "deb-src https://deb.nodesource.com/{{ nodejs_branch }} {{ ansible_distribution_release }} main"
+    - "deb https://deb.nodesource.com/{{ nodejs_branch }} {{ nodejs_distribution_release or ansible_distribution_release }} main"
+    - "deb-src https://deb.nodesource.com/{{ nodejs_branch }} {{ nodejs_distribution_release or ansible_distribution_release }} main"
 - name: NodeJS | Install package
   apt: name=nodejs state={{ nodejs_apt_state }} force=yes

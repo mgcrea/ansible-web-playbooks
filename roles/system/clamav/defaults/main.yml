@@ -12,3 +12,4 @@ clamav_group: "clamav"
 
 clamav_email: "me@domain.com"
 clamav_sendmail: "sendmail"
+clamav_quarantine: false

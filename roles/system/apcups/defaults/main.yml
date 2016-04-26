@@ -12,3 +12,4 @@ apcups_upstype: "apcsmart"
 apcups_device: "/dev/ttyS0"
 apcups_batterylevel: 5
 apcups_timeout: 0
+apcups_is_configured: false

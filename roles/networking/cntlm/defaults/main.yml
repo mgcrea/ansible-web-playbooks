@@ -10,7 +10,7 @@ cntlm_apt_state: "latest"
 # cntlm_username: ""
 # cntlm_domain: ""
 # cntlm_password: ""
-# cntlm_passntlmv2: ""
+# cntlm_passNTLMv2: ""
 cntlm_proxies:
   - "10.0.0.41:8080"
   - "10.0.0.42:8080"

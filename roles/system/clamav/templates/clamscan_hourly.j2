@@ -30,17 +30,17 @@ check_scan () {
 
 echo `date +"%Y-%m-%dT%H:%M:%SZ"` - Starting hourly scan... >> ${LOG}
 
-{% if clamav_quarantine is defined -%}
-find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -mmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
+{% if clamav_quarantine -%}
+find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -and -not -wholename '{{ clamav_quarantine }}/*' -mmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
 {% else -%}
-find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -mmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
+find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -mmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --log=${LOG}
 {%- endif %}
 check_scan
 
-{% if clamav_quarantine is defined -%}
-find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -cmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
+{% if clamav_quarantine -%}
+find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -and -not -wholename '{{ clamav_quarantine }}/*' -cmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
 {% else -%}
-find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -cmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
+find / -not -wholename '/sys/*' -and -not -wholename '/proc/*' -cmin -61 -type f -print0 | xargs -0 -r clamscan --exclude-dir=/proc/ --exclude-dir=/sys/ --quiet --infected --log=${LOG}
 {%- endif %}
 check_scan
 

@@ -34,6 +34,8 @@
       tags: system_ufw
     - role: system/ntp
       tags: system_ntp
+    - role: system/netdata
+      tags: system_netdata
     - role: system/td-agent
       tags: system_td-agent
     - role: system/fail2ban

@@ -2,16 +2,16 @@
 # See the sshd_config(5) manpage for details
 
 # What ports, IPs and protocols we listen for
-Port {{ ssh_port | default(22) }}
+Port {{ ssh_port }}
 # Use these options to restrict which interfaces/protocols sshd will bind to
 #ListenAddress ::
 #ListenAddress 0.0.0.0
-Protocol {{ ssh_protocol | default(2) }}
+Protocol {{ ssh_protocol }}
 # HostKeys for protocol version 2
 HostKey /etc/ssh/ssh_host_rsa_key
-#HostKey /etc/ssh/ssh_host_dsa_key
-#HostKey /etc/ssh/ssh_host_ecdsa_key
-{% if ansible_distribution == 'Ubuntu' and ansible_lsb.major_release == 14 %}
+HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+{% if ansible_distribution == 'Ubuntu' %}
 HostKey /etc/ssh/ssh_host_ed25519_key
 {% endif %}
 #Privilege Separation is turned on for security
@@ -27,18 +27,18 @@ LogLevel INFO
 
 # Authentication:
 LoginGraceTime 120
-#PermitRootLogin without-password
-PermitRootLogin {{ 'yes' if ssh_permit_root_login else 'no' }}
-{% if ssh_allow_users is defined %}
+PermitRootLogin {{ ssh_permit_root_login }}
+{% if ssh_allow_users %}
 AllowUsers {{ ssh_allow_users }}
 {% endif %}
 StrictModes yes
 
 RSAAuthentication yes
 PubkeyAuthentication yes
-#AuthorizedKeysFile %h/.ssh/authorized_keys
-{% if ssh_authorized_keys_file is defined and ssh_authorized_keys_file != False %}
+{% if ssh_authorized_keys_file and ssh_authorized_keys_file != False %}
 AuthorizedKeysFile {{ ssh_authorized_keys_file }}/%u
+{% else %}
+#AuthorizedKeysFile	%h/.ssh/authorized_keys
 {% endif %}
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
@@ -83,7 +83,7 @@ TCPKeepAlive yes
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
 
-{% if ssh_sftp_user is defined or ssh_sftp_group is defined %}
+{% if ssh_sftp_user or ssh_sftp_group %}
 Subsystem sftp internal-sftp -f AUTH -l VERBOSE
 {% else %}
 Subsystem sftp /usr/lib/openssh/sftp-server
@@ -100,15 +100,15 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
 
-{% if ansible_distribution == 'Ubuntu' and ansible_lsb.major_release == 14 %}
-# Use strong ciphers
-Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr
-MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160
-KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1
+{% if ansible_distribution == 'Ubuntu' %}
+# Use strong ciphers (from https://stribika.github.io/2015/01/04/secure-secure-shell.html)
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-ripemd160-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,umac-128@openssh.com
+KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
 {% endif %}
 
-# SFTP configuration
-{% if ssh_sftp_user is defined %}
+{% if ssh_sftp_user %}
+# SFTP User configuration
 Match User {{ ssh_sftp_user }}
   ChrootDirectory %h
   ForceCommand internal-sftp -u 0007
@@ -116,7 +116,8 @@ Match User {{ ssh_sftp_user }}
   PermitTunnel no
   X11Forwarding no
 {% endif %}
-{% if ssh_sftp_group is defined %}
+{% if ssh_sftp_group %}
+# SFTP Group configuration
 Match Group {{ ssh_sftp_group }}
   ChrootDirectory %h
   ForceCommand internal-sftp -u 0007

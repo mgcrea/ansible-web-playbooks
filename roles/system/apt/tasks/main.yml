@@ -11,6 +11,9 @@
   template: src=apt_sources.list.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
   register: result
 
+- name: Aptitude | Install pyton-apt
+  apt: name=python-apt state=present
+
 - name: Aptitude | Force update cache
   apt: update_cache=yes
   when: result|changed

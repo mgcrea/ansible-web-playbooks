@@ -7,7 +7,7 @@
   shell: creates=/etc/init/{{ mongodb_service }}.conf.orig.disabled cp /etc/init/{{ mongodb_service }}.conf /etc/init/{{ mongodb_service }}.conf.orig.disabled
   ignore_errors: True
   register: result
-- fetch: src=/etc/init/{{ mongodb_service }}.conf.orig.disabled dest=fetched
+- fetch: src=/etc/init/{{ mongodb_service }}.conf.orig.disabled dest={{ ansible_fetched_base }}
   when: result|changed
 - name: MongoDB | Deploy service configuration
   template: src=init.d_mongod.j2 dest=/etc/init.d/{{ mongodb_service }} owner=root group=root mode=0755 backup=no
@@ -19,7 +19,7 @@
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Linaro'
   notify: restart mongod
   register: result
-- fetch: src=/etc/init/{{ mongodb_service }}.conf dest=fetched
+- fetch: src=/etc/init/{{ mongodb_service }}.conf dest={{ ansible_fetched_base }}
   when: result|changed
 
 ## Check service

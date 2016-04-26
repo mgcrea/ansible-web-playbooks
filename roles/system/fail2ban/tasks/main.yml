@@ -7,8 +7,8 @@
   apt: name=fail2ban state=latest
 
 - name: fail2ban | Deploy config
-  template: src=fail2ban_fail2ban.conf.j2 dest="/etc/fail2ban/fail2ban.conf" owner=root group=root mode=0644
+  template: src="{{ ansible_distribution_version }}/fail2ban_fail2ban.conf.j2" dest="/etc/fail2ban/fail2ban.conf" owner=root group=root mode=0644
   notify: restart fail2ban
 - name: fail2ban | Deploy jail config
-  template: src=fail2ban_jail.conf.j2 dest="/etc/fail2ban/jail.conf" owner=root group=root mode=0644
+  template: src="{{ ansible_distribution_version }}/fail2ban_jail.conf.j2" dest="/etc/fail2ban/jail.conf" owner=root group=root mode=0644
   notify: restart fail2ban

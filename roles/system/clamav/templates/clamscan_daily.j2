@@ -30,8 +30,8 @@ check_scan () {
 
 echo `date +"%Y-%m-%dT%H:%M:%SZ"` - Starting daily scan... >> ${LOG}
 
-{% if clamav_quarantine is defined -%}
-clamscan -r / --exclude-dir=/sys/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
+{% if clamav_quarantine -%}
+clamscan -r / --exclude-dir=/sys/ --exclude-dir={{ clamav_quarantine }}/ --quiet --infected --move="{{ clamav_quarantine }}" --log=${LOG}
 {% else -%}
 clamscan -r / --exclude-dir=/sys/ --quiet --infected --log=${LOG}
 {%- endif %}

@@ -21,7 +21,7 @@ Password  {{ cntlm_password }}
 # PassNT          77B9081511704EE852F94227CF48A793
 ### Only for user 'testuser', domain 'corp-uk'
 {% if cntlm_passNTLMv2 != "" %}
-PassNTLMv2  {{ cntlm_passntlmv2 }}
+PassNTLMv2  {{ cntlm_passNTLMv2 }}
 {% endif %}
 
 # Specify the netbios hostname cntlm will send to the parent
