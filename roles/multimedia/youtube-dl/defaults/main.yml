@@ -1,0 +1,6 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: YoutubeDl
+
+youtube_dl_pip_state: "latest"

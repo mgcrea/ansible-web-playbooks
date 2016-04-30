@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: task
+# Part: YoutubeDl
+
+- name: Multimedia | Install python-pip
+  apt: name=python-pip state=present
+
+- name: Multimedia | Install youtube-dl
+  pip: name=youtube-dl state={{ youtube_dl_pip_state }}
