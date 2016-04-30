@@ -1,0 +1,15 @@
+---
+# File: main.yml
+# Type: task
+# Part: Mplayer
+
+- name: Mplayer | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=8E51A6D660CD88D67D65221D90BD7EACED8E640A
+  when: ansible_distribution_version == "14.04"
+
+- name: Mplayer | Install ppa
+  apt_repository: repo=ppa:mc3man/trusty-media state=present
+  when: ansible_distribution_version == "14.04"
+
+- name: Mplayer | Install packages
+  apt: name=mplayer state={{ mplayer_apt_state }}

@@ -1,0 +1,6 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Mplayer
+
+mplayer_apt_state: "latest"
