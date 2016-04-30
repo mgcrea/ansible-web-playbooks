@@ -4,8 +4,6 @@
 # Part: Redis
 
 ## Install
-- include: install-arm.yml
-  when: ansible_architecture == 'armv6l' or ansible_architecture == 'armv7l'
 - include: install-ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
 # - service: name=redis-server state=stopped enabled=yes
