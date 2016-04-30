@@ -1,0 +1,6 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Mpv
+
+mpv_apt_state: "latest"
