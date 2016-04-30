@@ -1,0 +1,24 @@
+---
+# File: main.yml
+# Type: task
+# Part: NwJS
+
+- name: NwJS | Check prerequisites
+  fail: msg="Only 'x86_64' architecture is supported for now."
+  when: ansible_architecture != 'x86_64'
+
+- name: NwJS | Create download directory
+  file: name={{ nwjs_downlod_directory }} state=directory owner=root group=root mode=0755
+
+- name: NwJS | Fetch package
+  action: get_url url=http://dl.nwjs.io/{{ nwjs_version }}/nwjs-{{ nwjs_version }}-linux-x64.tar.gz dest={{ nwjs_downlod_directory }}/nwjs-{{ nwjs_version }}-linux-x64.tar.gz
+    checksum={{ nwjs_checksum }} validate_certs=no
+  register: result
+
+- name: NwJS | Extract package
+  shell: rm -rf {{ /opt/local/nwjs }}; mkdir -p {{ /opt/local/nwjs }}; tar -xzf {{ nwjs_downlod_directory }}/nwjs-{{ nwjs_version }}-linux-x64.tar.gz -C {{ /opt/local/nwjs }} --strip-components 1; ln -fs {{ /opt/local/nwjs }}/nw /usr/bin/nw
+  when: result | changed
+
+- name: NwJS | Fix permissions
+  shell: chmod -R og+r {{ /opt/local/nwjs }}; chmod +rx {{ /opt/local/nwjs }}/*.so {{ /opt/local/nwjs }}/nw {{ /opt/local/nwjs }}/nwjc
+  when: result | changed

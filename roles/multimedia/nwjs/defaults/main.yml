@@ -1,0 +1,9 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: NwJS
+
+nwjs_version: "v0.12.3"
+nwjs_checksum: "sha1:addb12dd904f64b7523b210186e1eb3ecfd9d2e6"
+nwjs_downlod_directory: "/opt/downloads"
+nwjs_app_directory: "/opt/local/nwjs"
