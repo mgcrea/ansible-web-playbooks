@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: AtomShell
+
+atom_shell_version: "v0.23.0"
+atom_shell_checksum_x64: "sha1:db17259a47eb360d6b2949b23aec5dca28309279"
+atom_shell_checksum_arm: "sha1:db17259a47eb360d6b2949b23aec5dca28309279"
+atom_shell_downlod_directory: "/opt/downloads"
+atom_shell_app_directory: "/opt/local/atom-shell"

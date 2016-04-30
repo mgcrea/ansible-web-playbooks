@@ -1,0 +1,17 @@
+---
+# File: main.yml
+# Type: task
+# Part: AtomShell
+
+- name: AtomShell | Set branch
+  set_fact:
+    atom_shell_branch: "{{ (ansible_architecture == 'x86_64') | ternary('x64', 'arm') }}"
+- name: AtomShell | Create download directory
+  file: name={{ atom_shell_downlod_directory }} state=directory owner=root group=root mode=0755
+- name: AtomShell | Fetch package
+  action: get_url url=https://github.com/atom/atom-shell/releases/download/{{ atom_shell_version }}/atom-shell-{{ atom_shell_version }}-linux-x64.zip dest={{ atom_shell_downlod_directory }}/atom-shell-{{ atom_shell_version }}-linux-{{ atom_shell_branch }}.zip
+    checksum={{ vars['atom_shell_checksum_' + atom_shell_branch] }} validate_certs=no
+  register: result
+- name: AtomShell | Extract package
+  shell: rm -rf {{ atom_shell_app_directory }}; mkdir -p {{ atom_shell_app_directory }}; unzip {{ atom_shell_downlod_directory }}/atom-shell-{{ atom_shell_version }}-linux-{{ atom_shell_branch }}.zip -d {{ atom_shell_app_directory }}; chmod -R og+r {{ atom_shell_app_directory }}; chmod +rx {{ atom_shell_app_directory }}/*.so {{ atom_shell_app_directory }}/atom; ln -fs {{ atom_shell_app_directory }}/atom /usr/bin/atom
+  when: result | changed
