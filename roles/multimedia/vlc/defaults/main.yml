@@ -1,0 +1,6 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Vlc
+
+vlc_apt_state: "latest"

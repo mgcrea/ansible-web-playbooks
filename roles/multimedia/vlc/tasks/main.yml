@@ -1,0 +1,23 @@
+---
+# File: main.yml
+# Type: task
+# Part: Vlc
+
+- name: Vlc | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=8E51A6D660CD88D67D65221D90BD7EACED8E640A
+  when: ansible_distribution_version == "14.04"
+
+- name: Vlc | Install ppa
+  apt_repository: repo=ppa:mc3man/trusty-media state=present
+  when: ansible_distribution_version == "14.04"
+
+# - name: Vlc | Install ppa key
+#   apt_key: keyserver=keyserver.ubuntu.com id=3361E59FF5029E6B90A9A80D09589874801DF724
+#   when: ansible_distribution_version == "16.04"
+#
+# - name: Vlc | Install ppa
+#   apt_repository: repo=ppa:videolan/stable-daily state=present
+#   when: ansible_distribution_version == "16.04"
+
+- name: Vlc | Install packages
+  apt: name=vlc state={{ vlc_apt_state }}
