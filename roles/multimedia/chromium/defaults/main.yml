@@ -1,0 +1,7 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Chromium
+
+chromium_apt_flavor: "stable"
+chromium_apt_state: "latest"

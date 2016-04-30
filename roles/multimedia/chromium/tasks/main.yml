@@ -1,0 +1,28 @@
+---
+# File: main.yml
+# Type: task
+# Part: Chromium
+
+- name: Chromium | Install ppa key
+  apt_key: id=DC058F40 url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xDC058F40 state=present
+
+- name: Chromium | Install ppa
+  apt_repository: repo=ppa:saiarcot895/chromium-{{ chromium_apt_flavor }} state={{ 'absent' if chromium_apt_flavor == 'stable' else 'present' }}
+  # sudo ppa-purge ppa:saiarcot895/chromium-dev
+
+- name: Chromium | Install package
+  apt: name={{ item }} state={{ chromium_apt_state }}
+  with_items:
+    - chromium-browser
+    - chromium-codecs-ffmpeg-extra
+
+- name: Chromium | Install flash player package
+  apt: name=pepperflashplugin-nonfree state={{ chromium_apt_state }}
+  when: ansible_architecture == 'x86_64'
+  register: result
+
+- name: Chromium | Install flash player package
+  shell: update-pepperflashplugin-nonfree --install --unverified {{ '' if chromium_apt_flavor == 'stable' else '--beta' }}
+  when: ansible_architecture == 'x86_64'
+  ignore_errors: True
+  when: result | changed
