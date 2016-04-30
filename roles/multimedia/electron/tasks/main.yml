@@ -1,0 +1,20 @@
+---
+# File: main.yml
+# Type: task
+# Part: Aptitude
+
+- name: Electron | Set branch
+  set_fact:
+    electron_branch: "{{ (ansible_architecture == 'x86_64') | ternary('x64', 'arm') }}"
+
+- name: AtomShell | Create download directory
+  file: name={{ electron_downlod_directory }} state=directory owner=root group=root mode=0755
+
+- name: Electron | Fetch package
+  action: get_url url=https://github.com/atom/electron/releases/download/{{ electron_version }}/electron-{{ electron_version }}-linux-{{ electron_branch }}.zip dest={{ electron_downlod_directory }}/electron-{{ electron_version }}-linux-{{ electron_branch }}.zip
+    checksum={{ vars['electron_checksum_' + electron_branch] }} validate_certs=no
+  register: result
+
+- name: Electron | Extract package
+  shell: rm -rf {{ electron_app_directory }}; mkdir -p {{ electron_app_directory }}; unzip {{ electron_downlod_directory }}/electron-{{ electron_version }}-linux-{{ electron_branch }}.zip -d {{ electron_app_directory }}; chmod -R og+r {{ electron_app_directory }}; chmod +rx {{ electron_app_directory }}/*.so {{ electron_app_directory }}/electron; ln -fs {{ electron_app_directory }}/electron /usr/bin/electron
+  when: result | changed

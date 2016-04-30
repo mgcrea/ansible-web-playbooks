@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Electron
+
+electron_version: "v0.37.8"
+electron_checksum_x64: "sha1:84388ae49ef0270a86923ad2d75aa71a0edca712"
+electron_checksum_arm: "sha1:e921e1c2beffcefc5681eaf0607a2cfc218ab60c"
+electron_downlod_directory: "/opt/downloads"
+electron_app_directory: "/opt/local/electron"
