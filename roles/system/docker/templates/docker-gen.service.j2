@@ -1,0 +1,20 @@
+[Unit]
+Description=DockerGen Service
+After=syslog.target
+After=network.target
+After=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker-gen -only-exposed -watch /etc/docker/templates/hosts.tmpl /etc/hosts
+Restart=always
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=docker-gen
+User=root
+Group=root
+WorkingDirectory=/etc/docker
+TimeoutStartSec=0
+Environment=PATH=/usr/bin:/usr/local/bin:/bin
+
+[Install]
+WantedBy=multi-user.target

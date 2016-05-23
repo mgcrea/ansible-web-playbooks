@@ -28,6 +28,14 @@
   template: src=hosts.j2 dest=/etc/docker/templates/hosts.tmpl owner=root group=root mode=0644 backup=no
   notify: restart docker-gen
 
-- name: DockerGen | Deploy service configuration
-  template: src=init_docker-gen.conf.j2 dest=/etc/init/docker-gen.conf owner=root group=root mode=0644 backup=no
+- name: DockerGen | Deploy upstart service configuration
+  when: ansible_distribution_version == "14.04"
+  template: src=init_docker-gen.conf.j2 dest=/etc/init/docker-gen.conf
+            owner=root group=root mode=0644 backup=no
+  notify: restart docker-gen
+
+- name: DockerGen | Deploy systemd service configuration
+  when: ansible_distribution_version == "16.04"
+  template: src=docker-gen.service.j2 dest=/etc/systemd/system/docker-gen.service
+            owner=root group=root mode=0644 backup=no
   notify: restart docker-gen
