@@ -15,8 +15,10 @@
   fetch: src=/tmp/facts.json dest={{ ansible_fetched_base }}/facts.json flat=yes
 - name: Facts | Generate lspci
   shell: lspci > /tmp/lspci.txt
+  ignore_errors: yes
 - name: Facts | Fetch lspci
   fetch: src=/tmp/lspci.txt dest={{ ansible_fetched_base }}/lspci.txt flat=yes
+  ignore_errors: yes
 - name: Facts | Generate xrandr
   shell: DISPLAY=:0 xrandr > /tmp/xrandr.txt
   ignore_errors: yes

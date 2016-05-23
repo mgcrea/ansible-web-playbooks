@@ -11,6 +11,7 @@
 - name: Setup | Install ansible required packages
   apt: name={{ item }} state=latest
   with_items:
+    - libffi-dev
     - python-apt
     - python-dev
     - python-pip
