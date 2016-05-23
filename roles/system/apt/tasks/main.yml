@@ -8,7 +8,13 @@
   when: apt_proxy is defined
 
 - name: Aptitude | Deploy sources.list
+  when: ansible_architecture == 'x86_64'
   template: src=apt_sources.list.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
+  register: result
+
+- name: Aptitude | Deploy ARM sources.list
+  when: ansible_architecture == 'armv7l'
+  template: src=apt_sources.list_arm.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
   register: result
 
 - name: Aptitude | Install pyton-apt

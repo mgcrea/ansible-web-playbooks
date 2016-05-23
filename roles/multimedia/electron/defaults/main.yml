@@ -3,8 +3,8 @@
 # Type: defaults
 # Part: Electron
 
-electron_version: "v0.37.8"
-electron_checksum_x64: "sha1:84388ae49ef0270a86923ad2d75aa71a0edca712"
-electron_checksum_arm: "sha1:e921e1c2beffcefc5681eaf0607a2cfc218ab60c"
+electron_version: "v1.1.0"
+electron_checksum_x64: "sha1:49b959b54fd41d87c527ccdf439d4a76bf82ae7c"
+electron_checksum_arm: "sha1:96359667e5d4be7d7b65b16a5efa5a9b71c56fe5"
 electron_downlod_directory: "/opt/downloads"
 electron_app_directory: "/opt/local/electron"
