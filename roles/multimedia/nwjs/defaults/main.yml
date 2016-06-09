@@ -3,7 +3,7 @@
 # Type: defaults
 # Part: NwJS
 
-nwjs_version: "v0.12.3"
-nwjs_checksum: "sha1:addb12dd904f64b7523b210186e1eb3ecfd9d2e6"
+nwjs_version: "v0.15.0"
+nwjs_checksum: "sha1:88372043ce2734a0ee89343cd681e227bdb77c44"
 nwjs_downlod_directory: "/opt/downloads"
 nwjs_app_directory: "/opt/local/nwjs"
