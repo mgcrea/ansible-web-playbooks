@@ -16,9 +16,9 @@
   register: result
 
 - name: NwJS | Extract package
-  shell: rm -rf {{ /opt/local/nwjs }}; mkdir -p {{ /opt/local/nwjs }}; tar -xzf {{ nwjs_downlod_directory }}/nwjs-{{ nwjs_version }}-linux-x64.tar.gz -C {{ /opt/local/nwjs }} --strip-components 1; ln -fs {{ /opt/local/nwjs }}/nw /usr/bin/nw
+  shell: rm -rf {{ nwjs_app_directory }}; mkdir -p {{ nwjs_app_directory }}; tar -xzf {{ nwjs_downlod_directory }}/nwjs-{{ nwjs_version }}-linux-x64.tar.gz -C {{ nwjs_app_directory }} --strip-components 1; ln -fs {{ nwjs_app_directory }}/nw /usr/bin/nw
   when: result | changed
 
 - name: NwJS | Fix permissions
-  shell: chmod -R og+r {{ /opt/local/nwjs }}; chmod +rx {{ /opt/local/nwjs }}/*.so {{ /opt/local/nwjs }}/nw {{ /opt/local/nwjs }}/nwjc
+  shell: chmod -R og+r {{ nwjs_app_directory }}; chmod +rx {{ nwjs_app_directory }}/nw {{ nwjs_app_directory }}/lib/*.so
   when: result | changed

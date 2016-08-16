@@ -3,8 +3,11 @@
 # Type: task
 # Part: ClamAV
 
-- name: ClamAV | Install package
-  apt: name={{ clamav_apt_name }} state={{ clamav_apt_state }}
+- name: ClamAV | Install packages
+  apt: name={{ item }} state={{ clamav_apt_state }}
+  with_items:
+    - clamav
+    - clamav-daemon
 
 # - name: ClamAV | Definition Updates
 #   cron: name="clamav update" minute="4" hour="5"

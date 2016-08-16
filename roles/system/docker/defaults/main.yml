@@ -17,5 +17,5 @@ docker_compose_checksum: "sha1:82129d4e90c7544a52738a570747d653bdb656db"
 
 # DockerGen
 docker_gen_install: false
-docker_gen_version: "0.7.1"
-docker_gen_checksum: "sha1:73521458bb316f19ebc3d26d083aa79a19271777"
+docker_gen_version: "0.7.3"
+docker_gen_checksum: "sha1:9bd460f66e2e26323ea439c11956a145bb305c53"
