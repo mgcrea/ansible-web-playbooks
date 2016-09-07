@@ -17,6 +17,9 @@
   template: src=apt_sources.list_arm.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
   register: result
 
+- name: Aptitude | Deploy manager_release-upgrades
+  template: src=update-manager_release-upgrades.j2 dest="/etc/update-manager/release-upgrades" owner=root group=root mode=0644
+
 - name: Aptitude | Install pyton-apt
   apt: name=python-apt state=present
 

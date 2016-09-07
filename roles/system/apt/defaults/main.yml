@@ -4,3 +4,4 @@
 # Part: Aptitude
 
 apt_server: "archive.ubuntu.com"
+apt_release_upgrades_prompt: "lts"

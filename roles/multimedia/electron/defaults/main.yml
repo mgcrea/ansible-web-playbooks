@@ -12,7 +12,7 @@ electron_version: "v1.1.3"
 electron_checksum_x64: "sha1:86bb85c4d1df0407d206f72002f0c96434cf088d"
 electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
-# electron_version: "v1.0.2"
+# v1.3.5
 
 electron_downlod_directory: "/opt/downloads"
 electron_app_directory: "/opt/local/electron"
