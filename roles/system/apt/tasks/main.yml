@@ -30,8 +30,8 @@
 - name: Aptitude | Update cache
   apt: update_cache=yes cache_valid_time=3600
 
-- name: Aptitude | Upgrade all packages to the latest version
-  apt: upgrade=dist force=yes
+# - name: Aptitude | Upgrade all packages to the latest version
+#   apt: upgrade=dist force=yes
 
-- name: Aptitude | Remove unused packages
-  shell: apt-get autoremove -y
+# - name: Aptitude | Remove unused packages
+#   shell: apt-get autoremove -y

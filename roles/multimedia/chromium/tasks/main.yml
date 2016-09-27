@@ -23,6 +23,5 @@
 
 - name: Chromium | Install flash player package
   shell: update-pepperflashplugin-nonfree --install --unverified {{ '' if chromium_apt_flavor == 'stable' else '--beta' }}
-  when: ansible_architecture == 'x86_64'
+  when: ansible_architecture == 'x86_64' and result|changed
   ignore_errors: True
-  when: result | changed
