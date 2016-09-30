@@ -11,7 +11,7 @@
   fail: msg="Docker only support x86_64 architecture"
   when: ansible_architecture != 'x86_64'
 
-## Kernel
+## Kernel upgrade for 12.04
 - name: Docker | Upgrade 12.04 kernel
   apt: name={{ item }} state=latest
   with_items:
@@ -25,9 +25,6 @@
 - name: Docker | Wait for SSH
   local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} delay=30 timeout=900 state=started
   when: kernel_updated | changed
-# - name: Docker | Upgrade 13.04+ kernel extra
-#   apt: name=linux-image-extra-{{ ansible_kernel }} state=latest update_cache=yes cache_valid_time=600
-#   when: ansible_distribution_version != '12.04'
 
 ## Uninstall
 - name: Docker | Remove legacy package
@@ -50,6 +47,9 @@
 
 - name: Docker | Create base directory
   file: state=directory path=/srv/docker owner=root group=root mode=0775
+- name: Docker | Deploy defaults
+  template: src=default_docker.j2 dest=/etc/default/docker
+            owner=root group=root mode=0644 backup=no
 # - name: Docker | Create legacy symlink
 #   file: state=link path=/opt/docker src=/srv/docker
 

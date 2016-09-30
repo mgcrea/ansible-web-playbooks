@@ -10,9 +10,12 @@ docker_apt_state: "latest"
 docker_user: "www-data"
 docker_group: "www-data"
 
+# Options
+docker_opts: false # --storage-opt dm.basesize=250G
+
 # DockerCompose
 docker_compose_install: true
-docker_compose_version: 1.6.2
+docker_compose_version: 1.8.1
 docker_compose_checksum: "sha1:82129d4e90c7544a52738a570747d653bdb656db"
 
 # DockerGen
