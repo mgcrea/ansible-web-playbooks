@@ -24,11 +24,11 @@
 - name: Kaspersky | Deploy answers.txt
   template: src=answers.txt.j2 dest=/opt/kaspersky/kes4lwks_answers.txt
             owner=root group=root mode=0600 backup=no
+  register: result
 
 - name: Kaspersky | Deploy key file
   copy: src={{ kaspersky_install_key_file_src }} dest={{ kaspersky_install_key_file }} owner=root group=root mode=0600
   when: kaspersky_install_key_file_src is defined
-  register: result
 
 - name: Kaspersky | Auto install
   command: /opt/kaspersky/kes4lwks/bin/kes4lwks-setup.pl --auto-install=/opt/kaspersky/kes4lwks_answers.txt
