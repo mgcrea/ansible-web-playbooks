@@ -3,18 +3,24 @@
 # Type: defaults
 # Part: Electron
 
-# v1.2.2 is broken, iframe app will break after ~5min
-# electron_version: "v1.2.2"
-# electron_checksum_x64: "sha1:531054929d4df498f8b420bf431d70d0ced4420e"
-# electron_checksum_arm: "sha1:bd827c0f237f6d8518fc5f1dc23e47afd8584667"
-
+# v1.1
 # electron_version: "v1.1.3"
 # electron_checksum_x64: "sha1:86bb85c4d1df0407d206f72002f0c96434cf088d"
 # electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
-# v1.4.1
-electron_version: "v1.4.1"
-electron_checksum_x64: "sha1:a312c30f1cb8be6bc8f30545753c4a8278b5e053"
+# v1.2
+# electron_version: "v1.2.8"
+# electron_checksum_x64: "sha1:531054929d4df498f8b420bf431d70d0ced4420e"
+# electron_checksum_arm: "sha1:bd827c0f237f6d8518fc5f1dc23e47afd8584667"
+
+# v1.3
+# electron_version: "v1.3.8"
+# electron_checksum_x64: "sha1:1f95ab3825c1db7d8ff2ede11c9027368b8e2b05"
+# electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
+
+# v1.4
+electron_version: "v1.4.4"
+electron_checksum_x64: "sha1:1f95ab3825c1db7d8ff2ede11c9027368b8e2b05"
 electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
 electron_downlod_directory: "/opt/downloads"
