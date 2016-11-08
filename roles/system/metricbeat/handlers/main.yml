@@ -1,0 +1,11 @@
+---
+# File: main.yml
+# Type: handler
+# Part: beats
+
+- name: start metricbeat
+  service: name=metricbeat state=started
+- name: restart metricbeat
+  service: name=metricbeat state=restarted
+- name: restart monit
+  service: name=monit state=restarted

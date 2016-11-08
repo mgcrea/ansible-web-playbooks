@@ -1,0 +1,4 @@
+check process metricbeat with pidfile /var/run/metricbeat.pid
+  start program = "/etc/init.d/metricbeat start"
+  stop program = "/etc/init.d/metricbeat stop"
+  if 5 restarts within 5 cycles then timeout

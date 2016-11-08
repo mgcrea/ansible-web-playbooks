@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: beats
+
+# Aptitude state
+metricbeat_apt_state: "latest"
+
+metricbeat_hosts:
+  - "localhost:9000"
