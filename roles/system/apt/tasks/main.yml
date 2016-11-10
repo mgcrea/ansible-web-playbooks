@@ -30,8 +30,14 @@
 - name: Aptitude | Update cache
   apt: update_cache=yes cache_valid_time=3600
 
-# - name: Aptitude | Upgrade all packages to the latest version
-#   apt: upgrade=dist force=yes
+- name: Aptitude | Upgrade HWE stack
+  when: ansible_lsb.major_release < 16
+  command: apt-get install -f -y $(hwe-support-status --show-replacements)
 
-# - name: Aptitude | Remove unused packages
-#   shell: apt-get autoremove -y
+- name: Aptitude | Upgrade all packages to the latest version
+  when: apt_dist_upgrade
+  apt: upgrade=dist force=yes
+
+- name: Aptitude | Remove unused packages
+  when: apt_autoremove
+  shell: apt-get autoremove -y
