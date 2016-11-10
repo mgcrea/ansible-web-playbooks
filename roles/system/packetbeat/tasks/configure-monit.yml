@@ -1,0 +1,9 @@
+---
+
+## Configure monit
+- name: packetbeat | Install monit
+  apt: name=monit state=latest
+  notify: restart monit
+- name: packetbeat | Deploy monit configuration
+  template: src=monit_conf.d_packetbeat.conf.j2 dest=/etc/monit/conf.d/packetbeat.conf owner=root group=root mode=0644
+  notify: restart monit

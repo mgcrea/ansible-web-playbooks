@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: beats
+
+# Aptitude state
+packetbeat_apt_state: "latest"
+
+packetbeat_hosts:
+  - "localhost:9000"

@@ -1,0 +1,23 @@
+---
+# File: main.yml
+# Type: task
+# Part: packetbeat
+
+## Install
+- name: packetbeat | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=D88E42B4
+- name: packetbeat | Install ppa
+  apt_repository: repo='deb https://artifacts.elastic.co/packages/5.x/apt stable main' state=present
+- name: packetbeat | Install packages
+  apt: name=packetbeat state=latest
+
+## Configure
+- name: packetbeat | Deploy config
+  template: src=packetbeat_packetbeat.yml.j2 dest=/etc/packetbeat/packetbeat.yml
+  notify: restart packetbeat
+- name: packetbeat | Check service daemon
+  service: name=packetbeat state=started enabled=yes
+
+## Configure monit
+- name: packetbeat | Configure monit
+  include: configure-monit.yml

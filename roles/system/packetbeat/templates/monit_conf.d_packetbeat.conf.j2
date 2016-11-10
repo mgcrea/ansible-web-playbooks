@@ -1,0 +1,4 @@
+check process packetbeat with pidfile /var/run/packetbeat.pid
+  start program = "/etc/init.d/packetbeat start"
+  stop program = "/etc/init.d/packetbeat stop"
+  if 5 restarts within 5 cycles then timeout
