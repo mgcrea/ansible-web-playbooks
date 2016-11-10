@@ -17,11 +17,11 @@
     - chromium-codecs-ffmpeg-extra
 
 - name: Chromium | Install flash player package
-  apt: name=pepperflashplugin-nonfree state={{ chromium_apt_state }}
+  apt: name=adobe-flashplugin state={{ chromium_apt_state }}
   when: ansible_architecture == 'x86_64'
   register: result
 
-- name: Chromium | Install flash player package
-  shell: update-pepperflashplugin-nonfree --install --unverified {{ '' if chromium_apt_flavor == 'stable' else '--beta' }}
-  when: ansible_architecture == 'x86_64' and result|changed
-  ignore_errors: True
+# - name: Chromium | Install flash player package
+#   shell: update-pepperflashplugin-nonfree --install --unverified {{ '' if chromium_apt_flavor == 'stable' else '--beta' }}
+#   when: ansible_architecture == 'x86_64' and result|changed
+#   ignore_errors: True

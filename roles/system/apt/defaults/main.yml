@@ -5,3 +5,4 @@
 
 apt_server: "archive.ubuntu.com"
 apt_release_upgrades_prompt: "lts"
+apt_enable_partner: false

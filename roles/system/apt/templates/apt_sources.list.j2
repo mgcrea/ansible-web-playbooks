@@ -42,8 +42,13 @@ deb http://{{ apt_server }}/ubuntu/ {{ ansible_distribution_release }}-backports
 ## 'partner' repository.
 ## This software is not part of Ubuntu, but is offered by Canonical and the
 ## respective vendors as a service to Ubuntu users.
+{% if apt_enable_partner %}
+deb http://archive.canonical.com/ubuntu {{ ansible_distribution_release }} partner
+deb-src http://archive.canonical.com/ubuntu {{ ansible_distribution_release }} partner
+{% else %}
 # deb http://archive.canonical.com/ubuntu {{ ansible_distribution_release }} partner
 # deb-src http://archive.canonical.com/ubuntu {{ ansible_distribution_release }} partner
+{% endif %}
 
 deb http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security main restricted
 # deb-src http://security.ubuntu.com/ubuntu {{ ansible_distribution_release }}-security main restricted
