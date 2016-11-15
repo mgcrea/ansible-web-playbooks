@@ -1,0 +1,15 @@
+---
+# File: location.yml
+# Type: task
+# Part: MongoDB
+
+
+## Setup custom location
+- name: MongoDB | Setup directory
+  file: state=directory dest={{ mongodb_path }} mode=700 owner={{ mongodb_user }} group={{ mongodb_group }}
+- name: MongoDB | Move databases
+  shell: service mongodb stop; cp -rf /var/lib/mongodb/* {{ mongodb_path }}; touch {{ mongodb_path }}/.ansible; chown -R {{ mongodb_user }}:{{ mongodb_group }} {{ mongodb_path }}; rm -rf /var/lib/mongodb
+    creates={{ mongodb_path }}/.ansible
+- name: MongoDB | Link databases
+  file: state=link src={{ mongodb_path }} path=/var/lib/mongodb force=yes
+  notify: restart mongod

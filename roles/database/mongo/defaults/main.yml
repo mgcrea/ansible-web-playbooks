@@ -1,0 +1,26 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: MongoDB
+
+# Aptitude state
+mongodb_branch: "3.2"
+mongodb_apt_state: "latest"
+mongodb_apt_flavor: "org" # org|10gen
+mongodb_backup: False
+
+# Network configuration
+mongodb_bind_address: "0.0.0.0"
+mongodb_port: 27017
+
+# User and group
+mongodb_user: "mongodb"
+mongodb_group: "mongodb"
+
+# Default base directory (without trailing '/')
+mongodb_path: "/var/lib/mongodb"
+
+# MMS monitoring agent API key
+mms_version: "2.5.0.116-1"
+mms_sha256: "fe725989068d710059c8b4d2d3d58fd298f88e27c8dbfd85ca2e6eba8c5031e1"
+mms_api_key: ""

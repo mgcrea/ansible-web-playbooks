@@ -1,0 +1,4 @@
+[program:mongod]
+command=/usr/bin/mongod --config /etc/{{ mongodb_service }}.conf
+environment=USER={{ mongodb_user }},HOME="{{ mongodb_path }}"
+user={{ mongodb_user }}

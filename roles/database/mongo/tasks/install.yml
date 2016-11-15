@@ -1,0 +1,15 @@
+---
+# File: main.yml
+# Type: task
+# Part: MongoDB | Default (Ubuntu)
+
+## Install
+- name: MongoDB | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=EA312927
+- name: MongoDB | Remove legacy ppa
+  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=absent
+- name: MongoDB | Install ppa
+  apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ mongodb_branch }} multiverse' state=present
+- name: MongoDB | Install package
+  apt: name=mongodb-org state={{ mongodb_apt_state }} force=yes
+  notify: restart mongod

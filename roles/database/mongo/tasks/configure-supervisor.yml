@@ -1,0 +1,15 @@
+---
+# File: configure-supervisor.yml
+# Type: task
+# Part: MongoDB
+
+- name: MongoDB | Deploy supervisor service configuration
+  template: src=supervisor_conf.d_mongod.conf.j2 dest=/etc/supervisor/conf.d/{{ mongodb_service }}.conf owner=root group=root mode=0644 backup=no
+  register: result
+- name: MongoDB | Reread supervisor
+  shell: supervisorctl reload
+  when: result|changed
+
+## Check service
+- name: MongoDB | Check service daemon
+  supervisorctl: name=program:mongod state=started config=/etc/supervisor/supervisord.conf
