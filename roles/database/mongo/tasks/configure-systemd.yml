@@ -11,7 +11,7 @@
 # - fetch: src=/var/backups/{{ mongodb_service }}.service.bak dest=fetched
 #   when: result|changed
 - name: MongoDB | Deploy systemd service configuration
-  template: src={{ mongodb_service }}.service.j2 dest=/etc/systemd/system/{{ mongodb_service }}.service owner=root group=root mode=0644 backup=no
+  template: src=mongod.service.j2 dest=/etc/systemd/system/{{ mongodb_service }}.service owner=root group=root mode=0644 backup=no
   notify: restart mongod
   register: result
 - fetch: src=/etc/systemd/system/{{ mongodb_service }}.service   dest=fetched
