@@ -1,7 +1,7 @@
 ---
 # File: main.yml
 # Type: task
-# Part: MongoDB | Default (Ubuntu)
+# Part: MongoDB
 
 ## Install
 - name: MongoDB | Install ppa key

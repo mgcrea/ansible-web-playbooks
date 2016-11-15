@@ -1,0 +1,28 @@
+---
+# File: main.yml
+# Type: task
+# Part: MongoDB
+
+## Backup
+- name: MongoDB | Backup configuration
+  shell: cp /etc/{{ mongodb_service }}.conf /var/backups/{{ mongodb_service }}.conf.bak
+  args:
+    creates: /var/backups/{{ mongodb_service }}.conf.bak
+  ignore_errors: True
+  register: result
+- fetch: src=/var/backups/{{ mongodb_service }}.conf.bak dest={{ ansible_fetched_base }}
+  when: result|changed
+
+## Configure
+- name: MongoDB | Ensure log folder exists
+  file: path=/var/log/mongodb state=directory owner={{ mongodb_user }} group={{ mongodb_group }} mode=0755
+- name: MongoDB | Deploy configuration
+  template: src=mongod.conf.j2 dest=/etc/{{ mongodb_service }}.conf owner=root group=root mode=0644
+  notify: restart mongod
+  register: result
+- fetch: src=/etc/{{ mongodb_service }}.conf dest={{ ansible_fetched_base }}
+  when: result|changed
+
+## Setup custom location
+- include: location.yml
+  when: "'{{ mongodb_path }}' != '/var/lib/mongodb'"

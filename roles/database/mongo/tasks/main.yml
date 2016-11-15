@@ -10,9 +10,8 @@
 ## Install
 - include: install.yml
 
-## Setup custom location
-- include: location.yml
-  when: "'{{ mongodb_path }}' != '/var/lib/mongodb'"
+## Configure
+- include: configure.yml
 
 ## Configure service
 - include: configure-systemd.yml
@@ -24,4 +23,4 @@
 
 ## Check service
 - name: MongoDB | Check service daemon
-  service: name=mongod state=started enabled=yes
+  service: name={{ mongodb_service }} state=started enabled=yes

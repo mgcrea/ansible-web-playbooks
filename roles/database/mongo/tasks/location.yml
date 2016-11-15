@@ -3,7 +3,6 @@
 # Type: task
 # Part: MongoDB
 
-
 ## Setup custom location
 - name: MongoDB | Setup directory
   file: state=directory dest={{ mongodb_path }} mode=700 owner={{ mongodb_user }} group={{ mongodb_group }}
