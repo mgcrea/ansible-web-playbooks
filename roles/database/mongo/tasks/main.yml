@@ -3,18 +3,25 @@
 # Type: task
 # Part: Mongo
 
-## Prerequesites
-# - name: MongoDB | Install upstart-sysv
-#   apt: name=upstart-sysv state=latest
-#   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 15
-#   register: result
-# - name: MongoDB | Reboot
-#   command: reboot
-#   when: result|changed
-
 - name: MongoDB | Check system
   fail: msg="Only Ubuntu is supported"
   when: ansible_distribution != 'Ubuntu' or ansible_distribution_major_version|int < 14
 
 ## Install
 - include: install.yml
+
+## Setup custom location
+- include: location.yml
+  when: "'{{ mongodb_path }}' != '/var/lib/mongodb'"
+
+## Configure service
+- include: configure-systemd.yml
+  when: not docker and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+# - include: configure-upstart.yml
+#   when: not docker and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
+# - include: configure-supervisor.yml
+#   when: docker
+
+## Check service
+- name: MongoDB | Check service daemon
+  service: name=mongod state=started enabled=yes

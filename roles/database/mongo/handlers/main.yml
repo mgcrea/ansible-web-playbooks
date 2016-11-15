@@ -4,6 +4,8 @@
 # Part: MongoDB
 
 - name: start mongod
-  service: name={{ mongodb_service }} state=started
+  service: name=mongod state=started
+- name: reload mongod
+  service: name=mongod state=reloaded
 - name: restart mongod
-  service: name={{ mongodb_service }} state=restarted
+  service: name=mongod state=restarted

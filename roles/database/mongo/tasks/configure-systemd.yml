@@ -1,0 +1,18 @@
+---
+# File: configure-systemd.yml
+# Type: task
+# Part: MongoDB
+
+- name: MongoDB | Backup service configuration
+  command: cp /lib/systemd/system/{{ mongodb_service }}.service /var/backups/{{ mongodb_service }}.service.bak
+  args:
+    creates: /var/backups/{{ mongodb_service }}.service.bak
+  register: result
+- fetch: src=/var/backups/{{ mongodb_service }}.service.bak dest=fetched
+  when: result|changed
+- name: MongoDB | Deploy systemd service configuration
+  template: src={{ mongodb_service }}.service.j2 dest=/lib/systemd/system/{{ mongodb_service }}.service owner=root group=root mode=0644 backup=no
+  notify: restart mongod
+  register: result
+- fetch: src=/lib/systemd/system/mongod.service  dest=fetched
+  when: result|changed
