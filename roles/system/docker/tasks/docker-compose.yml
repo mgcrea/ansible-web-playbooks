@@ -4,8 +4,7 @@
 # Part: Docker
 
 - name: DockerCompose | Fetch package
-  # get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ ansible_architecture }}
-  get_url: url=https://dev.carlipa-online.com/files/docker-compose-linux-{{ ansible_architecture }}
+  get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-{{ ansible_architecture }}
     dest=/usr/local/bin/docker-compose
     checksum={{ docker_compose_checksum }}
 

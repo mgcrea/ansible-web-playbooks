@@ -10,10 +10,13 @@ docker_apt_state: "latest"
 docker_user: "www-data"
 docker_group: "www-data"
 
+# Options
+docker_opts: ""
+
 # DockerCompose
 docker_compose_install: true
-docker_compose_version: 1.6.2
-docker_compose_checksum: "sha1:82129d4e90c7544a52738a570747d653bdb656db"
+docker_compose_version: "1.8.0"
+docker_compose_checksum: "sha1:bcc412fa4d1a8c2ab6dbf3f68d35e85907e59ee8"
 
 # DockerGen
 docker_gen_install: false

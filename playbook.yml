@@ -48,6 +48,10 @@
       tags: system_kaspersky
     - role: system/apcups
       tags: system_apcups
+    - role: system/metricbeat
+      tags: system_metricbeat
+    - role: system/packetbeat
+      tags: system_packetbeat
     - role: system/virtualbox
       tags: system_virtualbox
     - role: database/beanstalkd

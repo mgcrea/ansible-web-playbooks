@@ -25,6 +25,18 @@
   # extra_args="--proxy http://{{ pip_proxy }}"
   with_items:
     - ansible
+    
+# - name: Setup | Install SNI verification related python modules
+#   ignore_errors: True
+#   pip: name={{ item }} state=latest
+#   when: ansible_lsb.major_release <= 14
+#   # extra_args="--proxy http://{{ pip_proxy }}"
+#   with_items:
+#     - urllib3
+#     - pyopenssl
+#     - ndg-httpsclient
+#     - pyasn1
+
 - name: Setup | Install ansible locally
   shell: mkdir /etc/ansible; echo 'localhost ansible_connection=local' > /etc/ansible/hosts
          creates=/etc/ansible/hosts

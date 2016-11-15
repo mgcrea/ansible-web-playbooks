@@ -1,0 +1,9 @@
+---
+
+## Configure monit
+- name: metricbeat | Install monit
+  apt: name=monit state=latest
+  notify: restart monit
+- name: metricbeat | Deploy monit configuration
+  template: src=monit_conf.d_metricbeat.conf.j2 dest=/etc/monit/conf.d/metricbeat.conf owner=root group=root mode=0644
+  notify: restart monit

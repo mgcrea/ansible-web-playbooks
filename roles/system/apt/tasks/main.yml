@@ -17,6 +17,9 @@
   template: src=apt_sources.list_arm.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
   register: result
 
+- name: Aptitude | Deploy manager_release-upgrades
+  template: src=update-manager_release-upgrades.j2 dest="/etc/update-manager/release-upgrades" owner=root group=root mode=0644
+
 - name: Aptitude | Install pyton-apt
   apt: name=python-apt state=present
 
@@ -27,8 +30,14 @@
 - name: Aptitude | Update cache
   apt: update_cache=yes cache_valid_time=3600
 
+- name: Aptitude | Upgrade HWE stack
+  when: ansible_lsb.major_release < 16
+  command: apt-get install -f -y $(hwe-support-status --show-replacements)
+
 - name: Aptitude | Upgrade all packages to the latest version
+  when: apt_dist_upgrade
   apt: upgrade=dist force=yes
 
 - name: Aptitude | Remove unused packages
+  when: apt_autoremove
   shell: apt-get autoremove -y

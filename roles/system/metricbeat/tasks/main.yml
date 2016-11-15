@@ -1,0 +1,23 @@
+---
+# File: main.yml
+# Type: task
+# Part: beats
+
+## Install
+- name: metricbeat | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=D88E42B4
+- name: metricbeat | Install ppa
+  apt_repository: repo='deb https://artifacts.elastic.co/packages/5.x/apt stable main' state=present
+- name: metricbeat | Install packages
+  apt: name=metricbeat state=latest
+
+## Configure
+- name: metricbeat | Deploy config
+  template: src=metricbeat_metricbeat.yml.j2 dest=/etc/metricbeat/metricbeat.yml
+  notify: restart metricbeat
+- name: metricbeat | Check service daemon
+  service: name=metricbeat state=started enabled=yes
+
+## Configure monit
+- name: beats | Configure monit
+  include: configure-monit.yml

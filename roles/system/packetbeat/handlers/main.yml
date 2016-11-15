@@ -1,0 +1,11 @@
+---
+# File: main.yml
+# Type: handler
+# Part: packetbeat
+
+- name: start packetbeat
+  service: name=packetbeat state=started
+- name: restart packetbeat
+  service: name=packetbeat state=restarted
+- name: restart monit
+  service: name=monit state=restarted
