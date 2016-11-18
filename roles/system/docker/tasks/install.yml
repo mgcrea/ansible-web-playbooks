@@ -1,0 +1,45 @@
+---
+# File: main.yml
+# Type: task
+# Part: Docker
+
+## Kernel upgrade for 12.04
+- name: Docker | Upgrade 12.04 kernel
+  apt: name={{ item }} state=latest
+  with_items:
+    - linux-image-generic-lts-trusty
+    - linux-headers-generic-lts-trusty
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
+  register: kernel_updated
+- name: Docker | Reboot
+  command: reboot
+  when: kernel_updated | changed
+- name: Docker | Wait for SSH
+  local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} delay=30 timeout=900 state=started
+  when: kernel_updated | changed
+
+## Install linux-image-extra-virtual
+- name: Docker | Install recommended packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - linux-image-extra-{{ ansible_kernel }}
+    - linux-image-extra-virtual
+
+## Uninstall
+- name: Docker | Remove legacy package
+  apt: name=lxc-docker state=absent
+- name: Docker | Remove legacy ppa
+  apt_repository: repo='deb https://get.docker.io/ubuntu docker main' state=absent
+- name: Docker | Remove legacy ppa file
+  file: path=/etc/apt/sources.list.d/get_docker_io_ubuntu.list state=absent
+- name: Docker | Remove legacy ppa key
+  apt_key: id=A88D21E9 url=http://p80.pool.sks-keyservers.net/pks/lookup?op=get&search=0x36A1D7869245C8950F966E92D8576A8BA88D21E9 state=absent
+
+## Install
+- name: Docker | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=2C52609D
+  # apt_key: id=2C52609D url=http://p80.pool.sks-keyservers.net/pks/lookup?op=get&search=0x58118E89F3A912897C070ADBF76221572C52609D state=present
+- name: Docker | Install ppa
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_lsb.codename }} main' state=present
+- name: Docker | Install package
+  apt: name=docker-engine state={{ docker_apt_state }}

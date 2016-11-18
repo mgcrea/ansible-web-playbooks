@@ -8,7 +8,7 @@ mongodb_branch: "3.2"
 mongodb_apt_state: "latest"
 mongodb_apt_flavor: "org" # org|10gen
 mongodb_backup: False
-mongodb_service: "mongodb"
+mongodb_service: "mongod"
 
 # Network configuration
 mongodb_bind_address: "0.0.0.0"

@@ -1,0 +1,16 @@
+---
+# File: main.yml
+# Type: task
+# Part: Docker
+
+- name: Docker | Create base directory
+  file: state=directory path=/srv/docker owner=root group=root mode=0775
+
+- name: Docker | Deploy daemon defaults
+  template: src=docker_daemon.json.j2 dest=/etc/docker/daemon.json
+            owner=root group=root mode=0600 backup=no
+  notify: restart docker
+
+# - name: Docker | Create legacy symlink
+#   file: state=link path=/opt/docker src=/srv/docker
+

@@ -12,6 +12,7 @@ docker_group: "www-data"
 
 # Options
 docker_opts: ""
+docker_storage_driver: "aufs"
 
 # DockerCompose
 docker_compose_install: true

@@ -1,0 +1,14 @@
+---
+# File: configure-systemd.yml
+# Type: task
+# Part: Docker
+
+- name: Docker | Remove upstart service configuration
+  file: path=/etc/init/docker.conf state=absent
+  notify: restart docker
+- name: Docker | Deploy systemd service configuration
+  template: src=systemd_system_docker.service.j2 dest=/etc/systemd/system/docker.service owner=root group=root mode=0644 backup=no
+  notify: restart docker
+  register: result
+- fetch: src=/etc/systemd/system/docker.service dest={{ ansible_fetched_base }}
+  when: result|changed

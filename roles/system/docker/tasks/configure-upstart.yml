@@ -1,0 +1,16 @@
+---
+# File: configure-upstart.yml
+# Type: task
+# Part: Docker
+
+- name: Docker | Deploy upstart service defaults
+  template: src=default_docker.j2 dest=/etc/default/docker
+            owner=root group=root mode=0644 backup=no
+  notify: restart docker
+
+- name: Docker | Deploy upstart service configuration
+  template: src=init_mongod.conf.j2 dest=/etc/init/docker.conf owner=root group=root mode=0755 backup=no
+  notify: restart docker
+  register: result
+- fetch: src=/etc/init/docker.conf dest={{ ansible_fetched_base }}
+  when: result|changed
