@@ -7,8 +7,14 @@
 - name: NodeJS | Install ppa key
   apt_key: keyserver=keyserver.ubuntu.com id=0x1655A0AB68576280
   # apt_key: id=68576280 url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present validate_certs={{ nodejs_validate_certs }}
-- name: NodeJS | Remove launchpad ppa
+- name: NodeJS | Remove legacy chris-lea ppa
   apt_repository: repo=ppa:chris-lea/node.js state=absent
+- name: NodeJS | Remove previous branch ppa
+  apt_repository: repo="{{ item }}" state=absent
+  with_items:
+    - "deb https://deb.nodesource.com/{{ nodejs_legacy_branch }} {{ nodejs_distribution_release or ansible_distribution_release }} main"
+    - "deb-src https://deb.nodesource.com/{{ nodejs_legacy_branch }} {{ nodejs_distribution_release or ansible_distribution_release }} main"
+  when: nodejs_legacy_branch and nodejs_legacy_branch != nodejs_branch
 - name: NodeJS | Install ppa
   apt_repository: repo="{{ item }}" validate_certs={{ nodejs_validate_certs }}
   with_items:

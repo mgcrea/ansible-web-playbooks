@@ -9,7 +9,7 @@
   notify: restart docker
 
 - name: Docker | Deploy upstart service configuration
-  template: src=init_mongod.conf.j2 dest=/etc/init/docker.conf owner=root group=root mode=0755 backup=no
+  template: src=init_docker.conf.j2 dest=/etc/init/docker.conf owner=root group=root mode=0755 backup=no
   notify: restart docker
   register: result
 - fetch: src=/etc/init/docker.conf dest={{ ansible_fetched_base }}
