@@ -48,6 +48,8 @@
       tags: system_kaspersky
     - role: system/apcups
       tags: system_apcups
+    - role: system/journald
+      tags: system_journald
     - role: system/metricbeat
       tags: system_metricbeat
     - role: system/packetbeat

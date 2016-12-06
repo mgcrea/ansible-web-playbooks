@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Journald
+
+- name: start journald
+  service: name=systemd-journald state=started
+
+- name: restart journald
+  service: name=systemd-journald state=restarted

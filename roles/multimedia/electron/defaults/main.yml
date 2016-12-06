@@ -3,6 +3,11 @@
 # Type: defaults
 # Part: Electron
 
+# v0.33.4
+# electron_version: "v0.33.4"
+# electron_checksum_x64: "sha1:5a9f1b55503c3f527c24f7626d3105c45ffa50f0"
+# electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
+
 # v1.1
 # electron_version: "v1.1.3"
 # electron_checksum_x64: "sha1:86bb85c4d1df0407d206f72002f0c96434cf088d"
@@ -19,8 +24,8 @@
 # electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
 # v1.4
-electron_version: "v1.4.4"
-electron_checksum_x64: "sha1:1f95ab3825c1db7d8ff2ede11c9027368b8e2b05"
+electron_version: "v1.4.10"
+electron_checksum_x64: "sha1:6cfbd50ec10b625f2f7b2deed7e24cade1b32668"
 electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
 electron_downlod_directory: "/opt/downloads"

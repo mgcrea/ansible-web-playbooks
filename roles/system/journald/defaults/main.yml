@@ -1,0 +1,6 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Aptitude
+
+journald_storage: "auto"

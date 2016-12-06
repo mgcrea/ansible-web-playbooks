@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: task
+# Part: Journald
+
+- name: Aptitude | Deploy journald.conf
+  when: ansible_architecture == 'x86_64'
+  template: src=systemd_journald.conf.j2 dest="/etc/systemd/journald.conf.j2" owner=root group=root mode=0644
+  notify: restart journald
+  when: ansible_lsb.major_release|int >= 16
