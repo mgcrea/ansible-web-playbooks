@@ -12,7 +12,7 @@
 # See journald.conf(5) for details.
 
 [Journal]
-{% if journald_storage != 'auto' %}
+{% if journald_storage != "auto" %}
 Storage={{ journald_storage }}
 {% else %}
 #Storage=auto
