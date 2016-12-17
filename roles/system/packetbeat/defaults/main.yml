@@ -5,6 +5,7 @@
 
 # Aptitude state
 packetbeat_apt_state: "latest"
+packetbeat_flows_enabled: true
 
 packetbeat_hosts:
   - "localhost:9000"

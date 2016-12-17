@@ -17,6 +17,7 @@ packetbeat.interfaces.device: any
 
 # Set `enabled: false` or comment out all options to disable flows reporting.
 packetbeat.flows:
+  enabled: {{ packetbeat_flows_enabled | bool }}
   # Set network flow timeout. Flow is killed if no packet is received before being
   # timed out.
   timeout: 30s

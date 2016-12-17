@@ -16,7 +16,7 @@
   template: src=metricbeat_metricbeat.yml.j2 dest=/etc/metricbeat/metricbeat.yml
   notify: restart metricbeat
 - name: metricbeat | Check service daemon
-  service: name=metricbeat state=started enabled=yes
+  service: name=metricbeat state={{ metricbeat_service_state }} enabled={{ metricbeat_service_enabled }}
 
 ## Configure monit
 - name: beats | Configure monit

@@ -5,6 +5,9 @@
 
 # Aptitude state
 metricbeat_apt_state: "latest"
+metricbeat_module_system_enabled: true
+metricbeat_service_enabled: true
+metricbeat_service_state: "started"
 
 metricbeat_hosts:
   - "localhost:9000"

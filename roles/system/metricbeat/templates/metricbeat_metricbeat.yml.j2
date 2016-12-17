@@ -6,7 +6,7 @@ metricbeat.modules:
     - memory
     - network
     - process
-  enabled: true
+  enabled: {{ metricbeat_module_system_enabled | bool }}
   period: 10s
   processes: ['.*']
   cpu_ticks: false
