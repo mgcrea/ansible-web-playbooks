@@ -1,0 +1,9 @@
+## Configure service
+- include: service-init.yml
+  when: not docker
+- include: service-supervisor.yml
+  when: docker
+
+## Make sure service is running
+- name: Redis | Check daemon
+  service: name=redis-server state=started enabled=yes

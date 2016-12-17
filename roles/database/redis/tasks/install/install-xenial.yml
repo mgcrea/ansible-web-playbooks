@@ -1,0 +1,9 @@
+---
+# File: main.yml
+# Type: task
+# Part: Redis
+
+## Install
+- name: Aptitude | Install base system deps
+  when: ansible_distribution_version == "16.04"
+  apt: name=redis-server

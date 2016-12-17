@@ -3,7 +3,6 @@
 # Type: defaults
 # Part: Redis
 
-
 # Aptitude state
 redis_apt_state: "latest"
 

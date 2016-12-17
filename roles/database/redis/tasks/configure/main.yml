@@ -1,0 +1,32 @@
+---
+# File: main.yml
+# Type: task
+# Part: Redis
+
+## Setup custom location
+- include: configure-location.yml
+  when: "'{{ redis_path }}' != '/var/lib/redis'"
+
+## Configure user
+- name: Redis | Setup group
+  group: name={{ redis_group }}
+- name: Redis | Setup user
+  user: name={{ redis_user }} group={{ redis_group }} home="/var/lib/redis" shell="/bin/false" comment="Redis Server"
+
+## Configure Redis
+# - name: Redis | Backup configuration
+#   shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
+#   ignore_errors: True
+#   register: result
+# - fetch: src=/etc/redis/redis.conf.orig dest={{ ansible_fetched_base }}
+#   when: result|changed
+- name: Redis | Ensure base folder exists
+  file: path=/etc/redis state=directory owner=root group=root mode=0755
+- name: Redis | Ensure log folder exists
+  file: path=/var/log/redis state=directory owner={{ redis_user }} group={{ redis_group }} mode=0755
+- name: Redis | Deploy configuration
+  template: src=redis_redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644 backup=yes
+  notify: restart redis
+  register: result
+- fetch: src=/etc/redis/redis.conf dest={{ ansible_fetched_base }}
+  when: result|changed

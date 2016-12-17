@@ -4,45 +4,15 @@
 # Part: Redis
 
 ## Install
-- include: install-ubuntu.yml
-  when: ansible_distribution == 'Ubuntu'
-# - service: name=redis-server state=stopped enabled=yes
-#   when: ansible_distribution == 'Ubuntu'
+- include: install/main.yml
+  tags: [database_redis, database_redis_install]
 
-## Setup custom location
-- include: location.yml
-  when: "'{{ redis_path }}' != '/var/lib/redis'"
+## Configure
+- include: configure/main.yml
+  tags: [database_redis, database_redis_configure]
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
 
-## Configure user
-- name: Redis | Setup group
-  group: name={{ redis_group }}
-- name: Redis | Setup user
-  user: name={{ redis_user }} group={{ redis_group }} home="/var/lib/redis" shell="/bin/false" comment="Redis Server"
-
-## Configure Redis
-# - name: Redis | Backup configuration
-#   shell: creates=/etc/redis/redis.conf.orig cp /etc/redis/redis.conf /etc/redis/redis.conf.orig
-#   ignore_errors: True
-#   register: result
-# - fetch: src=/etc/redis/redis.conf.orig dest={{ ansible_fetched_base }}
-#   when: result|changed
-- name: Redis | Ensure base folder exists
-  file: path=/etc/redis state=directory owner=root group=root mode=0755
-- name: Redis | Ensure log folder exists
-  file: path=/var/log/redis state=directory owner={{ redis_user }} group={{ redis_group }} mode=0755
-- name: Redis | Deploy configuration
-  template: src=redis_redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644 backup=yes
-  notify: restart redis
-  register: result
-- fetch: src=/etc/redis/redis.conf dest={{ ansible_fetched_base }}
-  when: result|changed
-
-## Configure service
-- include: configure-init.yml
-  when: not docker
-- include: configure-supervisor.yml
-  when: docker
-
-## Make sure service is running
-- name: Redis | Check daemon
-  service: name=redis-server state=started enabled=yes
+## Service
+- include: service/main.yml
+  tags: [database_redis, database_redis_service]
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
