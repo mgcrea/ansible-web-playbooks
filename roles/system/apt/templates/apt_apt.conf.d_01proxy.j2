@@ -1,0 +1,4 @@
+Acquire::http::proxy "http://{{ apt_proxy }}/";
+Acquire::https::proxy "https://{{ apt_proxy }}/";
+Acquire::socks::proxy "socks://{{ apt_proxy }}/";
+{{ apt_proxy_extra | default() }}
