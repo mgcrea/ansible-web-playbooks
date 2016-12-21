@@ -27,6 +27,7 @@ openvpn_path: "/etc/openvpn"
 openvpn_config_dir: "/etc/openvpn"
 openvpn_server_name: "server"
 openvpn_config_name: "server"
+openvpn_topology: "subnet"
 
 # Default easy rsa params
 easyrsa_req_country: "US"

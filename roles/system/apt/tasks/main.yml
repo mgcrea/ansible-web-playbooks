@@ -3,8 +3,12 @@
 # Type: task
 # Part: Aptitude
 
+# - name: Aptitude | Configure Proxy
+#   shell: "echo 'Acquire::http { Proxy \"{{ apt_proxy }}\"; };\n{{ apt_proxy_extra | default() }}' > /etc/apt/apt.conf.d/01proxy"
+#   when: apt_proxy is defined
+
 - name: Aptitude | Configure Proxy
-  shell: "echo 'Acquire::http { Proxy \"{{ apt_proxy }}\"; };\n{{ apt_proxy_extra | default() }}' > /etc/apt/apt.conf.d/01proxy"
+  template: src=apt_apt.conf.d_01proxy.j2 dest="/etc/apt/apt.conf.d/01proxy" owner=root group=root mode=0644
   when: apt_proxy is defined
 
 - name: Aptitude | Deploy sources.list
