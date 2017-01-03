@@ -1,0 +1,20 @@
+---
+# @url https://launchpad.net/~oibaf/+archive/ubuntu/graphics-drivers
+
+- name: Graphics | Oibaf Graphics Drivers | Install ppa key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 5ABCE68FF4633EA42E219156957D2708A03A4626
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+- name: Graphics | Oibaf Graphics Drivers | Install ppa
+  apt_repository:
+    repo: 'ppa:oibaf/graphics-drivers'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+
+- name: Graphics | Radeon | Install updated drivers
+  apt: name={{ item }} state=latest
+  with_items:
+    - mesa-vdpau-drivers
+
+- name: Graphics | Radeon | Update graphics packages to the latest version
+  apt: upgrade=dist

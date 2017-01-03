@@ -1,0 +1,35 @@
+---
+
+- name: Graphics | Padoka Stable Mesa | Install ppa key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 04EB81D1659602CB76B6879BF6CC6FDDA6032A6A
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+- name: Graphics | Padoka Stable Mesa | Install ppa
+  apt_repository:
+    repo: 'ppa:paulo-miguel-dias/pkppa'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+
+- name: Graphics | Intel | Install updated drivers
+  apt: name={{ item }} state=latest
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
+  with_items:
+    - libva-intel-vaapi-driver
+
+- name: Graphics | Intel | Install graphics related packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - beignet
+    - beignet-dev
+    - intel-gpu-tools
+    - libvdpau-va-gl1
+
+# - name: Graphics | Intel | Add beignet to library search path
+#   command: echo "/usr/lib/beignet/" > /etc/ld.so.conf.d/beignet.conf && ldconfig
+
+- name: Graphics | Intel | Configure X11 TearFree
+  template: src=intel_X11_xorg.conf.j2 dest=/etc/X11/xorg.conf
+            owner=root group=root mode=0644 backup=no
+
+- name: Graphics | Intel | Update graphics packages to the latest version
+  apt: upgrade=dist

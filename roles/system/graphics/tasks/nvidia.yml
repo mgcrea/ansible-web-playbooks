@@ -1,0 +1,52 @@
+---
+# @url https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa
+
+- name: Graphics | Graphics Drivers | Install ppa key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 2388FF3BE10A76F638F80723FCAE110B1118213C
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+- name: Graphics | Graphics Drivers | Install ppa
+  apt_repository:
+    repo: 'ppa:graphics-drivers/ppa'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+
+- name: Graphics | Nvidia | Install latest drivers
+  apt: name={{ item }} state=latest
+  with_items:
+    - nvidia-370 # nvidia-361 /!\ bug whitescreen worked as 351
+    - nvidia-settings
+    - vdpauinfo
+  register: result
+  when: ansible_product_name != 'Macmini4,1'
+
+# @cli cat /etc/X11/xorg.conf
+# @cli grep -i "x driver" /var/log/Xorg.0.log
+- name: Graphics | Nvidia | Configure X11
+  shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig
+  when: result | changed
+
+# For GeForce 8 and 9 series GPUs use `nvidia-340` (340.98)
+- name: Graphics | Nvidia | Install GeForce 8 and 9 legacy drivers
+  apt: name={{ item }} state=latest
+  with_items:
+    - nvidia-340
+    - nvidia-settings
+    - vdpauinfo
+  register: result
+  when: ansible_product_name == 'Macmini4,1'
+
+# @cli cat /etc/X11/xorg.conf
+# @cli grep -i "x driver" /var/log/Xorg.0.log
+- name: Graphics | Nvidia | Configure X11
+  shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig
+  when: result | changed
+
+- name: Graphics | Nvidia | Setup accelerated video decoding
+  apt: name={{ item }} state=latest
+  with_items:
+    - vdpau-va-driver # nvidia
+    # - libvdpau-dev
+
+- name: Graphics | Nvidia | Update graphics packages to the latest version
+  apt: upgrade=dist

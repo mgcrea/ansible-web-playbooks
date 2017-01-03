@@ -1,0 +1,37 @@
+---
+# File: main.yml
+# Type: task
+# Part: Graphics
+
+- name: Graphics | Check Ubuntu release
+  fail: msg="This role only support Ubuntu LTS versions after 14.04"
+  when: ansible_distribution_major_version|int < 14
+- name: Graphics | Check architecture
+  fail: msg="This role support x86_64 architecture"
+  when: ansible_architecture != 'x86_64'
+
+- name: Graphics | Determine GPU Vendor
+  shell: if [[ $(lspci | egrep VGA.+NVIDIA | wc -l) > 0 ]]; then echo 'nvidia'; else if [[ $(lspci | lspci | egrep VGA.+AMD | wc -l) > 0 ]]; then echo 'amd'; else echo 'intel'; fi; fi;
+  args:
+    executable: /bin/bash
+  register: gpu_vendor_result
+- set_fact:
+    gpu_vendor: "{{ gpu_vendor_result.stdout }}"
+- debug: msg="System gpu is {{ gpu_vendor }}"
+
+- include: nvidia.yml
+  when: gpu_vendor == 'nvidia'
+- include: intel.yml
+  when: gpu_vendor == 'intel'
+- include: amd.yml
+  when: gpu_vendor == 'amd'
+
+- name: Graphics | Setup accelerated video decoding
+  apt: name={{ item }} state=latest
+  with_items:
+    - vainfo
+    - vdpauinfo
+    - libva-drm1
+    - libva-egl1
+    - libva-glx1
+    - libvdpau1

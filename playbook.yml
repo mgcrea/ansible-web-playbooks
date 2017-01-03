@@ -52,6 +52,8 @@
       tags: system_metricbeat
     - role: system/packetbeat
       tags: system_packetbeat
+    - role: system/graphics
+      tags: system_graphics
     - role: database/beanstalkd
       tags: database_beanstalkd
     - role: database/mysql
