@@ -12,3 +12,16 @@
   register: result
 - fetch: src=/etc/systemd/system/docker.service dest={{ ansible_fetched_base }}
   when: result|changed
+- file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+- template:
+    src: systemd_system_docker.service.d_debian-style-config.conf.j2
+    dest: /etc/systemd/system/docker.service.d/debian-style-config
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart docker
