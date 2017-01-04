@@ -1,5 +1,6 @@
 ---
 
+# @url https://launchpad.net/~paulo-miguel-dias/+archive/ubuntu/mesa
 - name: Graphics | Padoka Stable Mesa | Install ppa key
   apt_key:
     keyserver: keyserver.ubuntu.com
@@ -10,7 +11,7 @@
     repo: 'ppa:paulo-miguel-dias/pkppa'
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
 
-- name: Graphics | Intel | Install updated drivers
+- name: Graphics | Intel | Install vaapi driver
   apt: name={{ item }} state=latest
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
   with_items:

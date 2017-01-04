@@ -1,6 +1,6 @@
 ---
-# @url https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa
 
+# @url https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa
 - name: Graphics | Graphics Drivers | Install ppa key
   apt_key:
     keyserver: keyserver.ubuntu.com
@@ -14,7 +14,7 @@
 - name: Graphics | Nvidia | Install latest drivers
   apt: name={{ item }} state=latest
   with_items:
-    - nvidia-370 # nvidia-361 /!\ bug whitescreen worked as 351
+    - nvidia-370
     - nvidia-settings
     - vdpauinfo
   register: result
@@ -24,7 +24,7 @@
 # @cli grep -i "x driver" /var/log/Xorg.0.log
 - name: Graphics | Nvidia | Configure X11
   shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig
-  when: result | changed
+  when: result|changed
 
 # For GeForce 8 and 9 series GPUs use `nvidia-340` (340.98)
 - name: Graphics | Nvidia | Install GeForce 8 and 9 legacy drivers
@@ -40,7 +40,7 @@
 # @cli grep -i "x driver" /var/log/Xorg.0.log
 - name: Graphics | Nvidia | Configure X11
   shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig
-  when: result | changed
+  when: result|changed
 
 - name: Graphics | Nvidia | Setup accelerated video decoding
   apt: name={{ item }} state=latest

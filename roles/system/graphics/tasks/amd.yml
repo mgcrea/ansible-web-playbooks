@@ -1,6 +1,6 @@
 ---
-# @url https://launchpad.net/~oibaf/+archive/ubuntu/graphics-drivers
 
+# @url https://launchpad.net/~oibaf/+archive/ubuntu/graphics-drivers
 - name: Graphics | Oibaf Graphics Drivers | Install ppa key
   apt_key:
     keyserver: keyserver.ubuntu.com
