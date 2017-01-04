@@ -39,7 +39,7 @@ easyrsa_req_ou: "My Organizational Unit"
 easyrsa_key_size: 2048
 
 # Monit state
-openvpn_monit: False
+openvpn_monit: false
 # Post-up script
-openvpn_script_security: False
-openvpn_script_up: False
+openvpn_script_security: false
+openvpn_script_up: false

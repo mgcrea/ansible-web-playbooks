@@ -160,9 +160,9 @@ verb 3
 ;mute 20
 
 # Status notifications
-{% if openvpn_script_security is defined %}
+{% if openvpn_script_security|bool %}
 script-security {{ openvpn_script_security }}
 {% endif %}
-{% if openvpn_script_up  is defined %}
+{% if openvpn_script_up|bool %}
 up /etc/openvpn/status.sh
 {% endif %}
