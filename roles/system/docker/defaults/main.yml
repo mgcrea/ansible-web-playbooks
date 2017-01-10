@@ -10,8 +10,10 @@ docker_apt_state: "latest"
 docker_user: "www-data"
 docker_group: "www-data"
 
-# Options
+# Legacy Options
 docker_opts: ""
+# Options
+docker_bip: ""
 docker_storage_driver: "aufs"
 
 # DockerCompose

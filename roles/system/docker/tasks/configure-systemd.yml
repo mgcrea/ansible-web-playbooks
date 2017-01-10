@@ -25,3 +25,4 @@
     group: root
     mode: 0644
   notify: restart docker
+  when: docker_opts != ""

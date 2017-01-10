@@ -1,3 +1,6 @@
 {
+{% if docker_bip != "" %}
+  "bip": "{{ docker_bip }}",
+{% endif %}
   "storage-driver": "{{ docker_storage_driver }}"
 }
