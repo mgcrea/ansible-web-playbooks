@@ -16,14 +16,18 @@
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
   with_items:
     - libva-intel-vaapi-driver
+    - libva-drm1 # set to manually installed? (it is on 16.04)
+    - intel-gpu-tools # set to manually installed? (it is on 16.04)
 
-- name: Graphics | Intel | Install graphics related packages
+- name: Graphics | Intel | Install extra packages
   apt: name={{ item }} state=latest
   with_items:
-    - beignet
-    - beignet-dev
-    - intel-gpu-tools
-    - libvdpau-va-gl1
+    - libva-egl1 # This package provides the libva-egl library.
+    - libva-glx1 # This package provides the libva-glx library.
+    - vainfo # This package provides the vainfo program.
+    - beignet # This package contains the shared library for the Intel implementation, which supports the integrated GPUs of Ivy Bridge (ix-3xxx)/Bay Trail and later Intel processors.
+    - beignet-dev # This package contains the documentation specific to the Intel implementation, the development files for Intel OpenCL extensions, and an OpenCL testing tool.
+    # - libvdpau-va-gl1 # /!\ leads to memory leaks (https://github.com/mpv-player/mpv/issues/3931)
 
 # - name: Graphics | Intel | Add beignet to library search path
 #   command: echo "/usr/lib/beignet/" > /etc/ld.so.conf.d/beignet.conf && ldconfig

@@ -11,10 +11,10 @@
     repo: 'ppa:oibaf/graphics-drivers'
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
 
-- name: Graphics | Radeon | Install updated drivers
+- name: Graphics | Amd | Install extra packages
   apt: name={{ item }} state=latest
   with_items:
-    - mesa-vdpau-drivers
+    - mesa-vdpau-drivers # This package enables support for VDPAU for some gallium drivers.
 
-- name: Graphics | Radeon | Update graphics packages to the latest version
+- name: Graphics | Amd | Update graphics packages to the latest version
   apt: upgrade=dist

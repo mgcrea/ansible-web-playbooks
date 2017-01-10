@@ -25,13 +25,3 @@
   when: gpu_vendor == 'intel'
 - include: amd.yml
   when: gpu_vendor == 'amd'
-
-- name: Graphics | Setup accelerated video decoding
-  apt: name={{ item }} state=latest
-  with_items:
-    - vainfo
-    - vdpauinfo
-    - libva-drm1
-    - libva-egl1
-    - libva-glx1
-    - libvdpau1

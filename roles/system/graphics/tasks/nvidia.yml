@@ -16,7 +16,6 @@
   with_items:
     - nvidia-370
     - nvidia-settings
-    - vdpauinfo
   register: result
   when: ansible_product_name != 'Macmini4,1'
 
@@ -32,7 +31,6 @@
   with_items:
     - nvidia-340
     - nvidia-settings
-    - vdpauinfo
   register: result
   when: ansible_product_name == 'Macmini4,1'
 
@@ -42,11 +40,12 @@
   shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig
   when: result|changed
 
-- name: Graphics | Nvidia | Setup accelerated video decoding
+- name: Graphics | Nvidia | Install extra packages
   apt: name={{ item }} state=latest
   with_items:
-    - vdpau-va-driver # nvidia
-    # - libvdpau-dev
+    - vdpauinfo # This package contains the vdpauinfo utility.
+    - vdpau-va-driver # This package contains the VDPAU-based backend driver for use with the VA API library.
+    - libvdpau1 # This package contains the VDPAU wrapper and trace libraries.
 
 - name: Graphics | Nvidia | Update graphics packages to the latest version
   apt: upgrade=dist
