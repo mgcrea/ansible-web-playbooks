@@ -8,3 +8,6 @@
   template: src=monit_conf.d_openvpn.conf.j2 dest=/etc/monit/conf.d/openvpn-{{ openvpn_config }}.conf owner=root group=root mode=0644
   when: openvpn_config is defined
   notify: restart monit
+- name: OpenVPN | Remove legacy monit configuration
+  file: state=absent path=/etc/monit/conf.d/openvpn-{{ openvpn_config_to_remove }}.conf
+  when: openvpn_config_to_remove != ''

@@ -1,4 +1,8 @@
+{% if apt_periodic_enable|bool %}
 APT::Periodic::Enable "1";
+{% else %}
+APT::Periodic::Enable "0";
+{% endif %}
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Download-Upgradeable-Packages "1";
 APT::Periodic::AutocleanInterval "5";

@@ -28,5 +28,7 @@ electron_version: "v1.4.12"
 electron_checksum_x64: "sha1:f42cf26efd31dee92f40ecb1e8e12549041da08a"
 electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
+electron_mirror: "https://github.com/atom/electron/releases/download"
+# electron_mirror: "https://npm.taobao.org/mirrors/electron"
 electron_downlod_directory: "/opt/downloads"
 electron_app_directory: "/opt/local/electron"

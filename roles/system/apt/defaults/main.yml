@@ -7,4 +7,7 @@ apt_server: "archive.ubuntu.com"
 apt_release_upgrades_prompt: "lts"
 apt_enable_partner: false
 apt_dist_upgrade: false
+apt_periodic: true
+apt_periodic_enable: true
+apt_update_cache: true
 apt_autoremove: false

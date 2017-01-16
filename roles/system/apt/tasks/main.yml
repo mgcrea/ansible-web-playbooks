@@ -11,6 +11,10 @@
   template: src=apt_apt.conf.d_01proxy.j2 dest="/etc/apt/apt.conf.d/01proxy" owner=root group=root mode=0644
   when: apt_proxy is defined
 
+- name: Aptitude | Configure Periodic Upgrades
+  template: src=apt_apt.conf.d_10periodic.j2 dest="/etc/apt/apt.conf.d/10periodic" owner=root group=root mode=0644
+  when: apt_periodic is defined
+
 - name: Aptitude | Deploy sources.list
   when: ansible_architecture == 'x86_64'
   template: src=apt_sources.list.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
@@ -21,9 +25,6 @@
   template: src=apt_sources.list_arm.j2 dest="/etc/apt/sources.list" owner=root group=root mode=0644
   register: result
 
-- name: Aptitude | Deploy manager_release-upgrades
-  template: src=update-manager_release-upgrades.j2 dest="/etc/update-manager/release-upgrades" owner=root group=root mode=0644
-
 - name: Aptitude | Install pyton-apt
   apt: name=python-apt state=present
 
@@ -32,16 +33,20 @@
   when: result|changed
 
 - name: Aptitude | Update cache
+  when: apt_update_cache|bool
   apt: update_cache=yes cache_valid_time=3600
 
+- name: Aptitude | Deploy manager_release-upgrades
+  template: src=update-manager_release-upgrades.j2 dest="/etc/update-manager/release-upgrades" owner=root group=root mode=0644
+
 - name: Aptitude | Upgrade HWE stack
-  when: ansible_lsb.major_release < 16
+  when: apt_dist_upgrade|bool and ansible_lsb.major_release < 16
   command: apt-get install -f -y $(hwe-support-status --show-replacements)
 
 - name: Aptitude | Upgrade all packages to the latest version
-  when: apt_dist_upgrade
+  when: apt_dist_upgrade|bool
   apt: upgrade=dist force=yes
 
 - name: Aptitude | Remove unused packages
-  when: apt_autoremove
+  when: apt_autoremove|bool
   shell: apt-get autoremove -y

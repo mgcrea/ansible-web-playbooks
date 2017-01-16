@@ -36,3 +36,12 @@
   when: openvpn_key_password is defined
 - fetch: src=/etc/openvpn/{{ openvpn_config }}.conf dest={{ ansible_fetched_base }}/openvpn/{{ openvpn_config }}.conf flat=yes
   when: result|changed
+
+- name: OpenVPN | Remove legacy OpenVPN configuration
+  file: state=absent path={{ item }}
+  when: openvpn_config_to_remove != ''
+  with_items:
+    - /etc/openvpn/{{ openvpn_config_to_remove }}
+    - /etc/openvpn/{{ openvpn_config_to_remove }}.conf
+  # notify:
+  #   - restart openvpn
