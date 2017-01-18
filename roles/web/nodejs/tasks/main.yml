@@ -24,7 +24,7 @@
 - name: NodeJS | NPM | Install global packages
   npm: name={{ item }} global=yes state=present registry={{ nodejs_npm_registry }}
   with_items: "{{ nodejs_npm_modules }}"
-  when: nodejs_npm_modules is defined
+  when: nodejs_npm_modules is defined and nodejs_npm_modules_install|bool
 
 ## Install supervisor service
 - include: configure-supervisor.yml

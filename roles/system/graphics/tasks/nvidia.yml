@@ -14,7 +14,7 @@
 - name: Graphics | Nvidia | Install latest drivers
   apt: name={{ item }} state=latest
   with_items:
-    - nvidia-370
+    - nvidia-375
     - nvidia-settings
   register: result
   when: ansible_product_name != 'Macmini4,1'
