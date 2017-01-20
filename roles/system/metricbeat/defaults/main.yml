@@ -13,3 +13,5 @@ metricbeat_output_protocol: "http"
 metricbeat_output_path: ""
 metricbeat_output_hosts:
   - "localhost:9000"
+metricbeat_output_username: ""
+metricbeat_output_password: ""

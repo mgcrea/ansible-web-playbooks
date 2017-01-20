@@ -35,6 +35,7 @@
 - name: Aptitude | Update cache
   when: apt_update_cache|bool
   apt: update_cache=yes cache_valid_time=3600
+  tags: system_apt_update
 
 - name: Aptitude | Deploy manager_release-upgrades
   template: src=update-manager_release-upgrades.j2 dest="/etc/update-manager/release-upgrades" owner=root group=root mode=0644

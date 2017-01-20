@@ -14,6 +14,10 @@ metricbeat.modules:
 output.elasticsearch:
   hosts: {{ metricbeat_output_hosts | to_json }}
   protocol: {{ metricbeat_output_protocol }}
-{% if not metricbeat_output_path|bool %}
+{% if metricbeat_output_path != "" %}
   path: {{ metricbeat_output_path }}
+{% endif %}
+{% if metricbeat_output_username != "" %}
+  username: {{ metricbeat_output_username }}
+  password: {{ metricbeat_output_password }}
 {% endif %}
