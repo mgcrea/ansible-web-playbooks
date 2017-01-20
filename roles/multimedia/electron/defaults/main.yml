@@ -3,29 +3,29 @@
 # Type: defaults
 # Part: Electron
 
-# v0.33.4
-# electron_version: "v0.33.4"
+# v0.33.9
+# electron_version: "v0.33.9"
 # electron_checksum_x64: "sha1:5a9f1b55503c3f527c24f7626d3105c45ffa50f0"
 # electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
-# v1.1
+# v1.1 (chrome@50)
 # electron_version: "v1.1.3"
 # electron_checksum_x64: "sha1:86bb85c4d1df0407d206f72002f0c96434cf088d"
 # electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
-# v1.2
+# v1.2 (chrome@51)
 # electron_version: "v1.2.8"
 # electron_checksum_x64: "sha1:531054929d4df498f8b420bf431d70d0ced4420e"
 # electron_checksum_arm: "sha1:bd827c0f237f6d8518fc5f1dc23e47afd8584667"
 
-# v1.3
-# electron_version: "v1.3.8"
+# v1.3 (chrome@52)
+# electron_version: "v1.3.13"
 # electron_checksum_x64: "sha1:1f95ab3825c1db7d8ff2ede11c9027368b8e2b05"
 # electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
-# v1.4
-electron_version: "v1.4.12"
-electron_checksum_x64: "sha1:f42cf26efd31dee92f40ecb1e8e12549041da08a"
+# v1.4 (chrome@53)
+electron_version: "v1.4.15"
+electron_checksum_x64: "sha1:b1532df41f1577cc21238b85863410de4a4ea595"
 electron_checksum_arm: "sha1:f796f66c0ee8f5474788b12bcb7312ecb3054a13"
 
 electron_mirror: "https://github.com/atom/electron/releases/download"

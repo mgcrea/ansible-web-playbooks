@@ -12,4 +12,8 @@ metricbeat.modules:
   cpu_ticks: false
 
 output.elasticsearch:
-  hosts: {{ metricbeat_hosts | to_json }}
+  hosts: {{ metricbeat_output_hosts | to_json }}
+  protocol: {{ metricbeat_output_protocol }}
+{% if not metricbeat_output_path|bool %}
+  path: {{ metricbeat_output_path }}
+{% endif %}

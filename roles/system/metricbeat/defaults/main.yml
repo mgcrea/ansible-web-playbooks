@@ -9,5 +9,7 @@ metricbeat_module_system_enabled: true
 metricbeat_service_enabled: true
 metricbeat_service_state: "started"
 
-metricbeat_hosts:
+metricbeat_output_protocol: "http"
+metricbeat_output_path: ""
+metricbeat_output_hosts:
   - "localhost:9000"
