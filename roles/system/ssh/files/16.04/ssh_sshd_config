@@ -2,18 +2,16 @@
 # See the sshd_config(5) manpage for details
 
 # What ports, IPs and protocols we listen for
-Port {{ ssh_port }}
+Port 22
 # Use these options to restrict which interfaces/protocols sshd will bind to
 #ListenAddress ::
 #ListenAddress 0.0.0.0
-Protocol {{ ssh_protocol }}
+Protocol 2
 # HostKeys for protocol version 2
 HostKey /etc/ssh/ssh_host_rsa_key
 #HostKey /etc/ssh/ssh_host_dsa_key
 #HostKey /etc/ssh/ssh_host_ecdsa_key
-{% if ansible_distribution == 'Ubuntu' %}
 HostKey /etc/ssh/ssh_host_ed25519_key
-{% endif %}
 #Privilege Separation is turned on for security
 UsePrivilegeSeparation yes
 
@@ -27,19 +25,12 @@ LogLevel INFO
 
 # Authentication:
 LoginGraceTime 120
-PermitRootLogin {{ ssh_permit_root_login }}
-{% if ssh_allow_users %}
-AllowUsers {{ ssh_allow_users }}
-{% endif %}
+PermitRootLogin yes
 StrictModes yes
 
 RSAAuthentication yes
 PubkeyAuthentication yes
-{% if ssh_authorized_keys_file and ssh_authorized_keys_file != False %}
-AuthorizedKeysFile {{ ssh_authorized_keys_file }}/%u
-{% else %}
-#AuthorizedKeysFile %h/.ssh/authorized_keys
-{% endif %}
+#AuthorizedKeysFile	%h/.ssh/authorized_keys
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts yes
@@ -83,11 +74,7 @@ TCPKeepAlive yes
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
 
-{% if ssh_sftp_user or ssh_sftp_group %}
-Subsystem sftp internal-sftp -f AUTH -l VERBOSE
-{% else %}
 Subsystem sftp /usr/lib/openssh/sftp-server
-{% endif %}
 
 # Set this to 'yes' to enable PAM authentication, account processing,
 # and session processing. If this is enabled, PAM authentication will
@@ -99,36 +86,6 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
-
-{% if ansible_distribution == 'Ubuntu' %}
-# Use strong ciphers (from https://wiki.mozilla.org/Security/Guidelines/OpenSSH)
-{% if ansible_lsb.major_release|int >= 14 %}
-Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
-MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
-KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
-{% endif %}
-{% if ansible_lsb.major_release|int < 14 %}
-Ciphers aes256-ctr,aes192-ctr,aes128-ctr
-MACs hmac-sha2-512,hmac-sha2-256
-KexAlgorithms diffie-hellman-group-exchange-sha256
-{% endif %}
-{% endif %}
-
-{% if ssh_sftp_user %}
-# SFTP User configuration
-Match User {{ ssh_sftp_user }}
-  ChrootDirectory %h
-  ForceCommand internal-sftp -u 0007
-  AllowTcpForwarding no
-  PermitTunnel no
-  X11Forwarding no
-{% endif %}
-{% if ssh_sftp_group %}
-# SFTP Group configuration
-Match Group {{ ssh_sftp_group }}
-  ChrootDirectory %h
-  ForceCommand internal-sftp -u 0007
-  AllowTcpForwarding no
-  PermitTunnel no
-  X11Forwarding no
-{% endif %}
+Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,hmac-ripemd160
+KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1

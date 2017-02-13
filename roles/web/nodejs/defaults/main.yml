@@ -5,7 +5,7 @@
 
 # Aptitude state
 nodejs_branch: "node_6.x"
-nodejs_legacy_branch: ""
+nodejs_legacy_branch: "node_4.x"
 nodejs_apt_state: "latest"
 nodejs_validate_certs: yes
 

@@ -5,7 +5,7 @@
 
 ## Install
 - name: NodeJS | Install ppa key
-  apt_key: keyserver=keyserver.ubuntu.com id=0x1655A0AB68576280
+  apt_key: keyserver=keyserver.ubuntu.com id=0x1655A0AB68576280 validate_certs={{ nodejs_validate_certs }}
   # apt_key: id=68576280 url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present validate_certs={{ nodejs_validate_certs }}
 - name: NodeJS | Remove legacy chris-lea ppa
   apt_repository: repo=ppa:chris-lea/node.js state=absent

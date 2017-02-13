@@ -11,7 +11,7 @@
   when: ansible_architecture != 'x86_64'
 
 - name: Graphics | Determine GPU Vendor
-  shell: if [[ $(lspci | egrep VGA.+NVIDIA | wc -l) > 0 ]]; then echo 'nvidia'; else if [[ $(lspci | lspci | egrep VGA.+AMD | wc -l) > 0 ]]; then echo 'amd'; else echo 'intel'; fi; fi;
+  shell: if [[ $(lspci | egrep VGA.+NVIDIA | wc -l) > 0 ]]; then echo 'nvidia'; else if [[ $(lspci | egrep VGA.+AMD | wc -l) > 0 ]]; then echo 'amd'; else echo 'intel'; fi; fi;
   args:
     executable: /bin/bash
   register: gpu_vendor_result

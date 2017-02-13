@@ -8,6 +8,7 @@
 - name: Setup | Update aptitude
   apt: update_cache=yes cache_valid_time=3600
   tags: apt_update
+
 - name: Setup | Install ansible required packages
   apt: name={{ item }} state=latest
   with_items:
@@ -19,23 +20,24 @@
     - python-pycurl
     - python-software-properties
     - python-setuptools
+
+- name: Setup | Upgrade pip
+  command: python -m pip install -U pip
+
+- name: Setup | Install SNI verification related python modules
+  ignore_errors: True
+  pip: name={{ item }} state=latest
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int == 14
+  with_items:
+    - setuptools
+    - requests[security]
+
 - name: Setup | Install ansible locally
   ignore_errors: True
   pip: name={{ item }} state=latest
   # extra_args="--proxy http://{{ pip_proxy }}"
   with_items:
     - ansible
-    
-# - name: Setup | Install SNI verification related python modules
-#   ignore_errors: True
-#   pip: name={{ item }} state=latest
-#   when: ansible_lsb.major_release <= 14
-#   # extra_args="--proxy http://{{ pip_proxy }}"
-#   with_items:
-#     - urllib3
-#     - pyopenssl
-#     - ndg-httpsclient
-#     - pyasn1
 
 - name: Setup | Install ansible locally
   shell: mkdir /etc/ansible; echo 'localhost ansible_connection=local' > /etc/ansible/hosts

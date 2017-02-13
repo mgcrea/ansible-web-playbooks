@@ -1,0 +1,7 @@
+{% if http_proxy is defined and http_proxy %}
+http_proxy="{{ http_proxy }}"
+HTTP_PROXY="{{ http_proxy }}"
+HTTPS_PROXY="{{ http_proxy }}"
+https_proxy="{{ http_proxy }}"
+{% endif %}
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"

@@ -17,4 +17,4 @@
 
 - name: Electron | Extract package
   shell: rm -rf {{ electron_app_directory }}; mkdir -p {{ electron_app_directory }}; unzip {{ electron_downlod_directory }}/electron-{{ electron_version }}-linux-{{ electron_branch }}.zip -d {{ electron_app_directory }}; chmod -R og+r {{ electron_app_directory }}; chmod +rx {{ electron_app_directory }}/*.so {{ electron_app_directory }}/electron; ln -fs {{ electron_app_directory }}/electron /usr/bin/electron
-  when: result | changed
+  when: result|changed
