@@ -31,10 +31,11 @@
 
 - name: Aptitude | Install pyton-apt
   apt: name=python-apt state=present
+  when: apt_install_python_apt|bool
 
 - name: Aptitude | Force update cache
   apt: update_cache=yes
-  when: result|changed
+  when: result|changed and apt_update_cache|bool
 
 - name: Aptitude | Update cache
   when: apt_update_cache|bool

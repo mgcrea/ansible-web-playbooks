@@ -34,3 +34,4 @@ electron_mirror: "https://github.com/atom/electron/releases/download"
 # electron_mirror: "https://npm.taobao.org/mirrors/electron"
 electron_downlod_directory: "/opt/downloads"
 electron_app_directory: "/opt/local/electron"
+electron_force_reinstall: false
