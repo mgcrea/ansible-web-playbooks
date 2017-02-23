@@ -1,0 +1,5 @@
+
+- set_fact: mongodb_service="mongodb"
+- name: MongoDB | Install package
+  apt: name=mongodb state={{ mongodb_apt_state }} force=yes
+  notify: restart mongod

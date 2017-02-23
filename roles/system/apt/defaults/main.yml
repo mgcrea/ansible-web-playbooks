@@ -12,3 +12,4 @@ apt_periodic: true
 apt_periodic_enable: true
 apt_update_cache: true
 apt_autoremove: false
+apt_remove_proxy: false

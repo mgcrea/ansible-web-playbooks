@@ -9,13 +9,17 @@
 
 ## Install
 - include: install.yml
+  when: ansible_architecture == "x86_64"
+- include: install-arm.yml
+  when: "'arm' in ansible_architecture"
 
 ## Configure
 - include: configure.yml
+  when: ansible_architecture == "x86_64"
 
 ## Configure service
 - include: configure-systemd.yml
-  when: not docker and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
+  when: ansible_architecture == "x86_64" and not docker and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
 # - include: configure-upstart.yml
 #   when: not docker and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
 # - include: configure-supervisor.yml
