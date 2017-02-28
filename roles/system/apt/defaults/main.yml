@@ -3,13 +3,15 @@
 # Type: defaults
 # Part: Aptitude
 
-apt_server: "archive.ubuntu.com"
-apt_release_upgrades_prompt: "lts"
-apt_install_python_apt: true
-apt_enable_partner: false
-apt_dist_upgrade: false
-apt_periodic: true
-apt_periodic_enable: true
-apt_update_cache: true
 apt_autoremove: false
+apt_clear_lists: false
+apt_dist_upgrade: false
+apt_enable_partner: false
+apt_install_python_apt: true
+apt_periodic_enable: true
+apt_periodic: true
+apt_release_upgrades_prompt: "lts"
 apt_remove_proxy: false
+apt_server: "archive.ubuntu.com"
+apt_update_cache: true
+apt_upgrade_kernel: false
