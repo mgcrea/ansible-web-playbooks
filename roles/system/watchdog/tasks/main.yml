@@ -1,0 +1,40 @@
+---
+# File: main.yml
+# Type: task
+# Part: Watchdog
+
+- name: Watchdog | Check processor
+  set_fact: watchdog_module="iTCO-wdt"
+  when: "'Intel' in ansible_processor[0]"
+
+- name: Watchdog | Install package
+  apt: name=watchdog
+
+- name: Watchdog | Deploy configuration
+  template:
+    src: watchdog.conf.j2
+    dest: /etc/watchdog.conf
+    owner: root
+    group: root
+    mode: '0600'
+  notify: start watchdog
+
+- name: Watchdog | Deploy service configuration
+  template:
+    src: systemd_system_watchdog.service.j2
+    dest: /lib/systemd/system/watchdog.service
+    owner: root
+    group: root
+    mode: '0600'
+  notify: start watchdog
+  when: ansible_distribution_major_version|int == 16
+
+- include: configure-tco.yml
+  when: watchdog_module == 'iTCO-wdt'
+
+- name: Watchdog | Fix service enable
+  command: systemctl enable watchdog
+  when: ansible_distribution_major_version|int == 16
+
+- name: Watchdog | Enable service
+  service: name=watchdog state={{ watchdog_service_state }} enabled={{ watchdog_service_enabled }}

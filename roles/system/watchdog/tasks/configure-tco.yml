@@ -1,0 +1,50 @@
+- name: Watchdog | Enable TCO kernel modules
+  template:
+    src: modules-load.d_watchdog.conf.j2
+    dest: /etc/modules-load.d/watchdog.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Watchdog | Configure TCO kernel modules
+  template:
+    src: modprobe.d_watchdog.conf.j2
+    dest: /etc/modprobe.d/watchdog.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Watchdog | Unblacklist i2c-i801
+  template:
+    src: modprobe.d_blacklist.conf.j2
+    dest: /etc/modprobe.d/blacklist.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: ansible_distribution_major_version|int == 16
+
+# - name: Watchdog | Unblacklist iTCO-wdt
+#   template:
+#     src: modprobe.d_blacklist-watchdog.conf.j2
+#     dest: /etc/modprobe.d/blacklist-watchdog.conf
+#     owner: root
+#     group: root
+#     mode: '0644'
+#   when: ansible_distribution_major_version|int == 16
+
+- name: Watchdog | Deploy defaults
+  template:
+    src: default_watchdog.j2
+    dest: /etc/default/watchdog
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Watchdog | Activate TCO kernel modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - i2c-i801
+    - i2c-smbus
+    - iTCO-wdt

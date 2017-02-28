@@ -1,0 +1,15 @@
+[Unit]
+Description=watchdog daemon
+Conflicts=wd_keepalive.service
+After=multi-user.target
+OnFailure=wd_keepalive.service
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/default/watchdog
+ExecStartPre=/bin/sh -c '[ -z "${watchdog_module}" ] || [ "${watchdog_module}" = "none" ] || /sbin/modprobe $watchdog_module'
+ExecStart=/bin/sh -c '[ $run_watchdog != 1 ] || exec /usr/sbin/watchdog $watchdog_options'
+ExecStopPost=/bin/sh -c '[ $run_wd_keepalive != 1 ] || false'
+
+[Install]
+WantedBy=default.target

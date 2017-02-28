@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Journald
+
+- name: start watchdog
+  service: name=watchdog state=started
+
+- name: restart watchdog
+  service: name=watchdog state=restarted
