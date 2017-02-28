@@ -5,13 +5,15 @@
 # do not quote. Use 0600 perms if you use plaintext password.
 #
 
+{% if cntlm_username is defined and cntlm_username != "" %}
 Username  {{ cntlm_username | default('testuser') }}
-{% if cntlm_domain is defined %}
+{% endif %}
+{% if cntlm_domain is defined and cntlm_domain != "" %}
 Domain    {{ cntlm_domain }}
-{%- endif %}
-{% if cntlm_password is defined %}
+{% endif %}
+{% if cntlm_password is defined and cntlm_password != "" %}
 Password  {{ cntlm_password }}
-{%- endif %}
+{% endif %}
 # NOTE: Use plaintext password only at your own risk
 # Use hashes instead. You can use a "cntlm -M" and "cntlm -H"
 # command sequence to get the right config for your environment.
@@ -20,7 +22,7 @@ Password  {{ cntlm_password }}
 # PassLM          1AD35398BE6565DDB5C4EF70C0593492
 # PassNT          77B9081511704EE852F94227CF48A793
 ### Only for user 'testuser', domain 'corp-uk'
-{% if cntlm_passNTLMv2 != "" %}
+{% if cntlm_passNTLMv2 is defined and cntlm_passNTLMv2 != "" %}
 PassNTLMv2  {{ cntlm_passNTLMv2 }}
 {% endif %}
 
