@@ -1,4 +1,6 @@
 # Hardware watchdog driver modules loading
 i2c-i801
 i2c-smbus
-iTCO-wdt
+{% if watchdog_kernel_module|bool and watchdog_module != "" %}
+{{ watchdog_module }}
+{% endif %}

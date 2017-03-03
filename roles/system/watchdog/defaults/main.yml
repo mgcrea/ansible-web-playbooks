@@ -3,11 +3,13 @@
 # Type: defaults
 # Part: Watchdog
 
-watchdog_module: ""
 watchdog_device: "/dev/watchdog"
-watchdog_timeout: 60
+watchdog_kernel_module: false
+watchdog_log_dir: ""
+watchdog_logtick: ""
+watchdog_module: ""
+watchdog_service_enabled: "yes"
+watchdog_service_state: "started"
 watchdog_tco_heartbeat: 30
 watchdog_tco_nowayout: false
-watchdog_service_state: "started"
-watchdog_service_enabled: "yes"
-watchdog_logtick: ""
+watchdog_timeout: 60

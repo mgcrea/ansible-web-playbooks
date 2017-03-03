@@ -13,6 +13,12 @@
     owner: root
     group: root
     mode: '0644'
+  when: watchdog_kernel_module|bool
+- name: Watchdog | Remove TCO kernel modules configuration
+  file:
+    path: /etc/modprobe.d/watchdog.conf
+    state: absent
+  when: not watchdog_kernel_module|bool
 
 - name: Watchdog | Unblacklist i2c-i801
   template:
@@ -31,14 +37,6 @@
 #     group: root
 #     mode: '0644'
 #   when: ansible_distribution_major_version|int == 16
-
-- name: Watchdog | Deploy defaults
-  template:
-    src: default_watchdog.j2
-    dest: /etc/default/watchdog
-    owner: root
-    group: root
-    mode: '0644'
 
 - name: Watchdog | Activate TCO kernel modules
   modprobe:

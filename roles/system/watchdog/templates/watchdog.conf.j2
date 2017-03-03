@@ -40,7 +40,11 @@ logtick    = {{ watchdog_logtick }}
 {% else %}
 #logtick    = 1
 {% endif %}
+{% if watchdog_log_dir is defined and watchdog_log_dir != "" %}
+log-dir    = {{ watchdog_log_dir }}
+{% else %}
 #log-dir		= /var/log/watchdog
+{% endif %}
 
 # This greatly decreases the chance that watchdog won't be scheduled before
 # your machine is really loaded
