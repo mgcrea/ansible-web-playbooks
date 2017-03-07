@@ -10,6 +10,7 @@
   when: ansible_distribution == 'Ubuntu'
 
 # Configure client / server
+- debug: msg="Config is {{ openvpn_config }}"
 - name: OpenVPN | Load configuration defaults
   include_vars: "vars/openvpn/{{ openvpn_config }}/main.yml"
   when: openvpn_config is defined

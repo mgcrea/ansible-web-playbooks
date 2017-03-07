@@ -43,9 +43,10 @@
 - include: configure-tco.yml
   when: watchdog_module == 'iTCO-wdt'
 
-- name: Watchdog | Fix service enable
-  command: systemctl enable watchdog
-  when: ansible_distribution_major_version|int == 16
-
 - name: Watchdog | Enable service
   service: name=watchdog state={{ watchdog_service_state }} enabled={{ watchdog_service_enabled }}
+  when: ansible_distribution_major_version|int < 14
+
+- name: Watchdog | Enable service
+  shell: systemctl enable watchdog; service watchdog start
+  when: ansible_distribution_major_version|int == 16

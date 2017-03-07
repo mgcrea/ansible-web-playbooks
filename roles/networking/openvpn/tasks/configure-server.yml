@@ -33,7 +33,7 @@
 - name: OpenVPN | Build Clients
   shell: ./easyrsa build-client-full {{ item }}@{{ openvpn_server_name }} nopass --req-cn {{ item }}@{{ openvpn_server_name }} chdir=/etc/openvpn/easyrsa/easyrsa3
   when: result|changed
-  with_items: openvpn_users
+  with_items: "{{ openvpn_users }}"
 
 - name: OpenVPN | Build dh.pem
   shell: ./easyrsa gen-dh chdir=/etc/openvpn/easyrsa/easyrsa3
