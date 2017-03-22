@@ -5,7 +5,23 @@
 
 # Aptitude state
 metricbeat_apt_state: "latest"
+
 metricbeat_module_system_enabled: true
+metricbeat_module_system_metricsets: [".*"]
+metricbeat_module_system_period: "10s"
+metricbeat_module_system_processes: [".*"]
+metricbeat_module_system_cpu_ticks: false
+
+metricbeat_module_redis_enabled: false
+metricbeat_module_redis_hosts: ["localhost"]
+metricbeat_module_redis_metricsets: [".*"]
+metricbeat_module_redis_period: "10s"
+
+metricbeat_module_mongodb_enabled: false
+metricbeat_module_mongodb_hosts: ["localhost"]
+metricbeat_module_mongodb_metricsets: [".*"]
+metricbeat_module_mongodb_period: "10s"
+
 metricbeat_service_enabled: true
 metricbeat_service_state: "started"
 

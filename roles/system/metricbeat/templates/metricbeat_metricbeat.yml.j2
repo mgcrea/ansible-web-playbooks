@@ -1,15 +1,26 @@
 metricbeat.modules:
 - module: system
-  metricsets:
-    - cpu
-    - filesystem
-    - memory
-    - network
-    - process
-  enabled: {{ metricbeat_module_system_enabled | bool }}
-  period: 10s
-  processes: ['.*']
-  cpu_ticks: false
+  enabled: {{ metricbeat_module_system_enabled | to_json }}
+  metricsets: {{ metricbeat_module_system_metricsets | to_json }}
+  period: {{ metricbeat_module_system_period }}
+  processes: {{ metricbeat_module_system_processes | to_json }}
+  cpu_ticks: {{ metricbeat_module_system_cpu_ticks | to_json }}
+
+{% if metricbeat_module_redis_enabled | bool %}
+- module: redis
+  enabled: {{ metricbeat_module_redis_enabled | to_json }}
+  hosts: {{ metricbeat_module_redis_hosts | to_json }}
+  metricsets: {{ metricbeat_module_redis_metricsets | to_json }}
+  period: {{ metricbeat_module_redis_period }}
+{% endif %}
+
+{% if metricbeat_module_mongodb_enabled | bool %}
+- module: mongodb
+  enabled: {{ metricbeat_module_mongodb_enabled | to_json }}
+  hosts: {{ metricbeat_module_mongodb_hosts | to_json }}
+  metricsets: {{ metricbeat_module_mongodb_metricsets | to_json }}
+  period: {{ metricbeat_module_mongodb_period }}
+{% endif %}
 
 output.elasticsearch:
   hosts: {{ metricbeat_output_hosts | to_json }}
@@ -20,4 +31,11 @@ output.elasticsearch:
 {% if metricbeat_output_username != "" %}
   username: {{ metricbeat_output_username }}
   password: {{ metricbeat_output_password }}
+{% endif %}
+
+{% if metricbeat_fields_under_root | bool %}
+fields_under_root: {{ metricbeat_fields_under_root | to_json }}
+{% endif %}
+{% if metricbeat_fields != "" %}
+fields: {{ metricbeat_fields | to_json }}
 {% endif %}
