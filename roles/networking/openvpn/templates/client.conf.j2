@@ -79,7 +79,7 @@ persist-tun
 # port number here.  See the man page
 # if your proxy server requires
 # authentication.
-{% if openvpn_http_proxy_server is defined %}
+{% if openvpn_http_proxy_server is defined and openvpn_http_proxy_server|bool %}
 http-proxy-retry # retry on connection failures
 http-proxy {{ openvpn_http_proxy_server }} {{ openvpn_http_proxy_port | default("3128") }}
 {% else %}
