@@ -32,5 +32,9 @@
 - name: Facts | Fetch SSH config file
   fetch: src="/etc/ssh/sshd_config" dest={{ ansible_fetched_base }}/sshd_config flat=yes
 
+- name: System | Regenerate SSH host keys
+  shell: rm -rf /etc/ssh/ssh_host_*; DEBIAN_FRONTEND=noninteractive LC_ALL=C dpkg-reconfigure openssh-server
+  when: ssh_reconfigure_host_keys is defined and ssh_reconfigure_host_keys|bool
+
 - name: System | Check SSH daemon
   service: name=ssh state=started

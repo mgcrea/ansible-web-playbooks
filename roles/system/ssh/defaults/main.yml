@@ -11,3 +11,4 @@ ssh_allow_users: false
 ssh_authorized_keys_file: false
 ssh_sftp_user: false
 ssh_sftp_group: false
+ssh_reconfigure_host_keys: false
