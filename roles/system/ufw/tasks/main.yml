@@ -3,6 +3,9 @@
 # Type: task
 # Part: ufw
 
+- name: System | Install package
+  apt: name=ufw state=latest
+
 - name: System | Reset ufw rules
   command: echo "y" | ufw reset
   when: ufw_reset_rules|bool
