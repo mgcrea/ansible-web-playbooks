@@ -10,11 +10,13 @@
 - name: Aptitude | Configure Proxy
   template: src=apt_apt.conf.d_01proxy.j2 dest="/etc/apt/apt.conf.d/01proxy" owner=root group=root mode=0644
   when: apt_proxy is defined and apt_proxy != "" and not apt_remove_proxy|bool
+  tags: system_apt_configure_proxy
   register: result
 
 - name: Aptitude | Remove Proxy
   file: dest="/etc/apt/apt.conf.d/01proxy" state=absent
   when: apt_remove_proxy|bool
+  tags: system_apt_configure_proxy
   register: result
 
 # - name: Aptitude | Deploy environment
