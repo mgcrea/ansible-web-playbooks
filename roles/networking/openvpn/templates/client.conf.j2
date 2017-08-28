@@ -159,10 +159,13 @@ verb 3
 # Silence repeating messages
 ;mute 20
 
-# Status notifications
-{% if openvpn_script_security|bool %}
+# Lifecycle scripts
+{% if openvpn_script_security is defined %}
 script-security {{ openvpn_script_security }}
 {% endif %}
-{% if openvpn_script_up|bool %}
-up /etc/openvpn/status.sh
+{% if openvpn_script_up is defined %}
+up {{ openvpn_script_up }}
+{% endif %}
+{% if openvpn_script_down is defined %}
+down {{ openvpn_script_down }}
 {% endif %}

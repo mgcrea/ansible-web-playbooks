@@ -45,4 +45,5 @@ openvpn_monit: false
 # Post-up script
 openvpn_script_security: false
 openvpn_script_up: false
+openvpn_script_down: false
 openvpn_config_to_remove: ""

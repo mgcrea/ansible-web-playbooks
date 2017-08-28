@@ -1,0 +1,28 @@
+---
+# File: configure-systemd.yml
+# Type: task
+# Part: OpenVPN
+
+- name: OpenVPN | Remove upstart service configuration
+  file: path=/etc/init.d/openvpn state=absent
+  notify: restart openvpn
+- name: OpenVPN | Deploy systemd service configuration
+  template: src=systemd_system_openvpn@.service.service.j2 dest=/etc/systemd/system/openvpn@.service owner=root group=root mode=0644 backup=no
+  notify: restart openvpn
+  register: result
+- fetch: src=/etc/systemd/system/openvpn@.service dest={{ ansible_fetched_base }}
+  when: result|changed
+- file:
+    path: /etc/systemd/system/openvpn@.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  notify: restart openvpn
+- template:
+    src: systemd_system_openvpn@.service.d_restart-always.conf.j2
+    dest: /etc/systemd/system/openvpn@.service.d/restart-always.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart openvpn

@@ -6,18 +6,18 @@
 ## Install with OpenSSL
 - name: OpenVPN | Install ppa key
   apt_key: keyserver=keyserver.ubuntu.com id=8E6DA8B4E158C569
-  when: not openvpn_apt_use_mbedssl|bool
+  when: not openvpn_apt_skip_ppa|bool and not openvpn_apt_use_mbedssl|bool
 - name: OpenVPN | Install ppa
   apt_repository: repo='deb http://build.openvpn.net/debian/openvpn/{{ openvpn_apt_version }} {{ ansible_distribution_release }} main' state=present
-  when: not openvpn_apt_use_mbedssl|bool
+  when: not openvpn_apt_skip_ppa|bool and not openvpn_apt_use_mbedssl|bool
 
 ## Install with mbedTLS
 - name: OpenVPN with mbedTLS | Install ppa key
   apt_key: keyserver=keyserver.ubuntu.com id=C7917B12
-  when: openvpn_apt_use_mbedssl|bool
+  when: not openvpn_apt_skip_ppa|bool and openvpn_apt_use_mbedssl|bool
 - name: OpenVPN with mbedTLS | Install ppa
   apt_repository: repo=ppa:chris-lea/openvpn-mbedtls state=present
-  when: openvpn_apt_use_mbedssl|bool
+  when: not openvpn_apt_skip_ppa|bool and openvpn_apt_use_mbedssl|bool
 
 - name: OpenVPN | Install package
   apt: name=openvpn state={{ openvpn_apt_state }}

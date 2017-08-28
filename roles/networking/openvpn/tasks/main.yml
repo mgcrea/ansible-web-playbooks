@@ -22,8 +22,10 @@
   when: openvpn_config is defined and openvpn_type == 'server'
 
 ## Configure service
+- include: configure-systemd.yml
+  when: not docker and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int >= 16
 - include: configure-upstart.yml
-  when: not docker
+  when: not docker and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14
 - include: configure-supervisor.yml
   when: docker
 
