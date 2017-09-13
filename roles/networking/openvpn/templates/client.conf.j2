@@ -164,7 +164,8 @@ verb 3
 script-security {{ openvpn_script_security }}
 {% endif %}
 {% if openvpn_script_up is defined %}
-up {{ openvpn_script_up }}
+# Use a fuse proxy script
+up /etc/openvpn/status.sh
 {% endif %}
 {% if openvpn_script_down is defined %}
 down {{ openvpn_script_down }}

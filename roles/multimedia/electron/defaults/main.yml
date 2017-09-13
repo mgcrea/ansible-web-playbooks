@@ -29,8 +29,13 @@
 # electron_checksum_arm: "sha1:a8bf658d87652ea460fdfe405de410c95e28bf8c"
 
 # v1.6 (chrome@56)
-electron_version: "v1.6.2"
-electron_checksum_x64: "sha1:f42cf26efd31dee92f40ecb1e8e12549041da08a"
+# electron_version: "v1.6.12"
+# electron_checksum_x64: "sha1:f42cf26efd31dee92f40ecb1e8e12549041da08a"
+# electron_checksum_arm: "sha1:a8bf658d87652ea460fdfe405de410c95e28bf8c"
+
+# v1.7 (chrome@58)
+electron_version: "v1.7.5"
+electron_checksum_x64: "sha1:acd4413c82054cfc5bb981f905f110be0cf9f78a"
 electron_checksum_arm: "sha1:a8bf658d87652ea460fdfe405de410c95e28bf8c"
 
 electron_mirror: "https://github.com/atom/electron/releases/download"

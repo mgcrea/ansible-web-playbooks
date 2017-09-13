@@ -4,7 +4,8 @@
 # Part: Watchdog
 
 watchdog_device: "/dev/watchdog"
-watchdog_kernel_module: false
+watchdog_load_kernel_module: true
+watchdog_configure_kernel_module: false
 watchdog_log_dir: ""
 watchdog_logtick: ""
 watchdog_module: ""

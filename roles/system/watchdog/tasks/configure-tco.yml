@@ -13,12 +13,12 @@
     owner: root
     group: root
     mode: '0644'
-  when: watchdog_kernel_module|bool
+  when: watchdog_configure_kernel_module|bool
 - name: Watchdog | Remove TCO kernel modules configuration
   file:
     path: /etc/modprobe.d/watchdog.conf
     state: absent
-  when: not watchdog_kernel_module|bool
+  when: not watchdog_configure_kernel_module|bool
 
 - name: Watchdog | Unblacklist i2c-i801
   template:

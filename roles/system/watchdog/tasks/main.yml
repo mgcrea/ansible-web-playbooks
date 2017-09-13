@@ -5,10 +5,14 @@
 
 - name: Watchdog | Check Intel processor
   set_fact: watchdog_module="iTCO-wdt"
-  when: "'Intel' in ansible_processor[0]"
+  when: watchdog_module == "" and "'Intel' in ansible_processor[0]"
 - name: Watchdog | Check ARM processor
   set_fact: watchdog_module="bcm2835_wdt"
-  when: "'ARMv7' in ansible_processor[0]"
+  when: watchdog_module == "" and "'ARMv7' in ansible_processor[0]"
+- name: Watchdog | Fallback to softdog
+  set_fact: watchdog_module="softdog"
+  when: watchdog_module == ""
+- debug: msg="watchdog_module={{ watchdog_module }}"
 
 - name: Watchdog | Install package
   apt: name=watchdog

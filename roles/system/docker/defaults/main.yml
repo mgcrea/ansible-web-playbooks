@@ -18,8 +18,8 @@ docker_storage_driver: "aufs"
 
 # DockerCompose
 docker_compose_install: true
-docker_compose_version: "1.11.2"
-docker_compose_checksum: "sha1:bb613a1132bf95c83dce35ed711722e723b24942"
+docker_compose_version: "1.16.1"
+docker_compose_checksum: "sha1:e2c7c848e1fa388a2e5b8945fdb2660bf8d8adb1"
 
 # DockerGen
 docker_gen_install: false
