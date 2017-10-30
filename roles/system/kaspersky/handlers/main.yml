@@ -1,0 +1,10 @@
+---
+# File: main.yml
+# Type: handler
+# Part: Kaspersky
+
+- name: start kes4lwks-supervisor
+  service: name=kes4lwks-supervisor state=started
+
+- name: restart kes4lwks-supervisor
+  service: name=kes4lwks-supervisor state=restarted

@@ -1,0 +1,24 @@
+---
+# File: stats.yml
+# Type: task
+# Part: Kaspersky
+
+- name: Kaspersky | Generate info stats
+  shell: kes4lwks-control --app-info --export-report /tmp/kes4lwks-info.csv --report-type csv
+- name: Kaspersky | Fetch kes4lwks-info.csv
+  fetch: src=/tmp/kes4lwks-info.csv dest={{ ansible_fetched_base }}/kes4lwks-info.csv flat=yes fail_on_missing=no
+
+- name: Kaspersky | Generate update stats
+  shell: kes4lwks-control --get-stat Update --from {{ kaspersky_fetch_stats_from }} --export-report /tmp/kes4lwks-update.csv --report-type csv
+- name: Kaspersky | Fetch kes4lwks-update.csv
+  fetch: src=/tmp/kes4lwks-update.csv dest={{ ansible_fetched_base }}/kes4lwks-update.csv flat=yes fail_on_missing=no
+
+- name: Kaspersky | Generate application stats
+  shell: kes4lwks-control --get-stat Application --from {{ kaspersky_fetch_stats_from }} --export-report /tmp/kes4lwks-application.csv --report-type csv
+- name: Kaspersky | Fetch kes4lwks-application.csv
+  fetch: src=/tmp/kes4lwks-application.csv dest={{ ansible_fetched_base }}/kes4lwks-application.csv flat=yes fail_on_missing=no
+
+- name: Kaspersky | Generate viruses stats
+  shell: kes4lwks-control --top-viruses {{ kaspersky_fetch_top_viruses }} --from {{ kaspersky_fetch_stats_from }} --export-report /tmp/kes4lwks-top-viruses.csv --report-type csv
+- name: Kaspersky | Fetch kes4lwks-top-viruses.csv
+  fetch: src=/tmp/kes4lwks-top-viruses.csv dest={{ ansible_fetched_base }}/kes4lwks-top-viruses.csv flat=yes fail_on_missing=no

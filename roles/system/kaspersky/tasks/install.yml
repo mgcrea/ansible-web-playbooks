@@ -1,0 +1,41 @@
+---
+# File: install.yml
+# Type: task
+# Part: Kaspersky
+
+- name: Kaspersky | Install required packages
+  apt: name={{ item }}
+  with_items:
+    - libc6-i386
+
+- name: Kaspersky | Fetch package
+  action: get_url url={{ kaspersky_download_url }}_{{ kaspersky_version }}_{{ kaspersky_download_arch }}.deb dest=/opt/downloads/kes4lwks_{{ kaspersky_version }}_{{ kaspersky_download_arch }}.deb
+    checksum={{ kaspersky_checksum }} validate_certs=no
+  register: result
+
+- name: Kaspersky | Install package
+  apt: deb=/opt/downloads/kes4lwks_{{ kaspersky_version }}_{{ kaspersky_download_arch }}.deb
+  when: result|changed
+
+- name: Kaspersky | Deploy key file
+  copy: src={{ kaspersky_install_key_file_src }} dest={{ kaspersky_install_key_file }} owner=root group=root mode=0600
+  when: kaspersky_install_key_file_src is defined
+
+- name: Kaspersky | Deploy answers.txt
+  template: src=answers.txt.j2 dest=/opt/kaspersky/kes4lwks_answers.txt
+            owner=root group=root mode=0600 backup=no
+  register: result
+
+- name: Kaspersky | Deploy key file
+  copy: src={{ kaspersky_install_key_file_src }} dest={{ kaspersky_install_key_file }} owner=root group=root mode=0600
+  when: kaspersky_install_key_file_src is defined
+
+- name: Kaspersky | Auto install
+  command: /opt/kaspersky/kes4lwks/bin/kes4lwks-setup.pl --auto-install=/opt/kaspersky/kes4lwks_answers.txt
+  when: result|changed
+
+- name: Kaspersky | Link kes4lwks-control
+  file: state=link src=/opt/kaspersky/kes4lwks/bin/kes4lwks-control path=/usr/sbin/kes4lwks-control force=yes
+
+- name: Kaspersky | Check service daemon
+  service: name=kes4lwks-supervisor state=started

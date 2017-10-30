@@ -4,8 +4,21 @@
 # Part: Kaspersky
 
 # Aptitude state
-kaspersky_version: "8.0.1-50"
+
+kaspersky_download_url: "https://products.s.kaspersky-labs.com/products/multilanguage/workstations/keslinux/kes4lwks"
+kaspersky_version: "8.0.4-312"
 kaspersky_checksum: "sha1:0499d0bebaf4acedac04a23355cfa4546370973f"
+kaspersky_download_arch: "i386"
+
+# kaspersky_download_url: "https://products.s.kaspersky-labs.com/multilanguage/file_servers/kavlinuxserver8.0/kav4fs_"
+# http://products.kaspersky-labs.com/products/multilanguage/workstations/keslinux/kes4lwks_8.0.1-50_i386.deb
+# https://products.s.kaspersky-labs.com/multilanguage/file_servers/kavlinuxserver8.0/kav4fs_8.0.4-312_i386.deb
+# https://products.s.kaspersky-labs.com/multilanguage/endpoints/kesl/kesl_10.0.0-3458_amd64.deb
+
+kaspersky_skip_install: false
+kaspersky_fetch_stats: false
+kaspersky_fetch_top_viruses: 100
+kaspersky_fetch_stats_from: "2016-01-01"
 
 kaspersky_install_key_file_src: "3D1589A6.key"
 
