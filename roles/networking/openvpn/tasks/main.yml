@@ -11,6 +11,7 @@
 
 # Configure client / server
 - debug: msg="Config is {{ openvpn_config }}"
+  when: openvpn_config is defined
 - name: OpenVPN | Load configuration defaults
   include_vars: "vars/openvpn/{{ openvpn_config }}/main.yml"
   when: openvpn_config is defined
@@ -30,6 +31,6 @@
   when: docker
 
 ## Configure monit
-- name: OpenVPN | Configure monit
+- name: OpenVPN | Configure monit (useless since systemd)
   include: configure-monit.yml
-  when: not docker and openvpn_monit
+  when: not docker and openvpn_monit and ansible_distribution == 'Ubuntu' and ansible_distribution_major_version|int <= 14

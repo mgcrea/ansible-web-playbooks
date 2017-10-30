@@ -3,12 +3,13 @@
 # Type: task
 # Part: Watchdog
 
+- debug: msg="ansible_architecture={{ ansible_architecture }}"
 - name: Watchdog | Check Intel processor
   set_fact: watchdog_module="iTCO-wdt"
-  when: watchdog_module == "" and "'Intel' in ansible_processor[0]"
+  when: watchdog_module == "" and 'x86_64' in ansible_architecture
 - name: Watchdog | Check ARM processor
   set_fact: watchdog_module="bcm2835_wdt"
-  when: watchdog_module == "" and "'ARMv7' in ansible_processor[0]"
+  when: watchdog_module == "" and 'arm' in ansible_architecture
 - name: Watchdog | Fallback to softdog
   set_fact: watchdog_module="softdog"
   when: watchdog_module == ""
