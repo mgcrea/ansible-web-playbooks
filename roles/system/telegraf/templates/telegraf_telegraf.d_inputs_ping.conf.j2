@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+# Ping given url(s) and return statistics
+[[inputs.ping]]
+  ## NOTE: this plugin forks the ping command. You may need to set capabilities
+  ## via setcap cap_net_raw+p /bin/ping
+  #
+  ## List of urls to ping
+  urls = {{ telegraf_inputs_ping_urls | to_json }} # required
+  ## number of pings to send per collection (ping -c <COUNT>)
+  # count = 1
+  ## interval, in s, at which to ping. 0 == default (ping -i <PING_INTERVAL>)
+  # ping_interval = 1.0
+  ## per-ping timeout, in s. 0 == no timeout (ping -W <TIMEOUT>)
+  # timeout = 1.0
+  ## interface to send ping from (ping -I <INTERFACE>)
+  # interface = ""

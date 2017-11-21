@@ -1,0 +1,41 @@
+---
+# File: main.yml
+# Type: task
+# Part: telegraf
+
+## Install
+- name: telegraf | Install ppa key
+  apt_key: url=https://repos.influxdata.com/influxdb.key state=present
+- name: telegraf | Install ppa
+  apt_repository: repo='deb https://repos.influxdata.com/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable' state=present
+- name: telegraf | Install packages
+  apt: name=telegraf state={{ telegraf_apt_state }}
+
+## Configuration related install
+- name: telegraf | Configure docker group
+  user:
+    name: telegraf
+    append: true
+    groups: docker
+  when: telegraf_inputs_docker_enabled|bool
+- name: telegraf | Install lm-sensors
+  apt: name=lm-sensors state=latest
+  when: telegraf_inputs_sensors_enabled|bool
+- name: telegraf | Install lm-sensors
+  apt: name=lm-sensors state=latest
+  when: telegraf_inputs_sensors_enabled|bool
+- name: telegraf | Configure sudoers for fail2ban
+  template: src=sudoers.d_telegraf.j2 dest=/etc/sudoers.d/telegraf
+  when: telegraf_inputs_fail2ban_enabled|bool
+
+## Configure
+- name: Docker | Configure
+  include: configure.yml
+  tags: system_telegraf_configure
+
+- name: telegraf | Check service daemon
+  service: name=telegraf state={{ telegraf_service_state }} enabled={{ telegraf_service_enabled }}
+
+## Configure monit
+# - name: beats | Configure monit
+#   include: configure-monit.yml

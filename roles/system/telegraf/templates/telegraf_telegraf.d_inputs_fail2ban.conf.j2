@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+# Read metrics from fail2ban
+[[inputs.fail2ban]]
+  ## Use sudo to run fail2ban-client
+  use_sudo = {{ telegraf_inputs_fail2ban_use_sudo | to_json }}

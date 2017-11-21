@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+# Monitor sensors, requires lm-sensors package
+[[inputs.sensors]]
+  ## Remove numbers from field names.
+  ## If true, a field name like 'temp1_input' will be changed to 'temp_input'.
+  # remove_numbers = true

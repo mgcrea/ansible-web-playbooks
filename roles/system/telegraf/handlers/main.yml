@@ -1,0 +1,9 @@
+---
+# File: main.yml
+# Type: handler
+# Part: telegraf
+
+- name: start telegraf
+  service: name=telegraf state=started
+- name: restart telegraf
+  service: name=telegraf state=restarted

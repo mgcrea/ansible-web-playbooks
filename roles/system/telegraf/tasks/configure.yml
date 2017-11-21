@@ -1,0 +1,63 @@
+---
+# File: configure.yml
+# Type: task
+# Part: telegraf
+
+## Configure
+- name: telegraf | Deploy base config
+  template: src=telegraf_telegraf.conf.j2 dest=/etc/telegraf/telegraf.conf
+  notify: restart telegraf
+
+- name: telegraf | Deploy inputs_docker config
+  template: src=telegraf_telegraf.d_inputs_docker.conf.j2 dest=/etc/telegraf/telegraf.d/inputs_docker.conf
+  when: telegraf_inputs_docker_enabled | bool
+  notify: restart telegraf
+- name: telegraf | Remove inputs_docker config
+  file: src=/etc/telegraf/telegraf.d/inputs_docker.conf state=absent
+  when: not telegraf_inputs_docker_enabled | bool
+  notify: restart telegraf
+
+- name: telegraf | Deploy inputs_fail2ban config
+  template: src=telegraf_telegraf.d_inputs_fail2ban.conf.j2 dest=/etc/telegraf/telegraf.d/inputs_fail2ban.conf
+  when: telegraf_inputs_fail2ban_enabled | bool
+  notify: restart telegraf
+- name: telegraf | Remove inputs_fail2ban config
+  file: src=/etc/telegraf/telegraf.d/inputs_fail2ban.conf state=absent
+  when: not telegraf_inputs_fail2ban_enabled | bool
+  notify: restart telegraf
+
+- name: telegraf | Deploy inputs_http_response config
+  template: src=telegraf_telegraf.d_inputs_http_response.conf.j2 dest=/etc/telegraf/telegraf.d/inputs_http_response.conf
+  when: telegraf_inputs_http_response_enabled | bool
+  notify: restart telegraf
+- name: telegraf | Remove inputs_http_response config
+  file: src=/etc/telegraf/telegraf.d/inputs_http_response.conf state=absent
+  when: not telegraf_inputs_http_response_enabled | bool
+  notify: restart telegraf
+
+- name: telegraf | Deploy inputs_nginx config
+  template: src=telegraf_telegraf.d_inputs_nginx.conf.j2 dest=/etc/telegraf/telegraf.d/inputs_nginx.conf
+  when: telegraf_inputs_nginx_enabled | bool
+  notify: restart telegraf
+- name: telegraf | Remove inputs_nginx config
+  file: src=/etc/telegraf/telegraf.d/inputs_nginx.conf state=absent
+  when: not telegraf_inputs_nginx_enabled | bool
+  notify: restart telegraf
+
+- name: telegraf | Deploy inputs_ping config
+  template: src=telegraf_telegraf.d_inputs_ping.conf.j2 dest=/etc/telegraf/telegraf.d/inputs_ping.conf
+  when: telegraf_inputs_ping_enabled | bool
+  notify: restart telegraf
+- name: telegraf | Remove inputs_ping config
+  file: src=/etc/telegraf/telegraf.d/inputs_ping.conf state=absent
+  when: not telegraf_inputs_ping_enabled | bool
+  notify: restart telegraf
+
+- name: telegraf | Deploy inputs_sensors config
+  template: src=telegraf_telegraf.d_inputs_sensors.conf.j2 dest=/etc/telegraf/telegraf.d/inputs_sensors.conf
+  when: telegraf_inputs_sensors_enabled | bool
+  notify: restart telegraf
+- name: telegraf | Remove inputs_sensors config
+  file: src=/etc/telegraf/telegraf.d/inputs_sensors.conf state=absent
+  when: not telegraf_inputs_sensors_enabled | bool
+  notify: restart telegraf

@@ -1,0 +1,35 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: telegraf
+
+# Aptitude state
+telegraf_apt_state: "latest"
+telegraf_service_enabled: true
+telegraf_service_state: "started"
+
+
+telegraf_output_influxdb_urls:
+  - "udp://localhost:8089"
+telegraf_output_influxdb_database: "telegraf"
+telegraf_output_influxdb_username: ""
+telegraf_output_influxdb_password: ""
+
+telegraf_inputs_docker_enabled: false
+telegraf_inputs_docker_endpoint: "unix:///var/run/docker.sock"
+
+telegraf_inputs_nginx_enabled: false
+telegraf_inputs_nginx_urls:
+  - "http://localhost/server_status"
+
+telegraf_inputs_sensors_enabled: false
+telegraf_inputs_sensors_remove_numbers: false
+
+telegraf_inputs_ping_enabled: false
+telegraf_inputs_ping_urls:
+  - "www.google.com"
+
+telegraf_inputs_fail2ban_enabled: false
+telegraf_inputs_fail2ban_use_sudo: false
+
+telegraf_inputs_http_response_enabled: false
