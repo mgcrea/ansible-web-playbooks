@@ -18,12 +18,13 @@
   local_action: wait_for host={{ ansible_ssh_host }} port={{ ansible_ssh_port }} delay=30 timeout=900 state=started
   when: kernel_updated | changed
 
-## Install linux-image-extra-virtual
+## Kernel upgrade for 14.04
 - name: Docker | Install recommended packages
   apt: name={{ item }} state=latest
   with_items:
     - linux-image-extra-{{ ansible_kernel }}
     - linux-image-extra-virtual
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
 ## Uninstall
 - name: Docker | Remove legacy package
