@@ -1,0 +1,7 @@
+
+- name: Watchdog | Activate TCO kernel modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - softdog

@@ -8,6 +8,7 @@ telegraf_apt_state: "latest"
 telegraf_service_enabled: true
 telegraf_service_state: "started"
 
+telegraf_global_tags:
 
 telegraf_output_influxdb_urls:
   - "udp://localhost:8089"

@@ -1,0 +1,23 @@
+
+- name: Watchdog | Enable TCO kernel modules
+  template:
+    src: modules-load.d_watchdog.conf.j2
+    dest: /etc/modules-load.d/watchdog.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Watchdog | Configure TCO kernel modules
+  template:
+    src: modprobe.d_watchdog.conf.j2
+    dest: /etc/modprobe.d/watchdog.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: watchdog_configure_kernel_module|bool
+
+- name: Watchdog | Remove TCO kernel modules configuration
+  file:
+    path: /etc/modprobe.d/watchdog.conf
+    state: absent
+  when: not watchdog_configure_kernel_module|bool

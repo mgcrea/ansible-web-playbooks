@@ -45,8 +45,12 @@
     group: root
     mode: '0644'
 
+- include: configure.yml
+
 - include: configure-tco.yml
   when: watchdog_module == 'iTCO-wdt'
+- include: configure-softdog.yml
+  when: watchdog_module == 'softdog'
 
 - name: Watchdog | Enable service
   service: name=watchdog state={{ watchdog_service_state }} enabled={{ watchdog_service_enabled }}

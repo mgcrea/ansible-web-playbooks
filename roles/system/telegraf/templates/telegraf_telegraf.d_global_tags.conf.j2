@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+[global_tags]
+  # dc = "us-east-1" # will tag all metrics with dc=us-east-1
+  # rack = "1a"
+  ## Environment variables can be used as tags, and throughout the config file
+  # user = "$USER"
+{% for tag in telegraf_global_tags %}
+  {{ tag.key }} = "{{ tag.value }}"
+{% endfor %}
