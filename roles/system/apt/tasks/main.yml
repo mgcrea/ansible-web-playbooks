@@ -43,15 +43,16 @@
 
 - name: Aptitude | Force update cache
   apt: update_cache=yes
-  when: result|changed and apt_update_cache|bool
+  when: (result|changed and apt_update_cache|bool) or apt_update_cache_force|bool
 
 - name: Aptitude | Clear apt lists
   when: apt_clear_lists|bool
   shell: rm -rf /var/lib/apt/lists/*
+  tags: system_apt_update
 
 - name: Aptitude | Update cache
   when: apt_update_cache|bool
-  apt: update_cache=yes cache_valid_time=3600
+  apt: update_cache=yes
   tags: system_apt_update
 
 - name: Aptitude | Deploy manager_release-upgrades
@@ -60,6 +61,9 @@
 - name: Aptitude | Upgrade all packages to the latest version
   when: apt_dist_upgrade|bool
   apt: upgrade=dist force=yes
+
+- debug: msg="ansible_architecture={{ ansible_architecture }} apt_upgrade_kernel={{ apt_upgrade_kernel|bool }} ansible_lsb.major_release={{ ansible_lsb.major_release|int }}"
+  tags: system_apt_kernel
 
 - name: Aptitude | Upgrade HWE stack
   when: ansible_architecture == "x86_64" and apt_upgrade_kernel|bool and ansible_lsb.major_release|int < 16

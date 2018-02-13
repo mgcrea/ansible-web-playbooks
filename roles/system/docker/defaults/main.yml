@@ -14,6 +14,7 @@ docker_group: "www-data"
 docker_opts: ""
 # Options
 docker_bip: ""
+docker_log_driver: ""
 docker_storage_driver: "aufs"
 
 # DockerCompose

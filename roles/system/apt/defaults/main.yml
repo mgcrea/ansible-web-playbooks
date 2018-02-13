@@ -14,4 +14,5 @@ apt_release_upgrades_prompt: "lts"
 apt_remove_proxy: false
 apt_server: "archive.ubuntu.com"
 apt_update_cache: true
+apt_update_cache_force: false
 apt_upgrade_kernel: false
