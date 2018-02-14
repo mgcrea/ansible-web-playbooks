@@ -34,10 +34,8 @@
   register: result
   when: ansible_product_name == 'Macmini4,1'
 
-# @cli cat /etc/X11/xorg.conf
-# @cli grep -i "x driver" /var/log/Xorg.0.log
 - name: Graphics | Nvidia | Configure X11
-  shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig
+  shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig --allow-empty-initial-configuration; sed -e "/Driver.*\"nvidia\"/i \    BusID          \"PCI:1@0:0:0\"" -i /etc/X11/xorg.conf
   when: result|changed
 
 - name: Graphics | Nvidia | Install extra packages
