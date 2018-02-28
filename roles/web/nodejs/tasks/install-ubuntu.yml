@@ -21,4 +21,4 @@
     - "deb https://deb.nodesource.com/{{ nodejs_branch }} {{ nodejs_distribution_release or ansible_distribution_release }} main"
     - "deb-src https://deb.nodesource.com/{{ nodejs_branch }} {{ nodejs_distribution_release or ansible_distribution_release }} main"
 - name: NodeJS | Install package
-  apt: name=nodejs state={{ nodejs_apt_state }} force=yes
+  apt: name=nodejs state={{ nodejs_apt_state }}

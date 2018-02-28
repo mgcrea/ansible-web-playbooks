@@ -12,4 +12,4 @@
   with_items:
     - "deb https://dl.yarnpkg.com/debian/ stable main"
 - name: NodeJS yarn | Install package
-  apt: name=yarn state={{ nodejs_yarn_apt_state }} force=yes install_recommends=no
+  apt: name=yarn state={{ nodejs_yarn_apt_state }} install_recommends=no
