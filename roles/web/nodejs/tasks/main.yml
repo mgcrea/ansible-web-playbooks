@@ -20,6 +20,10 @@
   shell: npm config set registry {{ nodejs_npm_registry }}
   when: nodejs_npm_registry != "https://registry.npmjs.org/"
 
+## Install yarn
+- include: install-yarn.yml
+  tags: web_nodejs_yarn
+
 ## Install global packages
 - name: NodeJS | NPM | Install global packages
   npm: name={{ item }} global=yes state=present registry={{ nodejs_npm_registry }}

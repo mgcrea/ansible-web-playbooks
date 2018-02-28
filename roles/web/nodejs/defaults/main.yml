@@ -9,6 +9,9 @@ nodejs_legacy_branch: "node_4.x"
 nodejs_apt_state: "latest"
 nodejs_validate_certs: yes
 
+nodejs_yarn_apt_state: "latest"
+nodejs_yarn_validate_certs: yes
+
 # Network configuration
 nodejs_bind_address: "0.0.0.0"
 nodejs_port_http: 80

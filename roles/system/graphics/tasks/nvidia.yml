@@ -35,8 +35,7 @@
   when: ansible_product_name == 'Macmini4,1'
 
 - name: Graphics | Nvidia | Configure X11
-  shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig --allow-empty-initial-configuration
-  # shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig --allow-empty-initial-configuration; sed -e "/Driver.*\"nvidia\"/i \    BusID          \"PCI:1@0:0:0\"" -i /etc/X11/xorg.conf
+  shell: rm /etc/X11/xorg.conf; DISPLAY=:0 nvidia-xconfig --allow-empty-initial-configuration; sed -e "/Driver.*\"nvidia\"/i \    BusID          \"PCI:$(lspci | grep -i 'vga' | grep -i 'nvidia' | cut -c 2)@0:0:0\"" -i /etc/X11/xorg.conf
   when: result|changed
 
 - name: Graphics | Nvidia | Install extra packages

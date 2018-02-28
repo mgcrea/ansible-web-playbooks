@@ -1,0 +1,15 @@
+---
+# File: main.yml
+# Type: task
+# Part: Yarn | Default (Ubuntu)
+
+## Install
+- name: NodeJS yarn | Install ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=0x1646B01B86E50310 validate_certs={{ nodejs_yarn_validate_certs }}
+  # apt_key: id=68576280 url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present validate_certs={{ Yarn_validate_certs }}
+- name: NodeJS yarn | Install ppa
+  apt_repository: repo="{{ item }}" validate_certs={{ nodejs_yarn_validate_certs }}
+  with_items:
+    - "deb https://dl.yarnpkg.com/debian/ stable main"
+- name: NodeJS yarn | Install package
+  apt: name=yarn state={{ nodejs_yarn_apt_state }} force=yes install_recommends=no
