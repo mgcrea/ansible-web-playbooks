@@ -7,6 +7,9 @@
 #   shell: "echo 'Acquire::http { Proxy \"{{ apt_proxy }}\"; };\n{{ apt_proxy_extra | default() }}' > /etc/apt/apt.conf.d/01proxy"
 #   when: apt_proxy is defined
 
+- debug: msg="ansible_architecture={{ ansible_architecture }} apt_upgrade_kernel={{ apt_upgrade_kernel|bool }} ansible_lsb.major_release={{ ansible_lsb.major_release|int }}"
+  tags: system_apt_kernel
+
 - name: Aptitude | Configure Proxy
   template: src=apt_apt.conf.d_01proxy.j2 dest="/etc/apt/apt.conf.d/01proxy" owner=root group=root mode=0644
   when: apt_proxy is defined and apt_proxy != "" and not apt_remove_proxy|bool
@@ -62,17 +65,10 @@
   when: apt_dist_upgrade|bool
   apt: upgrade=dist force=yes
 
-- debug: msg="ansible_architecture={{ ansible_architecture }} apt_upgrade_kernel={{ apt_upgrade_kernel|bool }} ansible_lsb.major_release={{ ansible_lsb.major_release|int }}"
-  tags: system_apt_kernel
-
 - name: Aptitude | Upgrade HWE stack
   when: ansible_architecture == "x86_64" and apt_upgrade_kernel|bool and ansible_lsb.major_release|int < 16
   shell: apt-get install -f -y $(hwe-support-status --show-replacements)
   tags: system_apt_kernel
-# linux-generic-lts-xenial linux-image-generic-lts-xenial libwayland-egl1-mesa-lts-xenial libgl1-mesa-glx-lts-xenial xserver-xorg-lts-xenial
-# GRUB_DEFAULT="1>2"
-# "ansible_kernel": "4.2.0-34-generic",
-# when: "'4.4.0' in {{ ansible_kernel }}"
 
 - name: Aptitude | Upgrade HWE stack
   when: ansible_architecture == "x86_64" and apt_upgrade_kernel|bool and ansible_distribution_major_version|int == 16
