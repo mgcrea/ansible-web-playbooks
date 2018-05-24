@@ -27,7 +27,7 @@
   when: ssh_config_file is defined
 
 - name: System | Deploy SSHD configuration
-  template: src=ssh_sshd_config.j2 dest="/etc/ssh/sshd_config" owner=root group=root mode=0644
+  template: src={{ ansible_distribution_version }}/ssh_sshd_config.j2 dest="/etc/ssh/sshd_config" owner=root group=root mode=0644
   notify: restart ssh
 - name: Facts | Fetch SSH config file
   fetch: src="/etc/ssh/sshd_config" dest={{ ansible_fetched_base }}/sshd_config flat=yes
