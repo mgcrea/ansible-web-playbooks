@@ -3,7 +3,7 @@
   "bip": "{{ docker_bip }}",
 {% endif %}
 {% if docker_log_driver != "" %}
-  "log-driver": "{{ docker_log_driver }}"
+  "log-driver": "{{ docker_log_driver }}",
 {% endif %}
   "storage-driver": "{{ docker_storage_driver }}"
 }

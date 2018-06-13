@@ -9,6 +9,9 @@
 - name: Docker | Check architecture
   fail: msg="Docker only support x86_64 architecture"
   when: ansible_architecture != 'x86_64'
+- name: Facts | Set docker_apt_architecture
+  set_fact: docker_apt_architecture=amd64
+  when: ansible_architecture == 'x86_64'
 
 ## Install
 - name: Docker | Install

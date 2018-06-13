@@ -26,21 +26,28 @@
     - linux-image-extra-virtual
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '14.04'
 
-## Uninstall
+## Uninstall lxc-docker
 - name: Docker | Remove legacy package
   apt: name=lxc-docker state=absent
-- name: Docker | Remove legacy ppa
+- name: Docker | Remove legacy repository
   apt_repository: repo='deb https://get.docker.io/ubuntu docker main' state=absent
 - name: Docker | Remove legacy ppa file
   file: path=/etc/apt/sources.list.d/get_docker_io_ubuntu.list state=absent
 - name: Docker | Remove legacy ppa key
-  apt_key: id=A88D21E9 url=http://p80.pool.sks-keyservers.net/pks/lookup?op=get&search=0x36A1D7869245C8950F966E92D8576A8BA88D21E9 state=absent
+  apt_key: keyserver=keyserver.ubuntu.com id=A88D21E9 state=absent
 
-## Install
+## Uninstall docker-engine
+- name: Docker | Remove legacy package
+  apt: name=docker-engine state=absent
+- name: Docker | Remove legacy repository
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_lsb.codename }} main' state=absent
+- name: Docker | Remove legacy ppa key
+  apt_key: keyserver=keyserver.ubuntu.com id=2C52609D state=absent
+
+## Install docker-ce
 - name: Docker | Install ppa key
-  apt_key: keyserver=keyserver.ubuntu.com id=2C52609D
-  # apt_key: id=2C52609D url=http://p80.pool.sks-keyservers.net/pks/lookup?op=get&search=0x58118E89F3A912897C070ADBF76221572C52609D state=present
-- name: Docker | Install ppa
-  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_lsb.codename }} main' state=present
+  apt_key: keyserver=keyserver.ubuntu.com id=0EBFCD88
+- name: Docker | Install repository
+  apt_repository: repo='deb [arch={{ docker_apt_architecture }}] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable' state=present
 - name: Docker | Install package
-  apt: name=docker-engine state={{ docker_apt_state }}
+  apt: name=docker-ce state={{ docker_apt_state }}
