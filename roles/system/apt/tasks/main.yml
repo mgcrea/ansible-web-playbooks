@@ -61,19 +61,27 @@
 - name: Aptitude | Deploy manager_release-upgrades
   template: src=update-manager_release-upgrades.j2 dest="/etc/update-manager/release-upgrades" owner=root group=root mode=0644
 
+- name: Aptitude | Upgrade HWE stack
+  when: ansible_architecture == "x86_64" and apt_hwe_stack|bool and ansible_lsb.major_release|int < 16
+  shell: apt-get install -f -y $(hwe-support-status --show-replacements)
+  tags: system_apt_hwe,system_apt_kernel
+
+- name: Aptitude | Upgrade HWE stack
+  when: ansible_architecture == "x86_64" and apt_hwe_stack|bool and ansible_distribution_major_version|int == 16
+  apt: name={{ item }} state=latest
+  with_items:
+    - "{{ apt_hwe_stack_edge|bool|ternary('linux-generic-hwe-16.04-edge', 'linux-generic-hwe-16.04') }}"
+    - xserver-xorg-hwe-16.04
+  tags: system_apt_hwe,system_apt_kernel
+
+- name: Aptitude | Rollback HWE edge stack
+  when: ansible_architecture == "x86_64" and not apt_hwe_stack_edge|bool and ansible_distribution_major_version|int == 16
+  apt: name=apt_hwe_stack_edge state=absent
+  tags: system_apt_hwe,system_apt_kernel
+
 - name: Aptitude | Upgrade all packages to the latest version
   when: apt_dist_upgrade|bool
   apt: upgrade=dist force=yes
-
-- name: Aptitude | Upgrade HWE stack
-  when: ansible_architecture == "x86_64" and apt_upgrade_kernel|bool and ansible_lsb.major_release|int < 16
-  shell: apt-get install -f -y $(hwe-support-status --show-replacements)
-  tags: system_apt_kernel
-
-- name: Aptitude | Upgrade HWE stack
-  when: ansible_architecture == "x86_64" and apt_upgrade_kernel|bool and ansible_distribution_major_version|int == 16
-  apt: name=linux-generic-hwe-16.04-edge
-  tags: system_apt_kernel
 
 - name: Aptitude | Remove unused packages
   when: apt_autoremove|bool
