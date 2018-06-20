@@ -36,5 +36,3 @@
   template: src=intel_X11_xorg.conf.j2 dest=/etc/X11/xorg.conf
             owner=root group=root mode=0644 backup=no
 
-- name: Graphics | Intel | Update graphics packages to the latest version
-  apt: upgrade=dist

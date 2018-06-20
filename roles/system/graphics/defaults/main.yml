@@ -1,2 +1,4 @@
 
-nvidia_apt_package: nvidia-384
+graphics_nvidia_apt_package: nvidia-384
+graphics_intel_xorg_dri3: false
+graphics_apt_upgrade: true

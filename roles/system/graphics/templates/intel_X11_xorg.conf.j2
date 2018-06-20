@@ -1,12 +1,17 @@
 Section "Device"
-   Identifier  "Intel Graphics"
-   Driver      "intel"
-   Option      "AccelMethod" "sna"
-{% if ansible_distribution_version == "14.04" %}
-   Option      "TearFree" "true"
-{% endif %}
-{% if ansible_distribution_version == "16.04" %}
-   Option      "TearFree" "true"
-   # Option      "DRI" "3"
-{% endif %}
+  Identifier  "Intel Graphics"
+  Driver      "intel"
+  Option      "AccelMethod" "sna"
+  {% if ansible_distribution_version == "14.04" %}
+  Option      "TearFree" "true"
+  {% endif %}
+  {% if ansible_distribution_version == "16.04" %}
+  {% if graphics_intel_xorg_dri3 %}
+  Option      "TearFree" "true"
+  Option      "DRI" "3"
+  {% else %}
+  Option      "TearFree" "true"
+  # Option      "DRI" "3"
+  {% endif %}
+  {% endif %}
 EndSection

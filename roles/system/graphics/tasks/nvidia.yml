@@ -14,7 +14,7 @@
 - name: Graphics | Nvidia | Install latest drivers
   apt: name={{ item }} state=latest
   with_items:
-    - "{{ nvidia_apt_package }}"
+    - "{{ graphics_nvidia_apt_package }}"
     - nvidia-settings
   register: result
   when: ansible_product_name != 'Macmini4,1'
@@ -44,6 +44,3 @@
     - vdpauinfo # This package contains the vdpauinfo utility.
     - vdpau-va-driver # This package contains the VDPAU-based backend driver for use with the VA API library.
     - libvdpau1 # This package contains the VDPAU wrapper and trace libraries.
-
-- name: Graphics | Nvidia | Update graphics packages to the latest version
-  apt: upgrade=dist
