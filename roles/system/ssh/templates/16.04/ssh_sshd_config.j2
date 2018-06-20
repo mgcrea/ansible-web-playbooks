@@ -35,7 +35,7 @@ StrictModes yes
 
 RSAAuthentication yes
 PubkeyAuthentication yes
-{% if ssh_authorized_keys_file and ssh_authorized_keys_file != False %}
+{% if ssh_authorized_keys_file is defined and ssh_authorized_keys_file != False %}
 AuthorizedKeysFile {{ ssh_authorized_keys_file }}/%u
 {% else %}
 #AuthorizedKeysFile %h/.ssh/authorized_keys
