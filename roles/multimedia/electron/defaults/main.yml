@@ -43,6 +43,11 @@ electron_version: "v1.8.7"
 electron_checksum_x64: "sha1:b1a864c05682e03cc0af00c8445a4f41dd29b697"
 electron_checksum_arm: "sha1:d6d23b82c8a51ef26f96de91dbdc26da1ff3cf37"
 
+# v2.0 (chrome@61)
+electron_version: "v2.0.2"
+electron_checksum_x64: "sha1:58956f3506252e56724ef4c18e0d03a7e84a147d"
+electron_checksum_arm: "sha1:d6d23b82c8a51ef26f96de91dbdc26da1ff3cf37"
+
 electron_mirror: "https://github.com/atom/electron/releases/download"
 # electron_mirror: "https://npm.taobao.org/mirrors/electron"
 electron_downlod_directory: "/opt/downloads"
