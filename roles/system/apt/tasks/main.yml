@@ -76,7 +76,9 @@
 
 - name: Aptitude | Rollback HWE edge stack
   when: ansible_architecture == "x86_64" and not apt_hwe_stack_edge|bool and ansible_distribution_major_version|int == 16
-  apt: name=apt_hwe_stack_edge state=absent
+  apt: name={{ item }} state=absent
+  with_items:
+  - linux-generic-hwe-16.04-edge
   tags: system_apt_hwe,system_apt_kernel
 
 - name: Aptitude | Upgrade all packages to the latest version
