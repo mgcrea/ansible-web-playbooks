@@ -19,6 +19,7 @@
 
 ## Configure
 - name: Docker | Configure
+  tags: system_docker_configure
   include: configure.yml
 
 ## Configure service

@@ -5,5 +5,8 @@
 {% if docker_log_driver != "" %}
   "log-driver": "{{ docker_log_driver }}",
 {% endif %}
+{% if docker_default_address_pools|length > 0 %}
+  "default-address-pools": {{ docker_default_address_pools | to_json }},
+{% endif %}
   "storage-driver": "{{ docker_storage_driver }}"
 }

@@ -41,6 +41,7 @@
   apt: name=docker-engine state=absent
 - name: Docker | Remove legacy repository
   apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_lsb.codename }} main' state=absent
+  # file: path=/etc/apt/sources.list.d/apt_dockerproject_org_repo.list state=absent
 - name: Docker | Remove legacy ppa key
   apt_key: keyserver=keyserver.ubuntu.com id=2C52609D state=absent
 

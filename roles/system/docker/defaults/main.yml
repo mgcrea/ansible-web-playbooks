@@ -16,13 +16,14 @@ docker_opts: ""
 docker_bip: ""
 docker_log_driver: ""
 docker_storage_driver: "aufs"
+docker_default_address_pools: []
 
 # DockerCompose
 docker_compose_install: true
-docker_compose_version: "1.21.2"
-docker_compose_checksum: "sha1:3a6a0a2b1ec85fb74159891c4bae672b342d039a"
+docker_compose_version: "1.22.0"
+docker_compose_checksum: "sha1:9303600664184658b7124d0a65f9e12a4d672708"
 
 # DockerGen
 docker_gen_install: false
-docker_gen_version: "0.7.3"
-docker_gen_checksum: "sha1:9bd460f66e2e26323ea439c11956a145bb305c53"
+docker_gen_version: "0.7.4"
+docker_gen_checksum: "sha1:a86be143ce2865cd28a9fe3f6cfd2b90bd9dff00"
