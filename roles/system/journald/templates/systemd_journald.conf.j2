@@ -21,8 +21,16 @@ Storage={{ journald_storage }}
 #Seal=yes
 #SplitMode=uid
 #SyncIntervalSec=5m
+{% if journald_rate_limit_interval != "30s" %}
+RateLimitInterval={{ journald_rate_limit_interval }}
+{% else %}
 #RateLimitInterval=30s
+{% endif %}
+{% if journald_rate_limit_burst != "1000" %}
+RateLimitBurst={{ journald_rate_limit_burst }}
+{% else %}
 #RateLimitBurst=1000
+{% endif %}
 #SystemMaxUse=
 #SystemKeepFree=
 #SystemMaxFileSize=

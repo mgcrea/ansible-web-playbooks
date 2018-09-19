@@ -4,3 +4,5 @@
 # Part: Aptitude
 
 journald_storage: "auto"
+journald_rate_limit_interval: "30s"
+journald_rate_limit_burst: "1000"
