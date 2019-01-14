@@ -5,13 +5,18 @@
 
 - name: Docker | Check Ubuntu release
   fail: msg="Docker only support Ubuntu from {{ ansible_distribution_version }}"
-  when: ansible_distribution != 'Ubuntu' or ansible_lsb.major_release < 12
+  when: ansible_distribution != 'Ubuntu' or ansible_lsb.major_release|int < 12
 - name: Docker | Check architecture
   fail: msg="Docker only support x86_64 architecture"
   when: ansible_architecture != 'x86_64'
 - name: Facts | Set docker_apt_architecture
   set_fact: docker_apt_architecture=amd64
   when: ansible_architecture == 'x86_64'
+
+## Install
+- name: Docker | Clean legacy install
+  include: clean.yml
+  when: docker_clean_legacy|bool
 
 ## Install
 - name: Docker | Install

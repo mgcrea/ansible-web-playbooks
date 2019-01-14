@@ -3,26 +3,23 @@
 # Type: task
 # Part: Docker
 
+# legacy upstart config
 - name: Docker | Remove upstart service configuration
   file: path=/etc/init/docker.conf state=absent
   notify: restart docker
-- name: Docker | Deploy systemd service configuration
-  template: src=systemd_system_docker.service.j2 dest=/etc/systemd/system/docker.service owner=root group=root mode=0644 backup=no
+
+# docker.socket
+- name: Docker | Deploy systemd docker.socket configuration
+  template: src=lib_systemd_system_docker.socket.j2 dest=/lib/systemd/system/docker.socket owner=root group=root mode=0644
   notify: restart docker
-  register: result
-- fetch: src=/etc/systemd/system/docker.service dest={{ ansible_fetched_base }}
-  when: result|changed
-- file:
-    path: /etc/systemd/system/docker.service.d
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-- template:
-    src: systemd_system_docker.service.d_debian-style-config.conf.j2
-    dest: /etc/systemd/system/docker.service.d/debian-style-config
-    owner: root
-    group: root
-    mode: 0644
+- name: Docker | Link systemd docker.socket configuration
+  file: state=link src=/lib/systemd/system/docker.socket dest=/etc/systemd/system/sockets.target.wants/docker.socket
   notify: restart docker
-  when: docker_opts != ""
+
+# docker.service
+- name: Docker | Deploy systemd docker.socket configuration
+  template: src=lib_systemd_system_docker.service.j2 dest=/lib/systemd/system/docker.service owner=root group=root mode=0644
+  notify: restart docker
+- name: Docker | Link systemd docker.socket configuration
+  file: state=link src=/lib/systemd/system/docker.service dest=/etc/systemd/system/multi-user.target.wants/docker.service
+  notify: restart docker

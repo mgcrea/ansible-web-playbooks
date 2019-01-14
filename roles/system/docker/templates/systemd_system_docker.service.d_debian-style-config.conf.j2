@@ -1,5 +1,0 @@
-# Enable /etc/default/docker configuration files with Systemd
-[Service]
-EnvironmentFile=-/etc/default/docker
-ExecStart=
-ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS

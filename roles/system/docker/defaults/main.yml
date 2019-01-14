@@ -4,26 +4,27 @@
 # Part: Docker
 
 # Aptitude state
-docker_apt_state: "latest"
+docker_apt_state: 'latest'
+docker_clean_legacy: false
 
 # User and group
-docker_user: "www-data"
-docker_group: "www-data"
+docker_user: 'www-data'
+docker_group: 'www-data'
 
 # Legacy Options
-docker_opts: ""
+docker_opts: ''
 # Options
-docker_bip: ""
-docker_log_driver: ""
-docker_storage_driver: "aufs"
+docker_bip: ''
+docker_log_driver: ''
+docker_storage_driver: 'overlay2'
 docker_default_address_pools: []
 
 # DockerCompose
 docker_compose_install: true
-docker_compose_version: "1.22.0"
-docker_compose_checksum: "sha1:9303600664184658b7124d0a65f9e12a4d672708"
+docker_compose_version: '1.23.2'
+docker_compose_checksum: 'sha1:feb579e16444d902261c580294622d583e4c05e1'
 
 # DockerGen
 docker_gen_install: false
-docker_gen_version: "0.7.4"
-docker_gen_checksum: "sha1:a86be143ce2865cd28a9fe3f6cfd2b90bd9dff00"
+docker_gen_version: '0.7.4'
+docker_gen_checksum: 'sha1:a86be143ce2865cd28a9fe3f6cfd2b90bd9dff00'
