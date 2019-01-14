@@ -10,5 +10,6 @@ vars/
 node_modules/
 docker_inventory
 inventory
+inventories/
 !.gitignore
 *.retry
